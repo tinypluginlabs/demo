@@ -1,6 +1,8 @@
-import { errorLogPath, logger } from '@php-wasm/logger';
-import { createNodeFsMountHandler, loadNodeRuntime } from '@php-wasm/node';
-import { EmscriptenDownloadMonitor, ProgressTracker } from '@php-wasm/progress';
+import fs from 'fs';
+import path from 'path';
+import yargs from 'yargs';
+import readline from 'readline';
+import { startServer } from './server';
 import {
 	PHP,
 	PHPRequest,
@@ -9,31 +11,25 @@ import {
 	SupportedPHPVersion,
 	SupportedPHPVersions,
 } from '@php-wasm/universal';
+import { logger, errorLogPath } from '@php-wasm/logger';
 import {
 	Blueprint,
 	compileBlueprint,
 	runBlueprintSteps,
 } from '@wp-playground/blueprints';
+import { isValidWordPressSlug } from './is-valid-wordpress-slug';
+import { EmscriptenDownloadMonitor, ProgressTracker } from '@php-wasm/progress';
+import { createNodeFsMountHandler, loadNodeRuntime } from '@php-wasm/node';
 import { RecommendedPHPVersion, zipDirectory } from '@wp-playground/common';
-import {
-	bootWordPress,
-	resolveWordPressRelease,
-} from '@wp-playground/wordpress';
-import { spawn, SpawnOptionsWithoutStdio } from 'child_process';
-import fs from 'fs';
-import path from 'path';
-import readline from 'readline';
+import { bootWordPress } from '@wp-playground/wordpress';
 import { rootCertificates } from 'tls';
-import yargs from 'yargs';
 import {
 	CACHE_FOLDER,
 	cachedDownload,
 	fetchSqliteIntegration,
 	readAsFile,
 } from './download';
-import { isGitHubCodespace } from './github-codespaces';
-import { isValidWordPressSlug } from './is-valid-wordpress-slug';
-import { startServer } from './server';
+import { resolveWordPressRelease } from '@wp-playground/wordpress';
 export interface Mount {
 	hostPath: string;
 	vfsPath: string;
@@ -44,7 +40,7 @@ async function run() {
 	 * @TODO This looks similar to Query API args https://wordpress.github.io/wordpress-playground/developers/apis/query-api/
 	 *       Perhaps the two could be handled by the same code?
 	 */
-	const yargsObject = yargs(process.argv.slice(2))
+	const yargsObject = await yargs(process.argv.slice(2))
 		.usage('Usage: wp-playground <command> [options]')
 		.positional('command', {
 			describe: 'Command to run',
@@ -80,7 +76,7 @@ async function run() {
 			type: 'array',
 			string: true,
 		})
-		.option('mount-before-install', {
+		.option('mountBeforeInstall', {
 			describe:
 				'Mount a directory to the PHP runtime before installing WordPress. You can provide --mount-before-install multiple times. Format: /host/path:/vfs/path',
 			type: 'array',
@@ -95,16 +91,12 @@ async function run() {
 			describe: 'Blueprint to execute.',
 			type: 'string',
 		})
-		.option('skip-wordpress-setup', {
+		.option('skipWordPressSetup', {
 			describe:
 				'Do not download, unzip, and install WordPress. Useful for mounting a pre-configured WordPress directory at /wordpress.',
 			type: 'boolean',
 			default: false,
 		})
-		.deprecateOption(
-			'skipWordPressSetup',
-			'Use --skip-wordpress-setup instead.'
-		)
 		.option('quiet', {
 			describe: 'Do not output logs and progress messages.',
 			type: 'boolean',
@@ -113,11 +105,6 @@ async function run() {
 		.option('debug', {
 			describe:
 				'Print PHP error log content if an error occurs during Playground boot.',
-			type: 'boolean',
-			default: false,
-		})
-		.option('launch-browser', {
-			describe: 'Launch the default browser after starting the server.',
 			type: 'boolean',
 			default: false,
 		})
@@ -257,42 +244,6 @@ async function run() {
 		});
 	}
 
-	/**
-	 * Open the default browser at the end of the process.
-	 *
-	 * If the current environment is a GitHub Codespace, the browser is not opened.
-	 *
-	 * @param url
-	 */
-	function openInDefaultBrowser(url: string): void {
-		if (isGitHubCodespace()) {
-			return;
-		}
-
-		let cmd: string, args: string[] | SpawnOptionsWithoutStdio;
-		switch (process.platform) {
-			case 'darwin':
-				cmd = 'open';
-				args = [url];
-				break;
-			case 'linux':
-				cmd = 'xdg-open';
-				args = [url];
-				break;
-			case 'win32':
-				cmd = 'cmd';
-				args = ['/c', `start ${url}`];
-				break;
-			default:
-				logger.log(`Platform '${process.platform}' not supported`);
-				return;
-		}
-
-		spawn(cmd, args).on('error', function (err: any) {
-			logger.error(err.message);
-		});
-	}
-
 	const command = args._[0] as string;
 	if (!['run-blueprint', 'server', 'build-snapshot'].includes(command)) {
 		yargsObject.showHelp();
@@ -314,7 +265,7 @@ async function run() {
 			logger.log(`Setting up WordPress ${args.wp}`);
 			let wpDetails: any = undefined;
 			const monitor = new EmscriptenDownloadMonitor();
-			if (!args.skipWordpressSetup && !args['skipWordPressSetup']) {
+			if (!args.skipWordPressSetup) {
 				// @TODO: Rename to FetchProgressMonitor. There's nothing Emscripten
 				// about that class anymore.
 				monitor.addEventListener('progress', ((
@@ -435,10 +386,6 @@ async function run() {
 					process.exit(0);
 				} else {
 					logger.log(`WordPress is running on ${absoluteUrl}`);
-
-					if (args.launchBrowser) {
-						openInDefaultBrowser(absoluteUrl);
-					}
 				}
 			} catch (error) {
 				if (!args.debug) {
