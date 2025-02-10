@@ -303,6 +303,12 @@ try {
                 'workflow' => 'Plugin Build',
                 'artifact' => '#sensei-lms-\w+#'
             ],
+			[
+				'org' => 'Automattic',
+				'repo' => 'remote-data-blocks',
+				'workflow' => 'Build Live Branch',
+				'artifact' => '#remote-data-blocks#'
+			],
         ];
         $allowed = false;
         foreach ($allowedInputs as $allowedInput) {
