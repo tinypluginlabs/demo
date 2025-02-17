@@ -175,6 +175,7 @@ if (!requestedVersion || requestedVersion === 'undefined') {
 }
 
 const sourceDir = path.dirname(new URL(import.meta.url).pathname);
+const outputDir = path.resolve(process.cwd(), args.outputDir);
 
 // Build the base image
 await asyncSpawn('make', ['base-image'], { cwd: sourceDir, stdio: 'inherit' });
@@ -217,6 +218,8 @@ await asyncSpawn(
 		'--build-arg',
 		getArg('WITH_SOURCEMAPS'),
 		'--build-arg',
+		`OUTPUT_DIR_FOR_SOURCE_MAP_BASE=${outputDir}`,
+		'--build-arg',
 		getArg('WITH_ICONV'),
 		'--build-arg',
 		getArg('WITH_MYSQL'),
@@ -232,7 +235,6 @@ await asyncSpawn(
 /* eslint-enable prettier/prettier */
 
 // Extract the PHP WASM module
-const outputDir = path.resolve(process.cwd(), args.outputDir);
 await asyncSpawn(
 	'docker',
 	[

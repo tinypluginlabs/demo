@@ -80,6 +80,7 @@ ARG WITH_MYSQL
 ARG WITH_OPENSSL
 ARG WITH_ICONV
 ARG WITH_SOURCEMAPS
+ARG OUTPUT_DIR_FOR_SOURCE_MAP_BASE
 ARG WITH_WS_NETWORKING_PROXY
 
 # The platform to build for: web or node
@@ -405,6 +406,7 @@ RUN if [[ "${PHP_VERSION:0:1}" -le "7" && "${PHP_VERSION:2:1}" -le "3" ]]; then 
 
 
 ARG WITH_SOURCEMAPS
+ARG OUTPUT_DIR_FOR_SOURCE_MAP_BASE
 RUN set -euxo pipefail; \
 	if [ "$EMSCRIPTEN_ENVIRONMENT" = "node" ]; then \
 		# Add nodefs when building for node.js
@@ -416,7 +418,7 @@ RUN set -euxo pipefail; \
 		# Without this, browsers will try the wasm:// protocol and never load the source map.
 		if [ "$EMSCRIPTEN_ENVIRONMENT" = "web" ]; then \
 			export PHP_VERSION_ESCAPED="${PHP_VERSION//./_}"; \
-			echo -n ' --source-map-base http://127.0.0.1:5400/@fs/Users/cloudnik/www/Automattic/core/plugins/playground/packages/php-wasm/web/public/${PHP_VERSION_ESCAPED}/' >> /root/.emcc-php-wasm-flags; \
+			echo -n " --source-map-base http://127.0.0.1:5400/@fs${OUTPUT_DIR_FOR_SOURCE_MAP_BASE}/${PHP_VERSION_ESCAPED}/" >> /root/.emcc-php-wasm-flags; \
 		fi; \
 	else \
 		# Preserve symbol names in node.js build – the bundle size doesn't matter as much
@@ -1122,7 +1124,7 @@ RUN set -euxo pipefail; \
 		# In case of WordPress Playground, the worker in which the PHP
 		# runs will typically exit after the PHP program finishes, so
 		# we don't have to worry about memory leaks.
-		/root/replace-across-lines.sh "s/(class\\s+ExitStatus\\s*{\\s*name\\s*=\\s*['\"]ExitStatus['\"];\\s*constructor\\s*\(\\s*status\\s*\)\\s*{\\s*this\\.message\\s*=\\s*\`Program terminated with exit\(\\\${status}\)\`;\s*this\\.status\\s*=\\s*status;\\s*}\\s*})/\$1\nExitStatus = class PHPExitStatus extends Error {\n	constructor\(status\) {\n		super\(status\);\n		this.name = 'ExitStatus';\n		this.message = 'Program terminated with exit\(' + status + '\)';\n		this.status = status;\n	}\n};/" /root/output/php.js; \
+		/root/replace-across-lines.sh "s/(class\\s+ExitStatus\\s*{\\s*name\\s*=\\s*['\"]ExitStatus['\"];\\s*constructor\\s*\(\\s*status\\s*\)\\s*{\\s*this\\.message\\s*=\\s*\`Program terminated with exit\(\\\${status}\)\`;\s*this\\.status\\s*=\\s*status;?\\s*}\\s*})/\$1\nExitStatus = class PHPExitStatus extends Error {\n	constructor\(status\) {\n		super\(status\);\n		this.name = 'ExitStatus';\n		this.message = 'Program terminated with exit\(' + status + '\)';\n		this.status = status;\n	}\n};/" /root/output/php.js; \
 	# Restore quit handling to Emscripten
 		# Quit callback customization was removed from Emscripten by:
 		# https://github.com/emscripten-core/emscripten/pull/22371
