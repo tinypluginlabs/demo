@@ -109,19 +109,24 @@ export const installPlugin: StepHandler<
 		'targetFolderName' in options ? options.targetFolderName : '';
 	let assetFolderPath = '';
 	let assetNiceName = '';
+
+	const looksLikeZipFile = async (file: File): Promise<boolean> => {
+		if (file.name.toLowerCase().endsWith('.zip')) {
+			return true;
+		}
+
+		const filePrefix = new Uint8Array(await file.arrayBuffer(), 0, 4);
+		// Check against the signature for non-empty, non-spanned zip files.
+		const matchesZipSignature =
+			filePrefix[0] === 0x50 &&
+			filePrefix[1] === 0x4b &&
+			filePrefix[2] === 0x03 &&
+			filePrefix[3] === 0x04;
+		return matchesZipSignature;
+	};
+
 	if (pluginData instanceof File) {
-		if (pluginData.name.endsWith('.php')) {
-			const destinationFilePath = joinPaths(
-				pluginsDirectoryPath,
-				pluginData.name
-			);
-			await writeFile(playground, {
-				path: destinationFilePath,
-				data: pluginData,
-			});
-			assetFolderPath = pluginsDirectoryPath;
-			assetNiceName = pluginData.name;
-		} else {
+		if (await looksLikeZipFile(pluginData)) {
 			// Assume any other file is a zip file
 			// @TODO: Consider validating whether this is a zip file?
 			const zipFileName =
@@ -139,6 +144,22 @@ export const installPlugin: StepHandler<
 			});
 			assetFolderPath = assetResult.assetFolderPath;
 			assetNiceName = assetResult.assetFolderName;
+		} else if (pluginData.name.endsWith('.php')) {
+			const destinationFilePath = joinPaths(
+				pluginsDirectoryPath,
+				pluginData.name
+			);
+			await writeFile(playground, {
+				path: destinationFilePath,
+				data: pluginData,
+			});
+			assetFolderPath = pluginsDirectoryPath;
+			assetNiceName = pluginData.name;
+		} else {
+			throw new Error(
+				'pluginData looks like a file ' +
+					'but does not look like a .zip or .php file.'
+			);
 		}
 	} else if (pluginData) {
 		assetNiceName = pluginData.name;
