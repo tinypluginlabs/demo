@@ -52,7 +52,10 @@ class OpfsSiteStorage {
 	async create(slug: string, metadata: SiteMetadata): Promise<void> {
 		const newSiteDirName = getDirectoryNameForSlug(slug);
 		if (await opfsChildExists(this.root, newSiteDirName)) {
-			throw new Error(`Site with slug '${slug}' already exists.`);
+			const dir = await this.root.getDirectoryHandle(newSiteDirName);
+			if (await opfsChildExists(dir, SITE_METADATA_FILENAME)) {
+				throw new Error(`Site with slug '${slug}' already exists.`);
+			}
 		}
 
 		await this.root.getDirectoryHandle(newSiteDirName, {
