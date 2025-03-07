@@ -23,7 +23,7 @@ describe('Blueprint step wpCLI', () => {
 			sqliteIntegrationPluginZip: await getSqliteDatabaseModule(),
 			createFiles: {
 				'/tmp/wp-cli.phar': readFileSync(
-					join(__dirname, '../../test/wp-cli.phar')
+					join(__dirname, '../../../tests/fixtures/wp-cli.phar')
 				),
 			},
 		});

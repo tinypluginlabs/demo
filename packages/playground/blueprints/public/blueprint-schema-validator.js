@@ -3,9 +3,9 @@ export const validate = validate10;
 export default validate10;
 const schema11 = {
 	$schema: 'http://json-schema.org/schema',
-	$ref: '#/definitions/Blueprint',
+	$ref: '#/definitions/BlueprintDeclaration',
 	definitions: {
-		Blueprint: {
+		BlueprintDeclaration: {
 			type: 'object',
 			properties: {
 				landingPage: {
@@ -150,6 +150,8 @@ const schema11 = {
 				$schema: { type: 'string' },
 			},
 			additionalProperties: false,
+			description:
+				'The Blueprint declaration, typically stored in a blueprint.json file.',
 		},
 		SupportedPHPVersion: {
 			type: 'string',
@@ -178,6 +180,7 @@ const schema11 = {
 				{ $ref: '#/definitions/CoreThemeReference' },
 				{ $ref: '#/definitions/CorePluginReference' },
 				{ $ref: '#/definitions/UrlReference' },
+				{ $ref: '#/definitions/BundledReference' },
 			],
 		},
 		VFSReference: {
@@ -292,6 +295,23 @@ const schema11 = {
 				},
 			},
 			required: ['resource', 'url'],
+			additionalProperties: false,
+		},
+		BundledReference: {
+			type: 'object',
+			properties: {
+				resource: {
+					type: 'string',
+					const: 'bundled',
+					description:
+						'Identifies the file resource as a Blueprint file',
+				},
+				path: {
+					type: 'string',
+					description: 'The path to the file in the Blueprint',
+				},
+			},
+			required: ['resource', 'path'],
 			additionalProperties: false,
 		},
 		StepDefinition: {
@@ -1466,6 +1486,8 @@ const schema12 = {
 		$schema: { type: 'string' },
 	},
 	additionalProperties: false,
+	description:
+		'The Blueprint declaration, typically stored in a blueprint.json file.',
 };
 const schema13 = {
 	type: 'string',
@@ -1495,6 +1517,7 @@ const schema16 = {
 		{ $ref: '#/definitions/CoreThemeReference' },
 		{ $ref: '#/definitions/CorePluginReference' },
 		{ $ref: '#/definitions/UrlReference' },
+		{ $ref: '#/definitions/BundledReference' },
 	],
 };
 const schema17 = {
@@ -1605,6 +1628,22 @@ const schema21 = {
 		},
 	},
 	required: ['resource', 'url'],
+	additionalProperties: false,
+};
+const schema22 = {
+	type: 'object',
+	properties: {
+		resource: {
+			type: 'string',
+			const: 'bundled',
+			description: 'Identifies the file resource as a Blueprint file',
+		},
+		path: {
+			type: 'string',
+			description: 'The path to the file in the Blueprint',
+		},
+	},
+	required: ['resource', 'path'],
 	additionalProperties: false,
 };
 function validate12(
@@ -2969,12 +3008,176 @@ function validate12(
 					}
 					var _valid0 = _errs55 === errors;
 					valid0 = valid0 || _valid0;
+					if (!valid0) {
+						const _errs65 = errors;
+						const _errs66 = errors;
+						if (errors === _errs66) {
+							if (
+								data &&
+								typeof data == 'object' &&
+								!Array.isArray(data)
+							) {
+								let missing7;
+								if (
+									(data.resource === undefined &&
+										(missing7 = 'resource')) ||
+									(data.path === undefined &&
+										(missing7 = 'path'))
+								) {
+									const err44 = {
+										instancePath,
+										schemaPath:
+											'#/definitions/BundledReference/required',
+										keyword: 'required',
+										params: { missingProperty: missing7 },
+										message:
+											"must have required property '" +
+											missing7 +
+											"'",
+									};
+									if (vErrors === null) {
+										vErrors = [err44];
+									} else {
+										vErrors.push(err44);
+									}
+									errors++;
+								} else {
+									const _errs68 = errors;
+									for (const key7 in data) {
+										if (
+											!(
+												key7 === 'resource' ||
+												key7 === 'path'
+											)
+										) {
+											const err45 = {
+												instancePath,
+												schemaPath:
+													'#/definitions/BundledReference/additionalProperties',
+												keyword: 'additionalProperties',
+												params: {
+													additionalProperty: key7,
+												},
+												message:
+													'must NOT have additional properties',
+											};
+											if (vErrors === null) {
+												vErrors = [err45];
+											} else {
+												vErrors.push(err45);
+											}
+											errors++;
+											break;
+										}
+									}
+									if (_errs68 === errors) {
+										if (data.resource !== undefined) {
+											let data19 = data.resource;
+											const _errs69 = errors;
+											if (typeof data19 !== 'string') {
+												const err46 = {
+													instancePath:
+														instancePath +
+														'/resource',
+													schemaPath:
+														'#/definitions/BundledReference/properties/resource/type',
+													keyword: 'type',
+													params: { type: 'string' },
+													message: 'must be string',
+												};
+												if (vErrors === null) {
+													vErrors = [err46];
+												} else {
+													vErrors.push(err46);
+												}
+												errors++;
+											}
+											if ('bundled' !== data19) {
+												const err47 = {
+													instancePath:
+														instancePath +
+														'/resource',
+													schemaPath:
+														'#/definitions/BundledReference/properties/resource/const',
+													keyword: 'const',
+													params: {
+														allowedValue: 'bundled',
+													},
+													message:
+														'must be equal to constant',
+												};
+												if (vErrors === null) {
+													vErrors = [err47];
+												} else {
+													vErrors.push(err47);
+												}
+												errors++;
+											}
+											var valid16 = _errs69 === errors;
+										} else {
+											var valid16 = true;
+										}
+										if (valid16) {
+											if (data.path !== undefined) {
+												const _errs71 = errors;
+												if (
+													typeof data.path !==
+													'string'
+												) {
+													const err48 = {
+														instancePath:
+															instancePath +
+															'/path',
+														schemaPath:
+															'#/definitions/BundledReference/properties/path/type',
+														keyword: 'type',
+														params: {
+															type: 'string',
+														},
+														message:
+															'must be string',
+													};
+													if (vErrors === null) {
+														vErrors = [err48];
+													} else {
+														vErrors.push(err48);
+													}
+													errors++;
+												}
+												var valid16 =
+													_errs71 === errors;
+											} else {
+												var valid16 = true;
+											}
+										}
+									}
+								}
+							} else {
+								const err49 = {
+									instancePath,
+									schemaPath:
+										'#/definitions/BundledReference/type',
+									keyword: 'type',
+									params: { type: 'object' },
+									message: 'must be object',
+								};
+								if (vErrors === null) {
+									vErrors = [err49];
+								} else {
+									vErrors.push(err49);
+								}
+								errors++;
+							}
+						}
+						var _valid0 = _errs65 === errors;
+						valid0 = valid0 || _valid0;
+					}
 				}
 			}
 		}
 	}
 	if (!valid0) {
-		const err44 = {
+		const err50 = {
 			instancePath,
 			schemaPath: '#/anyOf',
 			keyword: 'anyOf',
@@ -2982,9 +3185,9 @@ function validate12(
 			message: 'must match a schema in anyOf',
 		};
 		if (vErrors === null) {
-			vErrors = [err44];
+			vErrors = [err50];
 		} else {
-			vErrors.push(err44);
+			vErrors.push(err50);
 		}
 		errors++;
 		validate12.errors = vErrors;
@@ -3002,7 +3205,7 @@ function validate12(
 	validate12.errors = vErrors;
 	return errors === 0;
 }
-const schema22 = {
+const schema23 = {
 	type: 'object',
 	discriminator: { propertyName: 'step' },
 	required: ['step'],
@@ -3713,7 +3916,7 @@ const schema22 = {
 		},
 	],
 };
-const schema27 = {
+const schema28 = {
 	type: 'object',
 	properties: {
 		activate: {
@@ -3728,7 +3931,7 @@ const schema27 = {
 	},
 	additionalProperties: false,
 };
-const schema28 = {
+const schema29 = {
 	type: 'object',
 	properties: {
 		activate: {
@@ -3748,7 +3951,7 @@ const schema28 = {
 	},
 	additionalProperties: false,
 };
-const schema35 = {
+const schema36 = {
 	type: 'object',
 	properties: {
 		adminUsername: { type: 'string' },
@@ -3756,13 +3959,13 @@ const schema35 = {
 	},
 	additionalProperties: false,
 };
-const schema23 = {
+const schema24 = {
 	anyOf: [
 		{ $ref: '#/definitions/GitDirectoryReference' },
 		{ $ref: '#/definitions/DirectoryLiteralReference' },
 	],
 };
-const schema24 = {
+const schema25 = {
 	type: 'object',
 	properties: {
 		resource: {
@@ -3783,7 +3986,7 @@ const schema24 = {
 	required: ['resource', 'url', 'ref', 'path'],
 	additionalProperties: false,
 };
-const schema25 = {
+const schema26 = {
 	type: 'object',
 	additionalProperties: false,
 	properties: {
@@ -3797,7 +4000,7 @@ const schema25 = {
 	},
 	required: ['files', 'name', 'resource'],
 };
-const schema26 = {
+const schema27 = {
 	type: 'object',
 	additionalProperties: {
 		anyOf: [
@@ -3859,7 +4062,7 @@ function validate20(
 							schemaPath: '#/additionalProperties/anyOf/1/type',
 							keyword: 'type',
 							params: {
-								type: schema26.additionalProperties.anyOf[1]
+								type: schema27.additionalProperties.anyOf[1]
 									.type,
 							},
 							message: 'must be object,string',
@@ -4309,7 +4512,7 @@ function validate18(
 	validate18.errors = vErrors;
 	return errors === 0;
 }
-const schema29 = {
+const schema30 = {
 	type: 'object',
 	properties: {
 		method: {
@@ -4406,11 +4609,11 @@ const schema29 = {
 	required: ['url'],
 	additionalProperties: false,
 };
-const schema30 = {
+const schema31 = {
 	type: 'string',
 	enum: ['GET', 'POST', 'HEAD', 'OPTIONS', 'PATCH', 'PUT', 'DELETE'],
 };
-const schema31 = { type: 'object', additionalProperties: { type: 'string' } };
+const schema32 = { type: 'object', additionalProperties: { type: 'string' } };
 function validate28(
 	data,
 	{ instancePath = '', parentData, parentDataProperty, rootData = data } = {}
@@ -4488,7 +4691,7 @@ function validate28(
 									instancePath: instancePath + '/method',
 									schemaPath: '#/definitions/HTTPMethod/enum',
 									keyword: 'enum',
-									params: { allowedValues: schema30.enum },
+									params: { allowedValues: schema31.enum },
 									message:
 										'must be equal to one of the allowed values',
 								},
@@ -6592,7 +6795,7 @@ function validate28(
 	validate28.errors = vErrors;
 	return errors === 0;
 }
-const schema32 = {
+const schema33 = {
 	type: 'object',
 	properties: {
 		relativeUri: {
@@ -6668,7 +6871,7 @@ function validate30(
 		if (data && typeof data == 'object' && !Array.isArray(data)) {
 			const _errs1 = errors;
 			for (const key0 in data) {
-				if (!func2.call(schema32.properties, key0)) {
+				if (!func2.call(schema33.properties, key0)) {
 					validate30.errors = [
 						{
 							instancePath,
@@ -6778,7 +6981,7 @@ function validate30(
 												'#/definitions/HTTPMethod/enum',
 											keyword: 'enum',
 											params: {
-												allowedValues: schema30.enum,
+												allowedValues: schema31.enum,
 											},
 											message:
 												'must be equal to one of the allowed values',
@@ -9054,7 +9257,7 @@ function validate14(
 																			'enum',
 																		params: {
 																			allowedValues:
-																				schema22
+																				schema23
 																					.oneOf[3]
 																					.properties
 																					.method
@@ -10965,7 +11168,7 @@ function validate14(
 															keyword: 'enum',
 															params: {
 																allowedValues:
-																	schema22
+																	schema23
 																		.oneOf[9]
 																		.properties
 																		.ifAlreadyInstalled
@@ -11631,7 +11834,7 @@ function validate14(
 															keyword: 'enum',
 															params: {
 																allowedValues:
-																	schema22
+																	schema23
 																		.oneOf[10]
 																		.properties
 																		.ifAlreadyInstalled

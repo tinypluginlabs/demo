@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { logger } from '@php-wasm/logger';
 import { TextareaControl, TextControl } from '@wordpress/components';
-import { Blueprint } from '@wp-playground/blueprints';
+import { BlueprintDeclaration } from '@wp-playground/blueprints';
 import { useDispatch } from 'react-redux';
 import {
 	PlaygroundDispatch,
@@ -12,7 +12,7 @@ import { setActiveModal } from '../../lib/state/redux/slice-ui';
 import { Modal } from '../../components/modal';
 import ModalButtons from '../modal/modal-buttons';
 
-export function ErrorReportModal(props: { blueprint: Blueprint }) {
+export function ErrorReportModal(props: { blueprint: BlueprintDeclaration }) {
 	const activeModal = useAppSelector(
 		(state: PlaygroundReduxState) => state.ui.activeModal
 	);

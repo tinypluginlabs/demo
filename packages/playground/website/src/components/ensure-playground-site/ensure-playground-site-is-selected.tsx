@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
-import { resolveBlueprintFromURL } from '../../lib/state/url/resolve-blueprint-from-url';
+import {
+	ResolvedBlueprint,
+	resolveBlueprintFromURL,
+} from '../../lib/state/url/resolve-blueprint-from-url';
 import { useCurrentUrl } from '../../lib/state/url/router-hooks';
 import { opfsSiteStorage } from '../../lib/state/opfs/opfs-site-storage';
 import {
@@ -16,7 +19,6 @@ import {
 } from '../../lib/state/redux/store';
 import { redirectTo } from '../../lib/state/url/router';
 import { logger } from '@php-wasm/logger';
-import { Blueprint } from '@wp-playground/blueprints';
 import { usePrevious } from '../../lib/hooks/use-previous';
 import { modalSlugs } from '../layout';
 import { setActiveModal } from '../../lib/state/redux/slice-ui';
@@ -168,17 +170,19 @@ async function createNewTemporarySite(
 	// Lean on the Query API parameters and the Blueprint API to
 	// create the new site.
 	const newUrl = new URL(window.location.href);
-	let blueprint: Blueprint | undefined = undefined;
+	let resolvedBlueprint: ResolvedBlueprint | undefined = undefined;
 	try {
-		blueprint = await resolveBlueprintFromURL(newUrl);
+		resolvedBlueprint = await resolveBlueprintFromURL(newUrl);
 	} catch (e) {
 		logger.error('Error resolving blueprint:', e);
 	}
+
 	// Create a new site otherwise
 	const newSiteInfo = await dispatch(
 		setTemporarySiteSpec({
 			metadata: {
-				originalBlueprint: blueprint,
+				originalBlueprint: resolvedBlueprint?.blueprint,
+				originalBlueprintSource: resolvedBlueprint?.source,
 				name: requestedSiteSlug
 					? deriveSiteNameFromSlug(requestedSiteSlug)
 					: undefined,

@@ -42,8 +42,7 @@ export const assertWpCli = async (
  * <code>
  * {
  * 		"step": "wp-cli",
- * 		"command": "wp post create --post_title='Test post' --post_excerpt='Some
- * 		content'"
+ * 		"command": "wp post create --post_title='Test post' --post_excerpt='Some content'"
  * }
  * </code>
  */

@@ -123,7 +123,7 @@ export async function startPlaygroundWeb({
 		blueprint = {};
 	}
 
-	const compiled = compileBlueprint(blueprint, {
+	const compiled = await compileBlueprint(blueprint, {
 		progress: progressTracker.stage(0.5),
 		onStepCompleted: onBlueprintStepCompleted,
 		corsProxy,

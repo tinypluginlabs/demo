@@ -1,8 +1,8 @@
 {
 	"$schema": "http://json-schema.org/schema",
-	"$ref": "#/definitions/Blueprint",
+	"$ref": "#/definitions/BlueprintDeclaration",
 	"definitions": {
-		"Blueprint": {
+		"BlueprintDeclaration": {
 			"type": "object",
 			"properties": {
 				"landingPage": {
@@ -165,7 +165,8 @@
 					"type": "string"
 				}
 			},
-			"additionalProperties": false
+			"additionalProperties": false,
+			"description": "The Blueprint declaration, typically stored in a blueprint.json file."
 		},
 		"SupportedPHPVersion": {
 			"type": "string",
@@ -197,6 +198,9 @@
 				},
 				{
 					"$ref": "#/definitions/UrlReference"
+				},
+				{
+					"$ref": "#/definitions/BundledReference"
 				}
 			]
 		},
@@ -327,6 +331,22 @@
 				}
 			},
 			"required": ["resource", "url"],
+			"additionalProperties": false
+		},
+		"BundledReference": {
+			"type": "object",
+			"properties": {
+				"resource": {
+					"type": "string",
+					"const": "bundled",
+					"description": "Identifies the file resource as a Blueprint file"
+				},
+				"path": {
+					"type": "string",
+					"description": "The path to the file in the Blueprint"
+				}
+			},
+			"required": ["resource", "path"],
 			"additionalProperties": false
 		},
 		"StepDefinition": {

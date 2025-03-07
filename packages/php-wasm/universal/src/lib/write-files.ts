@@ -1,6 +1,9 @@
 import { dirname, joinPaths } from '@php-wasm/util';
 import { UniversalPHP } from './universal-php';
 
+export interface FileTree
+	extends Record<string, Uint8Array | string | FileTree> {}
+
 export interface WriteFilesOptions {
 	/**
 	 * Whether to wipe out the contents of the
@@ -8,9 +11,6 @@ export interface WriteFilesOptions {
 	 */
 	rmRoot?: boolean;
 }
-
-export interface FileTree
-	extends Record<string, Uint8Array | string | FileTree> {}
 
 /**
  * Writes multiple files to a specified directory in the Playground

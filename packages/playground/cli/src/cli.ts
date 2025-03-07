@@ -1,10 +1,11 @@
+/* eslint-disable no-console */
 import { SupportedPHPVersions } from '@php-wasm/universal';
 import { RecommendedPHPVersion } from '@wp-playground/common';
-import fs from 'fs';
-import path from 'path';
 import yargs from 'yargs';
 import { isValidWordPressSlug } from './is-valid-wordpress-slug';
 import { runCLI, RunCLIArgs } from './run-cli';
+import { resolveBlueprint } from './resolve-blueprint';
+import { ReportableError } from './reportable-error';
 
 export interface Mount {
 	hostPath: string;
@@ -67,6 +68,12 @@ async function run() {
 			describe: 'Blueprint to execute.',
 			type: 'string',
 		})
+		.option('blueprintMayReadAdjacentFiles', {
+			describe:
+				'Consent flag: Allow "bundled" resources in a local blueprint to read files in the same directory as the blueprint file.',
+			type: 'boolean',
+			default: false,
+		})
 		.option('skipWordPressSetup', {
 			describe:
 				'Do not download, unzip, and install WordPress. Useful for mounting a pre-configured WordPress directory at /wordpress.',
@@ -96,22 +103,6 @@ async function run() {
 					);
 				}
 			}
-			if (args.blueprint !== undefined) {
-				const blueprintPath = path.resolve(
-					process.cwd(),
-					args.blueprint
-				);
-				if (!fs.existsSync(blueprintPath)) {
-					throw new Error('Blueprint file does not exist');
-				}
-
-				const content = fs.readFileSync(blueprintPath, 'utf-8');
-				try {
-					args.blueprint = JSON.parse(content);
-				} catch (e) {
-					throw new Error('Blueprint file is not a valid JSON file');
-				}
-			}
 			return true;
 		});
 
@@ -125,9 +116,27 @@ async function run() {
 		process.exit(1);
 	}
 
-	args.command = args._[0] as any;
+	const cliArgs = {
+		...args,
+		command,
+		blueprint: await resolveBlueprint({
+			sourceString: args.blueprint,
+			blueprintMayReadAdjacentFiles: args.blueprintMayReadAdjacentFiles,
+		}),
+	} as RunCLIArgs;
 
-	return runCLI(args as RunCLIArgs);
+	try {
+		return await runCLI(cliArgs);
+	} catch (e) {
+		const reportableCause = ReportableError.getReportableCause(e);
+		if (reportableCause) {
+			console.log('');
+			console.log(reportableCause.message);
+			process.exit(1);
+		} else {
+			throw e;
+		}
+	}
 }
 
 run();

@@ -16,6 +16,54 @@ test('Base64-encoded Blueprints should work', async ({
 	await expect(wordpress.locator('body')).toContainText('Dashboard');
 });
 
+test('?blueprint-url=... should work with simple blueprints', async ({
+	page,
+	website,
+	wordpress,
+}) => {
+	await website.goto('/');
+	const websiteUrl = page.url();
+	const blueprintUrl = encodeURIComponent(
+		`${websiteUrl}test-fixtures/blueprint/blueprint-simple.json`
+	);
+	await website.goto(`/?blueprint-url=${blueprintUrl}`);
+	await expect(wordpress.locator('body')).toContainText(
+		'PREFACE TO PYGMALION'
+	);
+});
+
+test('?blueprint-url=... should work with ZIP bundles', async ({
+	page,
+	website,
+	wordpress,
+}) => {
+	await website.goto('/');
+	const websiteUrl = page.url();
+	const blueprintUrl = encodeURIComponent(
+		`${websiteUrl}test-fixtures/blueprint/blueprint.zip`
+	);
+	await website.goto(`/?blueprint-url=${blueprintUrl}`);
+	await expect(wordpress.locator('body')).toContainText(
+		'PREFACE TO PYGMALION'
+	);
+});
+
+test('?blueprint-url=... should work with JSON blueprints referring bundled resources', async ({
+	page,
+	website,
+	wordpress,
+}) => {
+	await website.goto('/');
+	const websiteUrl = page.url();
+	const blueprintUrl = encodeURIComponent(
+		`${websiteUrl}test-fixtures/blueprint/blueprint-with-bundled-resources.json`
+	);
+	await website.goto(`/?blueprint-url=${blueprintUrl}`);
+	await expect(wordpress.locator('body')).toContainText(
+		'PREFACE TO PYGMALION'
+	);
+});
+
 test('enableMultisite step should re-activate the plugins', async ({
 	website,
 	wordpress,

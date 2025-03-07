@@ -9,7 +9,8 @@ import {
 	SupportedPHPVersion,
 } from '@php-wasm/universal';
 import {
-	Blueprint,
+	BlueprintDeclaration,
+	BlueprintBundle,
 	compileBlueprint,
 	runBlueprintSteps,
 } from '@wp-playground/blueprints';
@@ -31,7 +32,7 @@ import {
 import { startServer } from './server';
 
 export interface RunCLIArgs {
-	blueprint?: string;
+	blueprint?: BlueprintDeclaration | BlueprintBundle;
 	command: 'server' | 'run-blueprint' | 'build-snapshot';
 	debug?: boolean;
 	login?: boolean;
@@ -102,7 +103,7 @@ export async function runCLI(args: RunCLIArgs): Promise<RunCLIServer> {
 		}
 	}
 
-	function compileInputBlueprint() {
+	async function compileInputBlueprint() {
 		/**
 		 * @TODO This looks similar to the resolveBlueprint() call in the website package:
 		 * 	     https://github.com/WordPress/wordpress-playground/blob/ce586059e5885d185376184fdd2f52335cca32b0/packages/playground/website/src/main.tsx#L41
@@ -110,10 +111,12 @@ export async function runCLI(args: RunCLIArgs): Promise<RunCLIServer> {
 		 * 		 Also the Blueprint Builder tool does something similar.
 		 *       Perhaps all these cases could be handled by the same function?
 		 */
-		let blueprint: Blueprint | undefined;
+		let blueprint: BlueprintDeclaration | BlueprintBundle | undefined;
 
 		if (args.blueprint) {
-			blueprint = args.blueprint as Blueprint;
+			blueprint = args.blueprint as
+				| BlueprintDeclaration
+				| BlueprintBundle;
 		} else {
 			blueprint = {
 				preferredVersions: {
@@ -146,7 +149,7 @@ export async function runCLI(args: RunCLIArgs): Promise<RunCLIServer> {
 				);
 			}
 		});
-		return compileBlueprint(blueprint as Blueprint, {
+		return await compileBlueprint(blueprint as BlueprintDeclaration, {
 			progress: tracker,
 		});
 	}
@@ -183,7 +186,7 @@ export async function runCLI(args: RunCLIArgs): Promise<RunCLIServer> {
 		logger.handlers = [];
 	}
 
-	const compiledBlueprint = compileInputBlueprint();
+	const compiledBlueprint = await compileInputBlueprint();
 
 	let requestHandler: PHPRequestHandler;
 	let wordPressReady = false;

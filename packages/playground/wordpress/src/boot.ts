@@ -201,7 +201,6 @@ export async function bootWordPress(options: BootOptions) {
 	});
 
 	const php = await requestHandler.getPrimaryPhp();
-
 	if (options.hooks?.beforeWordPressFiles) {
 		await options.hooks.beforeWordPressFiles(php);
 	}
