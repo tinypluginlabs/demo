@@ -480,15 +480,15 @@ test('should correctly redirect to a multisite wp-admin url', async ({
 	await expect(wordpress.locator('body')).toContainText('General Settings');
 });
 
-['latest', 'nightly', 'beta'].forEach((version) => {
-	test(`should translate WP-admin to Spanish for the ${version} WordPress build`, async ({
+['latest', 'nightly', 'beta'].forEach((wpVersion) => {
+	test(`should translate WP-admin to Spanish for the ${wpVersion} WordPress build`, async ({
 		website,
 		wordpress,
 	}) => {
 		const blueprint: Blueprint = {
 			landingPage: '/wp-admin/',
 			preferredVersions: {
-				wp: 'nightly',
+				wp: wpVersion,
 			},
 			steps: [{ step: 'setSiteLanguage', language: 'es_ES' }],
 		};
