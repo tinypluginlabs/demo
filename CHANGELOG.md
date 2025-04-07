@@ -4,6 +4,7 @@ All notable changes to this project are documented in this file by a CI job
 that runs on every NPM release. The file follows the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 format.
 
+
 ## [v1.0.30] (2025-04-07) 
 
 ### Bug Fixes
@@ -32,19 +33,20 @@ The following contributors merged PRs in this release:
 
 ### Various
 
--   Blueprint bundles.
--   CORS Proxy: fetch() with credentials: "include".
--   Exif support for PHP-wasm.
--   Remove Data Liberation PHP modules.
--   Stop suppressing 64bit integer PHP warnings as 64bit longs are now suppoted.
--   [Blueprints] setSiteLanguage fetch translation package URL from WP.org.
--   [Website] Drop the static &lt;link rel="manifest"&gt; tag and generate one in JavaScript instead.
+- Blueprint bundles. ([#75](https://github.com/Automattic/wordpress-playground-private/pull/75))
+- CORS Proxy: fetch() with credentials: "include". ([#66](https://github.com/Automattic/wordpress-playground-private/pull/66))
+- Exif support for PHP-wasm. ([#72](https://github.com/Automattic/wordpress-playground-private/pull/72))
+- Remove Data Liberation PHP modules. ([#79](https://github.com/Automattic/wordpress-playground-private/pull/79))
+- Stop suppressing 64bit integer PHP warnings as 64bit longs are now suppoted. ([#76](https://github.com/Automattic/wordpress-playground-private/pull/76))
+- [Blueprints] setSiteLanguage fetch translation package URL from WP.org. ([#81](https://github.com/Automattic/wordpress-playground-private/pull/81))
+- [Website] Drop the static &lt;link rel="manifest"&gt; tag and generate one in JavaScript instead. ([#78](https://github.com/Automattic/wordpress-playground-private/pull/78))
 
 ### Contributors
 
 The following contributors merged PRs in this release:
 
 @adamziel @bgrgicak
+
 
 ## [v1.0.28] (2025-03-05)
 
