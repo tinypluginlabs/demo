@@ -5,6 +5,20 @@ that runs on every NPM release. The file follows the [Keep a Changelog](https://
 format.
 
 
+## [v1.0.25] (2025-02-04) 
+
+### Various
+
+- Add missing node external to Playground CLI. ([#19](https://github.com/Automattic/wordpress-playground-private/pull/19))
+- Add self-hosted package publishing. ([#5](https://github.com/Automattic/wordpress-playground-private/pull/5))
+
+### Contributors
+
+The following contributors merged PRs in this release:
+
+@brandonpayton
+
+
 ## [v1.0.26] (2025-02-04) 
 
 ### Bug Fixes
