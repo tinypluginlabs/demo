@@ -10,6 +10,24 @@ that runs on every NPM release. The file follows the [Keep a Changelog](https://
 format.
 
 
+## [v1.0.26] (2025-02-04) 
+
+### Bug Fixes
+
+- Fix workflow for deploying self-hosted packages. ([#6](https://github.com/Automattic/wordpress-playground-private/pull/6))
+
+### Various
+
+- Add the launch browser flag to CLI. ([#18](https://github.com/Automattic/wordpress-playground-private/pull/18))
+- [Fix] Zip spec compliance for exported backup file. ([#7](https://github.com/Automattic/wordpress-playground-private/pull/7))
+
+### Contributors
+
+The following contributors merged PRs in this release:
+
+@ashfame @brandonpayton @zaerl
+
+
 ## [v1.0.27] (2025-02-25) 
 
 ### Bug Fixes
