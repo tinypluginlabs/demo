@@ -62,7 +62,7 @@ const protocols = {
 	},
 };
 
-const { protocol, port } = protocols[import.meta.env.MODE as Mode];
+const { protocol, port } = protocols[import.meta.env['PROTOCOL'] as Mode];
 
 const host = '127.0.0.1';
 
