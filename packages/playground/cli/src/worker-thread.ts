@@ -43,6 +43,7 @@ export type PrimaryWorkerBootOptions = {
 	 * Default: false.
 	 */
 	internalCookieStore?: boolean;
+	withXdebug?: boolean;
 };
 
 /**
@@ -115,6 +116,7 @@ export class PlaygroundCliWorker extends PHPWorker {
 		followSymlinks,
 		trace,
 		internalCookieStore,
+		withXdebug,
 	}: PrimaryWorkerBootOptions) {
 		if (this.booted) {
 			throw new Error('Playground already booted');
@@ -151,6 +153,7 @@ export class PlaygroundCliWorker extends PHPWorker {
 							trace: trace ? tracePhpWasm : undefined,
 						},
 						followSymlinks,
+						withXdebug,
 					});
 				},
 				wordPressZip:
