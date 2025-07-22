@@ -188,7 +188,7 @@ export async function parseOptionsAndRunCLI() {
 			type: 'number',
 			coerce: (value?: number) => value ?? cpus().length - 1,
 		})
-		.option('experimental-blueprint-v2', {
+		.option('experimental-blueprints-v2-runner', {
 			describe: 'Use the experimental Blueprint V2 runner.',
 			type: 'boolean',
 			default: false,
