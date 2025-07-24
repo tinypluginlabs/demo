@@ -4,6 +4,23 @@ All notable changes to this project are documented in this file by a CI job
 that runs on every NPM release. The file follows the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 format.
 
+## [v2.0.3] (2025-07-24) 
+
+### Tools
+
+- [ xdebug ] Add `--experimental-devtools` option in php-wasm CLI. ([#2408](https://github.com/WordPress/wordpress-playground/pull/2408))
+
+### Bug Fixes
+
+- Playground CLI Allow /wordpress subdirs to be mounted before WP install. ([#2382](https://github.com/WordPress/wordpress-playground/pull/2382))
+
+### Contributors
+
+The following contributors merged PRs in this release:
+
+@brandonpayton @mho22
+
+
 ## [v2.0.2] (2025-07-23) 
 
 ### Tools
