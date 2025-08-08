@@ -831,6 +831,8 @@ var_dump($html_processor->get_tag());
 			let client = null;
 			let currentPhpVersion = phpVersionSelect.value;
 			let currentWpVersion = wpVersionSelect.value;
+			let bootPromise = Promise.resolve();
+			let runCounter = 0;
 
 			// Detect platform for keyboard shortcut display
 			const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
@@ -879,9 +881,9 @@ var_dump($html_processor->get_tag());
 						option.textContent = version;
 						wpVersionSelect.appendChild(option);
 					}
-					// Restore selection if still available; otherwise fall back to latest
-					wpVersionSelect.value = keys.includes(startingWpVersion)
-						? startingWpVersion
+					// Use the requested version if available; otherwise fall back to latest
+					wpVersionSelect.value = keys.includes(wpVersion)
+						? wpVersion
 						: latest;
 				} catch (e) {
 					console.warn(
@@ -892,6 +894,9 @@ var_dump($html_processor->get_tag());
 				await client.isReady;
 				await client.writeFile('/wordpress/code.php', startingCode);
 				await client.goTo('/code.php'); // Blank document
+				// Sync current versions after boot to avoid unnecessary reboots on first run
+				currentPhpVersion = phpVersionSelect.value;
+				currentWpVersion = wpVersionSelect.value;
 			}
 
 			async function executeCode() {
@@ -902,17 +907,25 @@ var_dump($html_processor->get_tag());
 				// Save code, PHP version, and WordPress version to URL fragment immediately when running
 				saveStateToURL(code, phpVersion, wpVersion);
 
+				// Ensure initial boot finished before proceeding
+				await bootPromise;
+
 				if (
 					phpVersion !== currentPhpVersion ||
 					wpVersion !== currentWpVersion
 				) {
 					currentPhpVersion = phpVersion;
 					currentWpVersion = wpVersion;
-					await bootPlayground(currentPhpVersion, currentWpVersion);
+					bootPromise = bootPlayground(
+						currentPhpVersion,
+						currentWpVersion
+					);
+					await bootPromise;
 				}
 				await client.writeFile('/wordpress/code.php', code);
-				const uuid = crypto.randomUUID();
-				await client.goTo('/code.php?' + uuid);
+				runCounter += 1;
+				const cacheBuster = 'run=' + runCounter + '-' + Date.now();
+				await client.goTo('/code.php?' + cacheBuster);
 			}
 
 			runBtn.addEventListener('click', executeCode);
@@ -966,7 +979,7 @@ var_dump($html_processor->get_tag());
 			}
 
 			// Initial boot
-			bootPlayground(currentPhpVersion, currentWpVersion);
+			bootPromise = bootPlayground(currentPhpVersion, currentWpVersion);
 		</script>
 	</body>
 </html>
