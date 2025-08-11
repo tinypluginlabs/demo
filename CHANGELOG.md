@@ -4,6 +4,44 @@ All notable changes to this project are documented in this file by a CI job
 that runs on every NPM release. The file follows the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 format.
 
+## [v2.0.9] (2025-08-11) 
+
+### **Breaking Changes**
+
+- [Website] Default demo content. ([#2412](https://github.com/WordPress/wordpress-playground/pull/2412))
+
+### Enhancements
+
+- [PHP Playground] Select WordPress version. ([#2472](https://github.com/WordPress/wordpress-playground/pull/2472))
+
+### Blueprints
+
+- [WordPress] Support auto-login with customize.php as a landing page. ([#2467](https://github.com/WordPress/wordpress-playground/pull/2467))
+
+### Documentation
+
+- Tagalog: Add translations for Blueprints Tutorial. ([#2477](https://github.com/WordPress/wordpress-playground/pull/2477))
+- Tagalog: Translations of Blueprints documentation page. ([#2476](https://github.com/WordPress/wordpress-playground/pull/2476))
+
+### Website
+
+- Open external links in a new tab/window. ([#2468](https://github.com/WordPress/wordpress-playground/pull/2468))
+
+### Internal
+
+- Skip flaky end-to-end tests. ([#2475](https://github.com/WordPress/wordpress-playground/pull/2475))
+
+### Various
+
+- Add Japanese translations to Blueprint Examples and Troubleshoot and debug. ([#2474](https://github.com/WordPress/wordpress-playground/pull/2474))
+
+### Contributors
+
+The following contributors merged PRs in this release:
+
+@adamziel @rollybueno @shimotmk @zaerl
+
+
 ## [v2.0.8] (2025-08-07) 
 
 ### Blueprints
