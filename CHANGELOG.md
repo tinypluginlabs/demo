@@ -4,6 +4,41 @@ All notable changes to this project are documented in this file by a CI job
 that runs on every NPM release. The file follows the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 format.
 
+## [v2.0.11] (2025-08-21) 
+
+### Tools
+
+
+#### Blueprints
+
+- [Blueprints] Use the local worker in Builder in development mode. ([#2495](https://github.com/WordPress/wordpress-playground/pull/2495))
+
+### Documentation
+
+- Adding blueprints documentation description. ([#2524](https://github.com/WordPress/wordpress-playground/pull/2524))
+
+### PHP WebAssembly
+
+- Fix corrupt zip download from Site Editor export. ([#2531](https://github.com/WordPress/wordpress-playground/pull/2531))
+
+### Bug Fixes
+
+- Fix wrong license page within the languages es, pt-BR and ja. ([#2483](https://github.com/WordPress/wordpress-playground/pull/2483))
+
+### Various
+
+- Add Japanese translations to Build your first Blueprint. ([#2529](https://github.com/WordPress/wordpress-playground/pull/2529))
+- Add Japanese translations to How to run Blueprints. ([#2526](https://github.com/WordPress/wordpress-playground/pull/2526))
+- Added Gujarati Translation for web-instance.md file. ([#2532](https://github.com/WordPress/wordpress-playground/pull/2532))
+- Unifying assets folder. ([#2521](https://github.com/WordPress/wordpress-playground/pull/2521))
+
+### Contributors
+
+The following contributors merged PRs in this release:
+
+@aslamdoctor @brandonpayton @fellyph @josevarghese @mho22 @shimotmk
+
+
 ## [v2.0.10] (2025-08-18) 
 
 ### Documentation
