@@ -9,6 +9,34 @@ All notable changes to this project are documented in this file by a CI job
 that runs on every NPM release. The file follows the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 format.
 
+## [v2.0.12] (2025-08-25) 
+
+### Enhancements
+
+- Playground CLI: Support --auto-mount=path option. ([#2525](https://github.com/WordPress/wordpress-playground/pull/2525))
+
+### Documentation
+
+- Added Gujarati Translation for Contributor Badge File. ([#2549](https://github.com/WordPress/wordpress-playground/pull/2549))
+- Added Gujarati Translation for coding-standards.md file. ([#2507](https://github.com/WordPress/wordpress-playground/pull/2507))
+- Japanese translations: Blueprints Unifying assets  folder. ([#2536](https://github.com/WordPress/wordpress-playground/pull/2536))
+- Updating Translation Documentation Page. ([#2534](https://github.com/WordPress/wordpress-playground/pull/2534))
+
+### Various
+
+- Add Japanese translations to WordPress Playground Developers documentation. ([#2551](https://github.com/WordPress/wordpress-playground/pull/2551))
+- Add Japanese translations to WordPress Playground badge. ([#2545](https://github.com/WordPress/wordpress-playground/pull/2545))
+- Added Gujarati translation for about, build, test, launch pages. ([#2533](https://github.com/WordPress/wordpress-playground/pull/2533))
+- Added Original Comment and Description in Launch.md file. ([#2542](https://github.com/WordPress/wordpress-playground/pull/2542))
+- Tagalog translations of Blueprints -&gt; Getting Started. ([#2547](https://github.com/WordPress/wordpress-playground/pull/2547))
+
+### Contributors
+
+The following contributors merged PRs in this release:
+
+@aslamdoctor @brandonpayton @fellyph @rollybueno @sandipr942 @shail-mehta @shimotmk
+
+
 ## [v2.0.11] (2025-08-21) 
 
 ### Tools
