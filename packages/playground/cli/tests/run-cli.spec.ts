@@ -41,7 +41,11 @@ describe.each(blueprintVersions)(
 
 		afterEach(async () => {
 			if (cliServer) {
-				await cliServer.server.close();
+				try {
+					await cliServer[Symbol.asyncDispose]();
+				} catch {
+					// Ignore any dispose-related errors
+				}
 			}
 		});
 
@@ -61,6 +65,43 @@ describe.each(blueprintVersions)(
 			});
 			expect(response.httpStatusCode).toBe(200);
 			expect(response.text).toContain('8.0');
+		});
+
+		test('should use custom site-url when provided', async () => {
+			const customSiteUrl = 'https://example.com';
+			cliServer = await runCLI({
+				...suiteCliArgs,
+				command: 'server',
+				'site-url': customSiteUrl,
+			});
+			await cliServer.playground.writeFile(
+				'/wordpress/site-url.php',
+				'<?php require_once "/wordpress/wp-load.php"; echo get_option("siteurl"); ?>'
+			);
+			const response = await cliServer.playground.request({
+				url: '/site-url.php',
+				method: 'GET',
+			});
+			expect(response.httpStatusCode).toBe(200);
+			expect(response.text).toContain(customSiteUrl);
+		});
+
+		test('should use default site-url when not provided', async () => {
+			cliServer = await runCLI({
+				...suiteCliArgs,
+				command: 'server',
+				port: 9500,
+			});
+			await cliServer.playground.writeFile(
+				'/wordpress/site-url.php',
+				'<?php require_once "/wordpress/wp-load.php"; echo get_option("siteurl"); ?>'
+			);
+			const response = await cliServer.playground.request({
+				url: '/site-url.php',
+				method: 'GET',
+			});
+			expect(response.httpStatusCode).toBe(200);
+			expect(response.text).toContain('http://127.0.0.1:9500');
 		});
 
 		test('should set WordPress version', async () => {
