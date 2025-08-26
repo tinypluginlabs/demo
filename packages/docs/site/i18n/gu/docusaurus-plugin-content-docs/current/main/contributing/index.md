@@ -23,10 +23,10 @@ WordPress Playground is an open-source project that welcomes contributors of all
 ## How can I contribute?
 -->
 
-- કોડ? [વિકાસકર્તા વિભાગ](/contributing/code) જુઓ.
-- દસ્તાવેજીકરણ? [દસ્તાવેજીકરણ વિભાગ](/contributing/documentation) જુઓ.
-- ભૂલોની જાણ કરવી? મુખ્ય GitHub રિપોઝીટરીમાં અથવા [પ્લેગ્રાઉન્ડ સાધનો](https://github.com/WordPress/playground-tools/issues/new) માં [નવો અંક](https://github.com/WordPress/wordpress-playground/issues/new) ખોલો.
-- વિચારો, ડિઝાઇન, અથવા બીજું કંઈ? [GitHub ચર્ચા](https://github.com/WordPress/wordpress-playground/discussions) ખોલો, અને ચાલો વાત કરીએ!
+-   કોડ? [વિકાસકર્તા વિભાગ](/contributing/code) જુઓ.
+-   દસ્તાવેજીકરણ? [દસ્તાવેજીકરણ વિભાગ](/contributing/documentation) જુઓ.
+-   ભૂલોની જાણ કરવી? મુખ્ય GitHub રિપોઝીટરીમાં અથવા [પ્લેગ્રાઉન્ડ સાધનો](https://github.com/WordPress/playground-tools/issues/new) માં [નવો અંક](https://github.com/WordPress/wordpress-playground/issues/new) ખોલો.
+-   વિચારો, ડિઝાઇન, અથવા બીજું કંઈ? [GitHub ચર્ચા](https://github.com/WordPress/wordpress-playground/discussions) ખોલો, અને ચાલો વાત કરીએ!
 
 <!--
 -   Code? See the [developer section](/contributing/code).
@@ -41,9 +41,9 @@ WordPress Playground is an open-source project that welcomes contributors of all
 ## Guidelines
 -->
 
-- બધા વર્ડપ્રેસ પ્રોજેક્ટ્સની જેમ, અમે દરેક માટે સ્વાગત અને આદરપૂર્ણ વાતાવરણ સુનિશ્ચિત કરવા માંગીએ છીએ. વધુ જાણવા માટે કૃપા કરીને અમારા સમુદાયની [આચારસંહિતા] (https://make.wordpress.org/handbook/community-code-of-conduct/) વાંચો.
-- કોડ ફાળો આપનારાઓએ [કોડિંગ સિદ્ધાંતો] (/contributing/coding-standards) ની સમીક્ષા કરવી જોઈએ.
-- તમે જે પણ યોગદાન આપો છો તેના પર તમે કૉપિરાઇટ જાળવી રાખો છો. પુલ રિક્વેસ્ટ સબમિટ કરીને, તમે [વર્ડપ્રેસ પ્લેગ્રાઉન્ડ લાઇસન્સ] (https://github.com/WordPress/wordpress-playground?tab=GPL-2.0-1-ov-file#readme) હેઠળ તે કોડ રિલીઝ કરવા માટે સંમત થાઓ છો.
+-   બધા વર્ડપ્રેસ પ્રોજેક્ટ્સની જેમ, અમે દરેક માટે સ્વાગત અને આદરપૂર્ણ વાતાવરણ સુનિશ્ચિત કરવા માંગીએ છીએ. વધુ જાણવા માટે કૃપા કરીને અમારા સમુદાયની [આચારસંહિતા] (https://make.wordpress.org/handbook/community-code-of-conduct/) વાંચો.
+-   કોડ ફાળો આપનારાઓએ [કોડિંગ સિદ્ધાંતો] (/contributing/coding-standards) ની સમીક્ષા કરવી જોઈએ.
+-   તમે જે પણ યોગદાન આપો છો તેના પર તમે કૉપિરાઇટ જાળવી રાખો છો. પુલ રિક્વેસ્ટ સબમિટ કરીને, તમે [વર્ડપ્રેસ પ્લેગ્રાઉન્ડ લાઇસન્સ] (https://github.com/WordPress/wordpress-playground?tab=GPL-2.0-1-ov-file#readme) હેઠળ તે કોડ રિલીઝ કરવા માટે સંમત થાઓ છો.
 
 <!--
 -   As with all WordPress projects, we want to ensure a welcoming and respectful environment for everyone. Please read our community's [Code of Conduct](https://make.wordpress.org/handbook/community-code-of-conduct/) to learn more.
@@ -93,10 +93,10 @@ WordPress Playground and the WordPress project are strongly rooted in free and o
 As such, please be aware of the implications that your contributions will fall under:
 -->
 
-- જ્યારે તમે યોગદાન આપો છો, ત્યારે તમે GPLv2 (અથવા પછીના) લાઇસન્સ હેઠળ તમારા યોગદાનને લાઇસન્સ આપવા માટે સંમત થાઓ છો.
-- GPL લાઇસન્સ મજબૂત કોપીલેફ્ટ જોગવાઈઓ ધરાવે છે જે ખાતરી કરે છે કે બધા ડેરિવેટિવ કાર્યો ઓપન-સોર્સ અને સમાન લાઇસન્સ શરતો હેઠળ રહે છે, જેનાથી સહયોગી વિકાસ વાતાવરણને પ્રોત્સાહન મળે છે.
-- GPL લાઇસન્સ કોઈપણ ફેરફારો, બગ ફિક્સેસ અથવા નવી સુવિધાઓને મૂળ કોડબેઝમાં પાછા આપવા માટે પ્રોત્સાહિત કરે છે.
-- GPL લાઇસન્સ ખાતરી કરે છે કે પ્રોજેક્ટ મફત અને ઓપન-સોર્સ રહે, માત્ર કિંમતની દ્રષ્ટિએ જ નહીં પરંતુ સોફ્ટવેરનો ઉપયોગ, ફેરફાર અને વિતરણ કરવાની સ્વતંત્રતાના સંદર્ભમાં પણ.
+-   જ્યારે તમે યોગદાન આપો છો, ત્યારે તમે GPLv2 (અથવા પછીના) લાઇસન્સ હેઠળ તમારા યોગદાનને લાઇસન્સ આપવા માટે સંમત થાઓ છો.
+-   GPL લાઇસન્સ મજબૂત કોપીલેફ્ટ જોગવાઈઓ ધરાવે છે જે ખાતરી કરે છે કે બધા ડેરિવેટિવ કાર્યો ઓપન-સોર્સ અને સમાન લાઇસન્સ શરતો હેઠળ રહે છે, જેનાથી સહયોગી વિકાસ વાતાવરણને પ્રોત્સાહન મળે છે.
+-   GPL લાઇસન્સ કોઈપણ ફેરફારો, બગ ફિક્સેસ અથવા નવી સુવિધાઓને મૂળ કોડબેઝમાં પાછા આપવા માટે પ્રોત્સાહિત કરે છે.
+-   GPL લાઇસન્સ ખાતરી કરે છે કે પ્રોજેક્ટ મફત અને ઓપન-સોર્સ રહે, માત્ર કિંમતની દ્રષ્ટિએ જ નહીં પરંતુ સોફ્ટવેરનો ઉપયોગ, ફેરફાર અને વિતરણ કરવાની સ્વતંત્રતાના સંદર્ભમાં પણ.
 
 <!--
 -   When you contribute, you agree to license your contributions under the GPLv2 (or later) license

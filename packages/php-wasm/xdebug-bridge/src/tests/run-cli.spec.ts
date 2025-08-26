@@ -1,6 +1,7 @@
 import './mocker';
 import { vi } from 'vitest';
 import { main } from '../lib/run-cli';
+import { logger, LogSeverity } from '@php-wasm/logger';
 import { startBridge } from '../lib/start-bridge';
 import type { XdebugCDPBridge } from '../lib/xdebug-cdp-bridge';
 
@@ -10,6 +11,8 @@ describe('CLI', () => {
 	beforeEach(async () => {
 		process.argv = [...argv.slice(0, 2)];
 
+		vi.spyOn(console, 'log').mockImplementation(() => {});
+		vi.spyOn(logger, 'setSeverityFilterLevel');
 		vi.spyOn(
 			await import('../lib/start-bridge'),
 			'startBridge'
@@ -66,5 +69,35 @@ describe('CLI', () => {
 		}
 
 		expect(startBridge).not.toHaveBeenCalled();
+	});
+
+	it('runs cli with verbosity option set to quiet', async () => {
+		process.argv.push('--verbosity', 'quiet');
+
+		await main();
+
+		expect(logger.setSeverityFilterLevel).toHaveBeenCalledWith(
+			LogSeverity.Fatal
+		);
+	});
+
+	it('runs cli with verbosity option set to normal', async () => {
+		process.argv.push('--verbosity', 'normal');
+
+		await main();
+
+		expect(logger.setSeverityFilterLevel).toHaveBeenCalledWith(
+			LogSeverity.Info
+		);
+	});
+
+	it('runs cli with verbosity option set to debug', async () => {
+		process.argv.push('--verbosity', 'debug');
+
+		await main();
+
+		expect(logger.setSeverityFilterLevel).toHaveBeenCalledWith(
+			LogSeverity.Debug
+		);
 	});
 });

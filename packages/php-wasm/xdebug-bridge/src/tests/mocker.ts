@@ -9,11 +9,11 @@ vi.mock('ws', async () => {
 		send = vi.fn();
 		close = vi.fn();
 	}
+
 	class WebSocketServer extends EventEmitter {
-		constructor() {
-			super();
-		}
+		close = vi.fn();
 	}
+
 	return {
 		WebSocketServer,
 		WebSocket,
@@ -30,10 +30,10 @@ vi.mock('net', async () => {
 	}
 
 	class Server extends EventEmitter {
+		listen = vi.fn();
+		close = vi.fn();
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 		onConnectionHandler: Function | undefined;
-
-		listen = vi.fn();
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 		override on = vi.fn((event: string, handler: Function) => {
 			if (event === 'connection') this.onConnectionHandler = handler;

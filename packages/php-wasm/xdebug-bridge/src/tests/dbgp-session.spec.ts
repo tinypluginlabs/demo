@@ -1,6 +1,6 @@
 import './mocker';
-import net from 'net';
 import { vi } from 'vitest';
+import net from 'net';
 import { DbgpSession } from '../lib/dbgp-session';
 
 describe('DbgpSession', () => {
