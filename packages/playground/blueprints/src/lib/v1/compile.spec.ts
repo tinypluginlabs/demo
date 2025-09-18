@@ -4,7 +4,7 @@ import {
 	runBlueprintSteps,
 	validateBlueprint,
 } from './compile';
-import { defineWpConfigConsts } from './steps/define-wp-config-consts';
+import { defineWpConfigConsts } from '../steps/define-wp-config-consts';
 import { RecommendedPHPVersion } from '@wp-playground/common';
 import { PHPRequestHandler } from '@php-wasm/universal';
 import { loadNodeRuntime } from '@php-wasm/node';
@@ -97,7 +97,7 @@ describe('Blueprints', () => {
 		// Load the real zip file from the test directory
 		const zipPath = path.resolve(
 			__dirname,
-			'../../tests/fixtures/blueprint.zip'
+			'../../../tests/fixtures/blueprint.zip'
 		);
 		const zipData = fs.readFileSync(zipPath).buffer;
 		const zipBundle = ZipFilesystem.fromArrayBuffer(zipData);
