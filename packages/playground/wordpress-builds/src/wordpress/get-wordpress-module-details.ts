@@ -42,7 +42,7 @@ export function getWordPressModuleDetails(wpVersion: string = "6.8"): { size: nu
 		case '6.8':
 			/** @ts-ignore */
 			return {
-				size: 24742629,
+				size: 24743772,
 				url: url_6_8,
 			};
 			
