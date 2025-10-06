@@ -4,6 +4,25 @@ All notable changes to this project are documented in this file by a CI job
 that runs on every NPM release. The file follows the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 format.
 
+## [v3.0.9] (2025-10-06) 
+
+### Tools
+
+- Fix local package repository command running issue. ([#2720](https://github.com/WordPress/wordpress-playground/pull/2720))
+
+### Various
+
+- [i18n] Added Gujarati Translation for Local Development 02-vscode-extension.md File. ([#2718](https://github.com/WordPress/wordpress-playground/pull/2718))
+- [i18n] Added Gujarati Translation for Local Development 03-php-wasm-node File. ([#2719](https://github.com/WordPress/wordpress-playground/pull/2719))
+- docs: Add browser support information to limitations documentation. ([#2711](https://github.com/WordPress/wordpress-playground/pull/2711))
+
+### Contributors
+
+The following contributors merged PRs in this release:
+
+@getdave @mho22 @shail-mehta
+
+
 ## [v3.0.8] (2025-10-02) 
 
 ### Documentation
