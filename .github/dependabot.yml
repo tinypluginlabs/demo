@@ -5,7 +5,8 @@ updates:
     schedule:
       interval: "daily"
     exclude-paths:
-      - packages
+      - packages/playground/wordpress-builds/build
+      - isomorphic-git
     ignore:
       # We're stuck with an older typedoc version
       - dependency-name: "typedoc"
