@@ -1,3 +1,5 @@
+/* eslint-disable comment-length/limit-multi-line-comments */
+
 /*
  * Import internal data parsers and structures from isomorphic-git. These
  * exports are not available in the npm version of isomorphic-git, which is why
@@ -75,10 +77,28 @@ export type GitFileTreeFolder = {
 };
 export type GitFileTree = GitFileTreeFile | GitFileTreeFolder;
 
+/**
+ * A Git ref in a human-readable format. Could be a single string,
+ * e.g. 'main', 'v0.1.28', '1234567890abcdef1234567890abcdef12345678',
+ * could be a string and an explicit type, e.g. { value: 'main', type: 'branch' },
+ */
 export type GitRef = {
 	value: string;
-	type?: 'branch' | 'commit' | 'refname' | 'infer';
+	type?: 'branch' | 'commit' | 'refname' | 'tag' | 'infer';
 };
+
+/**
+ * A Git ref in a machine-friendly format.
+ * Contains all the information needed to resolve the ref to its oid,
+ * and, optionally, the oid itself.
+ */
+type ParsedGitRef = {
+	kind: 'refname' | 'commit';
+	refname: string;
+	resolvedOid?: string;
+};
+
+const FULL_SHA_REGEX = /^[0-9a-f]{40}$/i;
 
 /**
  * Lists all files in a git repository.
@@ -110,38 +130,16 @@ export async function listGitFiles(
  * @returns The commit hash.
  */
 export async function resolveCommitHash(repoUrl: string, ref: GitRef) {
-	if (ref.type === 'infer' || ref.type === undefined) {
-		if (['', 'HEAD'].includes(ref.value)) {
-			ref = {
-				value: ref.value,
-				type: 'refname',
-			};
-		} else if (typeof ref.value === 'string' && ref.value.length === 40) {
-			ref = {
-				value: ref.value,
-				type: 'commit',
-			};
-		}
+	const parsed = await parseGitRef(repoUrl, ref);
+	if (parsed.resolvedOid) {
+		return parsed.resolvedOid;
 	}
-	if (ref.type === 'branch') {
-		ref = {
-			value: `refs/heads/${ref.value}`,
-			type: 'refname',
-		};
+
+	const oid = await fetchRefOid(repoUrl, parsed.refname);
+	if (!oid) {
+		throw new Error(`Git ref "${parsed.refname}" not found at ${repoUrl}`);
 	}
-	switch (ref.type) {
-		case 'commit':
-			return ref.value;
-		case 'refname': {
-			const refs = await listGitRefs(repoUrl, ref.value);
-			if (!(ref.value in refs)) {
-				throw new Error(`Branch ${ref.value} not found`);
-			}
-			return refs[ref.value];
-		}
-		default:
-			throw new Error(`Invalid ref type: ${ref.type}`);
-	}
+	return oid;
 }
 
 function gitTreeToFileTree(tree: GitTree): GitFileTree[] {
@@ -204,10 +202,124 @@ export async function listGitRefs(
 	for await (const line of parseGitResponseLines(response)) {
 		const spaceAt = line.indexOf(' ');
 		const ref = line.slice(0, spaceAt);
-		const name = line.slice(spaceAt + 1, line.length - 1);
+		/**
+		 * Git protocol may return a line such as:
+		 *
+		 * 41d27ca5d6df1e7826c7fa297398159857ea2d60 refs/tags/v0.1.28 peeled:883860eacc7c37377f772a26919e700749020e4c
+		 *
+		 * This means:
+		 *
+		 * * A tag with a name `v0.1.28`
+		 * * The tag is an object with an oid `883860eacc7c37377f772a26919e700749020e4c`
+		 * * The tag points to a commit with an oid `41d27ca5d6df1e7826c7fa297398159857ea2d60`
+		 *
+		 * nameBuffer is everything after the first space. Let's extract the ref name
+		 * itself, that is refs/tags/v0.1.28.
+		 */
+		const nameBuffer = line.slice(spaceAt + 1, line.length - 1);
+		const name = nameBuffer.split(' ')[0];
 		refs[name] = ref;
 	}
 	return refs;
+}
+
+/**
+ * Turns a user-provided ref in a convenient format, such as 'main' or
+ * '1234567890abcdef1234567890abcdef12345678' into a more structured
+ * format that tells us about the nature of the ref, e.g.
+ *
+ * * { kind: 'refname', refname: 'refs/heads/main' }
+ * * { kind: 'commit', refname: '1234567890abcdef1234567890abcdef12345678' }.
+ *
+ * @param repoUrl
+ * @param ref
+ * @returns
+ */
+async function parseGitRef(
+	repoUrl: string,
+	ref: GitRef
+): Promise<ParsedGitRef> {
+	const type = ref.type ?? 'infer';
+	switch (type) {
+		case 'commit':
+			return {
+				kind: 'commit',
+				refname: ref.value,
+				resolvedOid: ref.value,
+			};
+		case 'branch':
+			return {
+				kind: 'refname',
+				refname: `refs/heads/${ref.value.trim()}`,
+			};
+		case 'tag':
+			return {
+				kind: 'refname',
+				refname: `refs/tags/${ref.value.trim()}`,
+			};
+		case 'refname':
+			return {
+				kind: 'refname',
+				refname: ref.value.trim(),
+			};
+		case 'infer': {
+			const trimmed = ref.value.trim();
+			if (trimmed === '' || trimmed === 'HEAD') {
+				return {
+					kind: 'refname',
+					refname: 'HEAD',
+				};
+			}
+			if (trimmed.startsWith('refs/')) {
+				return {
+					kind: 'refname',
+					refname: trimmed,
+				};
+			}
+			if (FULL_SHA_REGEX.test(trimmed)) {
+				return {
+					kind: 'commit',
+					refname: trimmed,
+					resolvedOid: trimmed,
+				};
+			}
+
+			const branchRef = `refs/heads/${trimmed}`;
+			const branchOid = await fetchRefOid(repoUrl, branchRef);
+			if (branchOid) {
+				return {
+					kind: 'refname',
+					refname: branchRef,
+					resolvedOid: branchOid,
+				};
+			}
+
+			const tagRef = `refs/tags/${trimmed}`;
+			const tagOid = await fetchRefOid(repoUrl, tagRef);
+			if (tagOid) {
+				return {
+					kind: 'refname',
+					refname: tagRef,
+					resolvedOid: tagOid,
+				};
+			}
+			throw new Error(`Git ref "${ref.value}" not found at ${repoUrl}`);
+		}
+		default:
+			throw new Error(`Invalid ref type: ${ref.type}`);
+	}
+}
+
+async function fetchRefOid(repoUrl: string, refname: string) {
+	const refs = await listGitRefs(repoUrl, refname);
+	const candidates = [refname, `${refname}^{}`];
+	for (const candidate of candidates) {
+		const sanitized = candidate.trim();
+		if (sanitized in refs) {
+			return refs[sanitized];
+		}
+	}
+	return null;
 }
 
 async function fetchWithoutBlobs(repoUrl: string, commitHash: string) {
