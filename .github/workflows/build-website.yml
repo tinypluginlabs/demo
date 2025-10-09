@@ -2,9 +2,9 @@ name: Deploy to playground.wordpress.net
 
 on:
     workflow_dispatch:
-    # Deploy the website every day at 9am and 6pm UTC
+    # Deploy the website every Tuesday at 11am UTC
     schedule:
-        - cron: '0 9,18 * * *'
+        - cron: '0 11 * * 2'
 
 concurrency:
     group: website-deployment
