@@ -1,50 +1,50 @@
 ---
 slug: /contributing/contributor-day
-title: Día del Contribuidor de WordCamp
-description: Una guía sobre cómo contribuir a WordPress Playground y cómo puede ayudarte en el Día del Contribuidor.
+title: Dia do Contribuidor do WordCamp
+description: Um guia sobre como contribuir com o WordPress Playground e como ele pode te ajudar no Dia do Contribuidor.
 ---
 
 <!--
 # WordCamp Contributor Day
 -->
 
-# Día del Contribuidor de WordCamp
+# Dia do Contribuidor do WordCamp
 
 <!--
 WordCamp Contributor Day is an event where the WordPress community comes together to contribute to the WordPress project. This guide focuses on how you can contribute to the WordPress Playground project or how the Playground can assist you in contributing to WordPress Core.
 -->
 
-El Día del Contribuidor de WordCamp es un evento donde la comunidad de WordPress se reúne para contribuir al proyecto WordPress. Esta guía se centra en cómo puedes contribuir al proyecto WordPress Playground o cómo Playground puede ayudarte a contribuir a WordPress Core.
+O Dia do Contribuidor do WordCamp é um evento onde a comunidade WordPress se reúne para contribuir com o projeto WordPress. Este guia foca em como você pode contribuir com o projeto WordPress Playground ou como o Playground pode ajudá-lo a contribuir com o WordPress Core.
 
 <!--
 ## Who Can Contribute?
 -->
 
-## ¿Quién puede contribuir?
+## Quem pode contribuir?
 
 <!--
 Some events will have a dedicated table for the project. The WordPress Playground contributor tables welcome all kinds of contributions, not just from developers. Whether you are a writer, coder, tester, plugin or theme developer, marketer, site owner, or any other type of user, you are encouraged to contribute.
 -->
 
-Algunos eventos tendrán una mesa dedicada al proyecto. Las mesas de contribuidores de WordPress Playground dan la bienvenida a todo tipo de contribuciones, no solo de desarrolladores. Ya seas escritor, programador, probador, desarrollador de plugins o temas, especialista en marketing, propietario de sitio o cualquier otro tipo de usuario, te animamos a contribuir.
+Alguns eventos terão uma mesa dedicada ao projeto. As mesas de contribuidores do WordPress Playground recebem todos os tipos de contribuições, não apenas de desenvolvedores. Seja você escritor, programador, testador, desenvolvedor de plugins ou temas, profissional de marketing, proprietário de site ou qualquer outro tipo de usuário, você é encorajado a contribuir.
 
 <!--
 We value diverse contributions across various areas, including community building, testing, documentation, and design.
 -->
 
-Valoramos las contribuciones diversas en varias áreas, incluyendo construcción de comunidad, pruebas, documentación y diseño.
+Valorizamos contribuições diversas em várias áreas, incluindo construção de comunidade, testes, documentação e design.
 
 <!--
 ## How to Contribute to the Playground Project
 -->
 
-## Cómo contribuir al proyecto Playground
+## Como contribuir com o projeto Playground
 
 <!--
 This section outlines how you can contribute directly to the WordPress Playground project and its associated tools:
 -->
 
-Esta sección describe cómo puedes contribuir directamente al proyecto WordPress Playground y sus herramientas asociadas:
+Esta seção descreve como você pode contribuir diretamente com o projeto WordPress Playground e suas ferramentas associadas:
 
 <!--
 -   **Documentation:** Enhance our documentation by improving existing content, developing new guides, or translating materials into different languages.
@@ -53,76 +53,76 @@ Esta sección describe cómo puedes contribuir directamente al proyecto WordPres
 -   **Product Feedback:** Your insights are invaluable for improving the Playground experience. This includes general feedback on the web instance, the application, and any server-side tools.
 -->
 
--   **Documentación:** Mejora nuestra documentación mejorando el contenido existente, desarrollando nuevas guías o traduciendo materiales a diferentes idiomas.
--   **Blueprints:** Crea demostraciones de plugins para los plugins en el repositorio de Plugins de WordPress, o desarrolla nuevos Blueprints para enriquecer nuestra documentación del proyecto.
--   **Pruebas del entorno Playground:** Participa en las pruebas del proyecto WordPress Playground en sí. Puedes hacer esto creando cuidadosamente nuevos issues que describan los problemas que encuentres y sugiriendo soluciones prácticas. Prueba nuestra instancia web de WordPress (el sitio playground.wordpress.net), o explora las diversas aplicaciones impulsadas por Playground. Prueba estas herramientas, observa su funcionalidad y proporciona comentarios detallados.
--   **Retroalimentación del producto:** Tus ideas son invaluables para mejorar la experiencia de Playground. Esto incluye comentarios generales sobre la instancia web, la aplicación y cualquier herramienta del lado del servidor.
+-   **Documentação:** Melhore nossa documentação aprimorando o conteúdo existente, desenvolvendo novos guias ou traduzindo materiais para diferentes idiomas.
+-   **Blueprints:** Crie demonstrações de plugins para os plugins no repositório de Plugins do WordPress, ou desenvolva novos Blueprints para enriquecer nossa documentação do projeto.
+-   **Testes do ambiente Playground:** Participe dos testes do próprio projeto WordPress Playground. Você pode fazer isso criando cuidadosamente novos issues que descrevam os problemas que você encontrou e sugerindo soluções práticas. Teste nossa instância web do WordPress (o site playground.wordpress.net), ou explore os vários aplicativos alimentados pelo Playground. Teste essas ferramentas, observe sua funcionalidade e forneça feedback detalhado.
+-   **Feedback do produto:** Suas ideias são inestimáveis para melhorar a experiência do Playground. Isso inclui feedback geral sobre a instância web, o aplicativo e quaisquer ferramentas do lado do servidor.
 
 <!--
 All feedback, including reported issues and test results, can be submitted through our GitHub repository.
 -->
 
-Todos los comentarios, incluidos los issues reportados y los resultados de las pruebas, pueden enviarse a través de nuestro repositorio de GitHub.
+Todos os feedbacks, incluindo issues reportados e resultados de testes, podem ser enviados através do nosso repositório GitHub.
 
 <!--
 ### Follow-up and Continued Engagement
 -->
 
-### Seguimiento y compromiso continuo
+### Acompanhamento e engajamento contínuo
 
 <!--
 While many tasks are completed during the event, your contribution journey doesn't have to end there. You are welcome to continue working on your issues or pull requests after Contributor Day. We anticipate ongoing activity from contributors who take on tasks beyond the event. Please note that if a pull request shows no activity for one month, it may be considered abandoned and subsequently closed.
 -->
 
-Si bien muchas tareas se completan durante el evento, tu viaje de contribución no tiene que terminar ahí. Eres bienvenido a continuar trabajando en tus issues o pull requests después del Día del Contribuidor. Anticipamos actividad continua de los contribuidores que asumen tareas más allá del evento. Ten en cuenta que si un pull request no muestra actividad durante un mes, puede considerarse abandonado y posteriormente cerrado.
+Embora muitas tarefas sejam concluídas durante o evento, sua jornada de contribuição não precisa terminar aí. Você é bem-vindo para continuar trabalhando em seus issues ou pull requests após o Dia do Contribuidor. Antecipamos atividade contínua de contribuidores que assumem tarefas além do evento. Por favor, note que se um pull request não mostrar atividade por um mês, ele pode ser considerado abandonado e subsequentemente fechado.
 
 <!--
 ### Getting Help and Staying Engaged
 -->
 
-### Obtener ayuda y mantenerse comprometido
+### Obtendo ajuda e mantendo-se engajado
 
 <!--
 During Contributor Day, you can find direct assistance and interact with us at the dedicated Playground table. For continuous support and community interaction, you can connect with us on the `#playground` channel on WordPress Slack or via GitHub.
 -->
 
-Durante el Día del Contribuidor, puedes encontrar asistencia directa e interactuar con nosotros en la mesa dedicada de Playground. Para soporte continuo e interacción con la comunidad, puedes conectarte con nosotros en el canal `#playground` de WordPress Slack o a través de GitHub.
+Durante o Dia do Contribuidor, você pode encontrar assistência direta e interagir conosco na mesa dedicada do Playground. Para suporte contínuo e interação com a comunidade, você pode se conectar conosco no canal `#playground` do WordPress Slack ou via GitHub.
 
 <!--
 ## How to use Playground at Contributor Day
 -->
 
-## Cómo usar Playground en el Día del Contribuidor
+## Como usar o Playground no Dia do Contribuidor
 
 <!--
 Now we are going to cover how the Playground can assist you during the Contributor Day. The [WordPress Playground VS Code extension](https://marketplace.visualstudio.com/items?itemName=WordPressPlayground.wordpress-playground) and [@wp-playground/cli](https://www.npmjs.com/package/@wp-playground/cli) streamline the process of setting up a local WordPress environment. WordPress Playground powers both—no Docker, MySQL, or Apache required.
 -->
 
-Ahora vamos a cubrir cómo Playground puede ayudarte durante el Día del Contribuidor. La [extensión de WordPress Playground para VS Code](https://marketplace.visualstudio.com/items?itemName=WordPressPlayground.wordpress-playground) y [@wp-playground/cli](https://www.npmjs.com/package/@wp-playground/cli) agilizan el proceso de configuración de un entorno local de WordPress. WordPress Playground impulsa ambos, sin necesidad de Docker, MySQL o Apache.
+Agora vamos cobrir como o Playground pode ajudá-lo durante o Dia do Contribuidor. A [extensão WordPress Playground para VS Code](https://marketplace.visualstudio.com/items?itemName=WordPressPlayground.wordpress-playground) e [@wp-playground/cli](https://www.npmjs.com/package/@wp-playground/cli) simplificam o processo de configuração de um ambiente WordPress local. O WordPress Playground alimenta ambos—sem necessidade de Docker, MySQL ou Apache.
 
 <!--
 Keep reading to learn how to use these tools for [local development](/developers/local-development/wp-playground-cli) when contributing to WordPress. Please note that the extension and the NPM package are under development, and not all [Make WordPress teams](https://make.wordpress.org/) are fully supported.
 -->
 
-Sigue leyendo para aprender a usar estas herramientas para el [desarrollo local](/developers/local-development/wp-playground-cli) al contribuir a WordPress. Ten en cuenta que la extensión y el paquete NPM están en desarrollo, y no todos los [equipos de Make WordPress](https://make.wordpress.org/) son totalmente compatibles.
+Continue lendo para aprender como usar essas ferramentas para [desenvolvimento local](/developers/local-development/wp-playground-cli) ao contribuir com o WordPress. Por favor, note que a extensão e o pacote NPM estão em desenvolvimento, e nem todos os [times do Make WordPress](https://make.wordpress.org/) são totalmente suportados.
 
 <!--
 ## Getting Started
 -->
 
-## Primeros pasos
+## Começando
 
 <!--
 ### VS Code Playground extension
 -->
 
-### Extensión de Playground para VS Code
+### Extensão Playground para VS Code
 
 <!--
 The [Visual Studio Code Playground extension](https://marketplace.visualstudio.com/items?itemName=WordPressPlayground.wordpress-playground) is a friendly zero-setup development environment.
 -->
 
-La [extensión de Playground para Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=WordPressPlayground.wordpress-playground) es un entorno de desarrollo amigable y sin configuración.
+A [extensão Playground para Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=WordPressPlayground.wordpress-playground) é um ambiente de desenvolvimento amigável e sem configuração.
 
 <!--
 1. Open VS Code and navigate to the **Extensions** tab (**View > Extensions**).
@@ -131,52 +131,52 @@ La [extensión de Playground para Visual Studio Code](https://marketplace.visual
 4. A new tab will open in your browser within seconds.
 -->
 
-1. Abre VS Code y ve a la pestaña **Extensiones** (**Ver > Extensiones**).
-2. En la barra de búsqueda, escribe _WordPress Playground_ y haz clic en **Instalar**.
-3. Para interactuar con Playground, haz clic en el nuevo icono en la **Barra de Actividad** y pulsa el botón **Iniciar Servidor de WordPress**.
-4. Se abrirá una nueva pestaña en tu navegador en segundos.
+1. Abra o VS Code e navegue até a aba **Extensões** (**Visualizar > Extensões**).
+2. Na barra de pesquisa, digite _WordPress Playground_ e clique em **Instalar**.
+3. Para interagir com o Playground, clique no novo ícone na **Barra de Atividades** e pressione o botão **Iniciar Servidor WordPress**.
+4. Uma nova aba será aberta no seu navegador em segundos.
 
 <!--
 ### @wp-playground/cli NPM package
 -->
 
-### Paquete NPM @wp-playground/cli
+### Pacote NPM @wp-playground/cli
 
 <!--
 [`@wp-playground/cli`](/developers/local-development/wp-playground-cli) is a CLI tool that allows you to spin up a WordPress site with a single command. No Docker, MySQL, or Apache are required.
 -->
 
-[`@wp-playground/cli`](/developers/local-development/wp-playground-cli) es una herramienta de línea de comandos que te permite levantar un sitio de WordPress con un solo comando. No se requiere Docker, MySQL o Apache.
+[`@wp-playground/cli`](/developers/local-development/wp-playground-cli) é uma ferramenta CLI que permite criar um site WordPress com um único comando. Não é necessário Docker, MySQL ou Apache.
 
 <!--
 #### Prerequisites
 -->
 
-#### Requisitos previos
+#### Pré-requisitos
 
 <!--
 `@wp-playground/cli` requires Node.js 20.18 or newer and NPM. If you haven't yet, [download and install](https://nodejs.org/en/download) both before you begin.
 -->
 
-`@wp-playground/cli` requiere Node.js 20.18 o superior y NPM. Si aún no lo has hecho, [descarga e instala](https://nodejs.org/en/download) ambos antes de comenzar.
+`@wp-playground/cli` requer Node.js 20.18 ou mais recente e NPM. Se você ainda não fez isso, [baixe e instale](https://nodejs.org/en/download) ambos antes de começar.
 
 <!--
 Depending on the Make WordPress team you contribute to, you may need a different Node.js version than the one you have installed. You can use Node Version Manager (NVM) to switch between versions. [Find the installation guide here](https://github.com/nvm-sh/nvm#installing-and-updating).
 -->
 
-Dependiendo del equipo de Make WordPress al que contribuyas, es posible que necesites una versión de Node.js diferente a la que tienes instalada. Puedes usar Node Version Manager (NVM) para cambiar entre versiones. [Encuentra la guía de instalación aquí](https://github.com/nvm-sh/nvm#installing-and-updating).
+Dependendo do time do Make WordPress para o qual você contribui, você pode precisar de uma versão diferente do Node.js da que você tem instalada. Você pode usar o Node Version Manager (NVM) para alternar entre versões. [Encontre o guia de instalação aqui](https://github.com/nvm-sh/nvm#installing-and-updating).
 
 <!--
 #### Running `@wp-playground/cli`
 -->
 
-#### Ejecutando `@wp-playground/cli`
+#### Executando `@wp-playground/cli`
 
 <!--
 You don't have to install `@wp-playground/cli` on your device to use it. Navigate to your plugin or theme directory and start `@wp-playground/cli` with the following commands:
 -->
 
-No es necesario que instales `@wp-playground/cli` en tu dispositivo para usarlo. Ve a tu directorio de plugins o temas e inicia `@wp-playground/cli` con los siguientes comandos:
+Você não precisa instalar `@wp-playground/cli` no seu dispositivo para usá-lo. Navegue até o diretório do seu plugin ou tema e inicie `@wp-playground/cli` com os seguintes comandos:
 
 ```bash
 cd my-plugin-or-theme-directory
@@ -187,13 +187,13 @@ npx @wp-playground/cli@latest server --auto-mount
 ## Ideas for contributors
 -->
 
-## Ideas para contribuidores
+## Ideias para contribuidores
 
 <!--
 ### Create a Gutenberg Pull Request (PR)
 -->
 
-### Crear un Pull Request (PR) de Gutenberg
+### Criar um Pull Request (PR) do Gutenberg
 
 <!--
 1. Fork the [Gutenberg repository](https://github.com/WordPress/gutenberg) in your GitHub account.
@@ -201,9 +201,9 @@ npx @wp-playground/cli@latest server --auto-mount
 3. Install the necessary dependencies and build the code in development mode.
 -->
 
-1. Haz un fork del [repositorio de Gutenberg](https://github.com/WordPress/gutenberg) en tu cuenta de GitHub.
-2. Luego, clona el repositorio "forkeado" para descargar los archivos.
-3. Instala las dependencias necesarias y compila el código en modo de desarrollo.
+1. Faça um fork do [repositório Gutenberg](https://github.com/WordPress/gutenberg) na sua conta GitHub.
+2. Então, clone o repositório "forkado" para baixar os arquivos.
+3. Instale as dependências necessárias e compile o código em modo de desenvolvimento.
 
 ```bash
 git clone git@github.com:WordPress/gutenberg.git
@@ -222,7 +222,7 @@ If you're unsure about the steps listed above, visit the official [Gutenberg Pro
 
 :::info
 
-Si no estás seguro de los pasos anteriores, visita la [Guía del Contribuidor del Proyecto Gutenberg](https://developer.wordpress.org/block-editor/contributors/) oficial. Ten en cuenta que en este caso, `@wp-playground/cli` reemplaza a `wp-env`.
+Se você não tiver certeza sobre os passos listados acima, visite o [Guia do Contribuidor do Projeto Gutenberg](https://developer.wordpress.org/block-editor/contributors/) oficial. Note que neste caso, `@wp-playground/cli` substitui `wp-env`.
 
 :::
 
@@ -230,7 +230,7 @@ Si no estás seguro de los pasos anteriores, visita la [Guía del Contribuidor d
 Open a new terminal terminal tab, navigate to the Gutenberg directory, and start WordPress using `@wp-playground/cli`:
 -->
 
-Abre una nueva pestaña de terminal, navega al directorio de Gutenberg e inicia WordPress usando `@wp-playground/cli`:
+Abra uma nova aba do terminal, navegue até o diretório Gutenberg e inicie o WordPress usando `@wp-playground/cli`:
 
 ```bash
 cd gutenberg
@@ -241,13 +241,13 @@ npx @wp-playground/cli@latest server --auto-mount
 When you're ready, commit and push your changes to your forked repository on GitHub and open a Pull Request on the Gutenberg repository.
 -->
 
-Cuando estés listo, haz commit y push de tus cambios a tu repositorio "forkeado" en GitHub y abre un Pull Request en el repositorio de Gutenberg.
+Quando estiver pronto, faça commit e push das suas alterações para o seu repositório "forkado" no GitHub e abra um Pull Request no repositório Gutenberg.
 
 <!--
 ### Test a Gutenberg PR
 -->
 
-### Probar un PR de Gutenberg
+### Testar um PR do Gutenberg
 
 <!--
 1. To test other Gutenberg PRs, checkout the branch associated with it.
@@ -256,10 +256,10 @@ Cuando estés listo, haz commit y push de tus cambios a tu repositorio "forkeado
 4. Finally, build the code in development mode.
 -->
 
-1. Para probar otros PRs de Gutenberg, haz checkout a la rama asociada a él.
-2. Haz pull de los últimos cambios para asegurarte de que tu copia local esté actualizada.
-3. A continuación, instala las dependencias necesarias, asegurándote de que tu entorno de prueba coincida con los últimos cambios.
-4. Finalmente, compila el código en modo de desarrollo.
+1. Para testar outros PRs do Gutenberg, faça checkout para a branch associada a ele.
+2. Faça pull das últimas alterações para garantir que sua cópia local esteja atualizada.
+3. Em seguida, instale as dependências necessárias, garantindo que seu ambiente de teste corresponda às últimas alterações.
+4. Finalmente, compile o código em modo de desenvolvimento.
 
 ```bash
 # copy the branch-name from GitHub #
@@ -276,13 +276,13 @@ npx @wp-playground/cli@latest server --auto-mount
 #### Test a Gutenberg PR with Playground in the browser
 -->
 
-#### Probar un PR de Gutenberg con Playground en el navegador
+#### Testar um PR do Gutenberg com Playground no navegador
 
 <!--
 You don't need a [local development environment](/developers/local-development/) to test Gutenberg PRs—use Playground to do it directly in the browser.
 -->
 
-No necesitas un [entorno de desarrollo local](/developers/local-development/) para probar los PRs de Gutenberg; usa Playground para hacerlo directamente en el navegador.
+Você não precisa de um [ambiente de desenvolvimento local](/developers/local-development/) para testar PRs do Gutenberg—use o Playground para fazer isso diretamente no navegador.
 
 <!--
 1. Copy the ID of the PR you'd like to test (pick one from the [list of open Pull Requests](https://github.com/WordPress/gutenberg/pulls)).
@@ -290,33 +290,33 @@ No necesitas un [entorno de desarrollo local](/developers/local-development/) pa
 3. Once you click **Go**, Playground will verify the PR is valid and open a new tab with the relevant PR, allowing you to review the proposed changes.
 -->
 
-1. Copia el ID del PR que te gustaría probar (elige uno de la [lista de Pull Requests abiertos](https://github.com/WordPress/gutenberg/pulls)).
-2. Abre el [Visualizador de PRs de Gutenberg](https://playground.wordpress.net/gutenberg.html) de Playground y pega el ID que copiaste.
-3. Una vez que hagas clic en **Ir**, Playground verificará que el PR es válido y abrirá una nueva pestaña con el PR correspondiente, permitiéndote revisar los cambios propuestos.
+1. Copie o ID do PR que você gostaria de testar (escolha um da [lista de Pull Requests abertos](https://github.com/WordPress/gutenberg/pulls)).
+2. Abra o [Visualizador de PRs do Gutenberg](https://playground.wordpress.net/gutenberg.html) do Playground e cole o ID que você copiou.
+3. Assim que você clicar em **Ir**, o Playground verificará se o PR é válido e abrirá uma nova aba com o PR relevante, permitindo que você revise as mudanças propostas.
 
 <!--
 ## Translate WordPress Plugins with Playground in the browser
 -->
 
-## Traducir plugins de WordPress con Playground en el navegador
+## Traduzir Plugins WordPress com Playground no navegador
 
 <!--
 You can translate supported WordPress Plugins by loading the plugin you want to translate and use Inline Translation. If the plugin developers have added the option, you'll find the **Translate Live** link on the top right toolbar of the translation view. You can read more about this exciting new option on [this Polyglots blog post](https://make.wordpress.org/polyglots/2023/05/08/translate-live-updates-to-the-translation-playground/).
 -->
 
-Puedes traducir los plugins de WordPress compatibles cargando el plugin que quieres traducir y usando la Traducción en Línea. Si los desarrolladores del plugin han añadido la opción, encontrarás el enlace **Traducir en vivo** en la barra de herramientas superior derecha de la vista de traducción. Puedes leer más sobre esta nueva y emocionante opción en [esta entrada del blog de Polyglots](https://make.wordpress.org/polyglots/2023/05/08/translate-live-updates-to-the-translation-playground/).
+Você pode traduzir Plugins WordPress suportados carregando o plugin que você deseja traduzir e usar a Tradução Inline. Se os desenvolvedores do plugin adicionaram a opção, você encontrará o link **Traduzir ao Vivo** na barra de ferramentas superior direita da visualização de tradução. Você pode ler mais sobre esta nova e empolgante opção nesta [postagem do blog Polyglots](https://make.wordpress.org/polyglots/2023/05/08/translate-live-updates-to-the-translation-playground/).
 
 <!--
 ## Get help and contribute to WordPress Playground
 -->
 
-## Obtén ayuda y contribuye a WordPress Playground
+## Obtenha ajuda e contribua com o WordPress Playground
 
 <!--
 Have a question or an idea for a new feature? Found a bug? Something's not working as expected? We're here to help:
 -->
 
-¿Tienes alguna pregunta o una idea para una nueva función? ¿Has encontrado un error? ¿Algo no funciona como se esperaba? Estamos aquí para ayudar:
+Tem uma pergunta ou uma ideia para um novo recurso? Encontrou um bug? Algo não está funcionando como esperado? Estamos aqui para ajudar:
 
 <!--
 -   During Contributor Day, you can reach us at the **Playground table**.
@@ -324,6 +324,6 @@ Have a question or an idea for a new feature? Found a bug? Something's not worki
 -   Share your feedback on the [**#playground** Slack channel](https://wordpress.slack.com/archives/C04EWKGDJ0K).
 -->
 
--   Durante el Día del Contribuidor, puedes encontrarnos en la **mesa de Playground**.
--   Abre un issue en el [repositorio de GitHub de WordPress Playground](https://github.com/WordPress/wordpress-playground/issues/new). Si tu enfoque es la extensión de VS Code, el paquete NPM o los plugins, abre un issue en el [repositorio de Playground Tools](https://github.com/WordPress/playground-tools/issues/new).
--   Comparte tus comentarios en el canal de Slack [**#playground**](https://wordpress.slack.com/archives/C04EWKGDJ0K).
+-   Durante o Dia do Contribuidor, você pode nos encontrar na **mesa do Playground**.
+-   Abra um issue no [repositório GitHub do WordPress Playground](https://github.com/WordPress/wordpress-playground/issues/new). Se seu foco é a extensão VS Code, pacote NPM ou os plugins, abra um issue no [repositório Playground Tools](https://github.com/WordPress/playground-tools/issues/new).
+-   Compartilhe seu feedback no [canal Slack **#playground**](https://wordpress.slack.com/archives/C04EWKGDJ0K).
