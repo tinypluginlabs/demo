@@ -4,6 +4,43 @@ All notable changes to this project are documented in this file by a CI job
 that runs on every NPM release. The file follows the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 format.
 
+## [v3.0.13] (2025-10-20) 
+
+### Enhancements
+
+- Playground CLI: Print temp dir and mounts when `--verbosity=debug`. ([#2799](https://github.com/WordPress/wordpress-playground/pull/2799))
+
+### Blueprints
+
+- Support creating a local .git directory via git:Directory resource. ([#2787](https://github.com/WordPress/wordpress-playground/pull/2787))
+- ensure git:Directory resource returns non-empty-name. ([#2779](https://github.com/WordPress/wordpress-playground/pull/2779))
+
+### Documentation
+
+- [Docs] Adding table lead guide documentation. ([#2708](https://github.com/WordPress/wordpress-playground/pull/2708))
+- [docs] Removing deprecated run method reference. ([#2778](https://github.com/WordPress/wordpress-playground/pull/2778))
+- [i18n] Updating translation guide for Portuguese and Spanish. ([#2773](https://github.com/WordPress/wordpress-playground/pull/2773))
+
+### Internal
+
+- Document the rationale for setting php.ini values in wordpress/src/boot.ts. ([#2784](https://github.com/WordPress/wordpress-playground/pull/2784))
+
+### Various
+
+- Add some improvements in the Spanish translations. ([#2788](https://github.com/WordPress/wordpress-playground/pull/2788))
+- [i18n] Add Japanese translations to Query API. ([#2781](https://github.com/WordPress/wordpress-playground/pull/2781))
+- [i18n] Adding French translation to guides/index.md. ([#2790](https://github.com/WordPress/wordpress-playground/pull/2790))
+- [i18n] Adding quick start guide and web instance pages in Spanish. ([#2785](https://github.com/WordPress/wordpress-playground/pull/2785))
+- [i18n] Fixing typos in French translation of documentation.md. ([#2792](https://github.com/WordPress/wordpress-playground/pull/2792))
+- [i18n] Updating Contributor badge and Contributor day pages. ([#2782](https://github.com/WordPress/wordpress-playground/pull/2782))
+
+### Contributors
+
+The following contributors merged PRs in this release:
+
+@adamziel @amieiro @beryl-dlg @brandonpayton @fellyph @shimotmk
+
+
 ## [v3.0.12] (2025-10-13) 
 
 ### Internal
