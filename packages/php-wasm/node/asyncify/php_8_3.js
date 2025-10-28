@@ -6,10 +6,10 @@ const require = createRequire(import.meta.url);
 // Note: The path module is currently needed by code injected by the php-wasm Dockerfile.
 import path from 'path';
 
-const dependencyFilename = path.join(__dirname, '8_3_26', 'php_8_3.wasm');
+const dependencyFilename = path.join(__dirname, '8_3_27', 'php_8_3.wasm');
 export { dependencyFilename };
-export const dependenciesTotalSize = 26577262;
-const phpVersionString = '8.3.26';
+export const dependenciesTotalSize = 30583110;
+const phpVersionString = '8.3.27';
 export function init(RuntimeName, PHPLoader) {
 	// The rest of the code comes from the built php.js file and esm-suffix.js
 	// include: shell.js
@@ -831,7 +831,7 @@ export function init(RuntimeName, PHPLoader) {
 		},
 	};
 
-	var ___heap_base = 13876800;
+	var ___heap_base = 14832000;
 
 	var alignMemory = (size, alignment) => {
 		return Math.ceil(size / alignment) * alignment;
@@ -995,7 +995,7 @@ export function init(RuntimeName, PHPLoader) {
 
 	/** @type {WebAssembly.Table} */
 	var wasmTable = new WebAssembly.Table({
-		initial: 11640,
+		initial: 13882,
 		element: 'anyfunc',
 	});
 	var getWasmTableEntry = (funcPtr) => {
@@ -1786,13 +1786,13 @@ export function init(RuntimeName, PHPLoader) {
 		1024
 	);
 
-	var ___stack_high = 13876800;
+	var ___stack_high = 14832000;
 
-	var ___stack_low = 12828224;
+	var ___stack_low = 13783424;
 
 	var ___stack_pointer = new WebAssembly.Global(
 		{ value: 'i32', mutable: true },
-		13876800
+		14832000
 	);
 
 	var PATH = {
@@ -32138,13 +32138,13 @@ export function init(RuntimeName, PHPLoader) {
 	// End JS library code
 
 	var ASM_CONSTS = {
-		12632749: ($0) => {
+		13287533: ($0) => {
 			if (!$0) {
 				AL.alcErr = 0xa004;
 				return 1;
 			}
 		},
-		12632797: ($0) => {
+		13287581: ($0) => {
 			if (!AL.currentCtx) {
 				err('alGetProcAddress() called without a valid context');
 				return 1;
@@ -34899,6 +34899,12 @@ export function init(RuntimeName, PHPLoader) {
 		/** @export */
 		invoke_iiiiiiiiii,
 		/** @export */
+		invoke_iiiiiiiiiii,
+		/** @export */
+		invoke_iiiiiiiiiiii,
+		/** @export */
+		invoke_iiiijj,
+		/** @export */
 		invoke_iij,
 		/** @export */
 		invoke_iiji,
@@ -34906,6 +34912,8 @@ export function init(RuntimeName, PHPLoader) {
 		invoke_iijii,
 		/** @export */
 		invoke_iijiji,
+		/** @export */
+		invoke_ij,
 		/** @export */
 		invoke_ji,
 		/** @export */
@@ -34931,7 +34939,15 @@ export function init(RuntimeName, PHPLoader) {
 		/** @export */
 		invoke_viiiiiii,
 		/** @export */
+		invoke_viiiiiiii,
+		/** @export */
 		invoke_viiiiiiiii,
+		/** @export */
+		invoke_viiiiiiiiiii,
+		/** @export */
+		invoke_viiiiiiiiiiiii,
+		/** @export */
+		invoke_viiiiiiiiiiiiiii,
 		/** @export */
 		invoke_viijii,
 		/** @export */
@@ -35551,6 +35567,234 @@ export function init(RuntimeName, PHPLoader) {
 		var sp = stackSave();
 		try {
 			Module['dynCall_viiiiiii'](index, a1, a2, a3, a4, a5, a6, a7);
+		} catch (e) {
+			stackRestore(sp);
+			if (e !== e + 0) throw e;
+			_setThrew(1, 0);
+		}
+	}
+
+	function invoke_viiiiiiiiiiiii(
+		index,
+		a1,
+		a2,
+		a3,
+		a4,
+		a5,
+		a6,
+		a7,
+		a8,
+		a9,
+		a10,
+		a11,
+		a12,
+		a13
+	) {
+		var sp = stackSave();
+		try {
+			Module['dynCall_viiiiiiiiiiiii'](
+				index,
+				a1,
+				a2,
+				a3,
+				a4,
+				a5,
+				a6,
+				a7,
+				a8,
+				a9,
+				a10,
+				a11,
+				a12,
+				a13
+			);
+		} catch (e) {
+			stackRestore(sp);
+			if (e !== e + 0) throw e;
+			_setThrew(1, 0);
+		}
+	}
+
+	function invoke_viiiiiiiiiiiiiii(
+		index,
+		a1,
+		a2,
+		a3,
+		a4,
+		a5,
+		a6,
+		a7,
+		a8,
+		a9,
+		a10,
+		a11,
+		a12,
+		a13,
+		a14,
+		a15
+	) {
+		var sp = stackSave();
+		try {
+			Module['dynCall_viiiiiiiiiiiiiii'](
+				index,
+				a1,
+				a2,
+				a3,
+				a4,
+				a5,
+				a6,
+				a7,
+				a8,
+				a9,
+				a10,
+				a11,
+				a12,
+				a13,
+				a14,
+				a15
+			);
+		} catch (e) {
+			stackRestore(sp);
+			if (e !== e + 0) throw e;
+			_setThrew(1, 0);
+		}
+	}
+
+	function invoke_iiiiiiiiiiii(
+		index,
+		a1,
+		a2,
+		a3,
+		a4,
+		a5,
+		a6,
+		a7,
+		a8,
+		a9,
+		a10,
+		a11
+	) {
+		var sp = stackSave();
+		try {
+			return Module['dynCall_iiiiiiiiiiii'](
+				index,
+				a1,
+				a2,
+				a3,
+				a4,
+				a5,
+				a6,
+				a7,
+				a8,
+				a9,
+				a10,
+				a11
+			);
+		} catch (e) {
+			stackRestore(sp);
+			if (e !== e + 0) throw e;
+			_setThrew(1, 0);
+		}
+	}
+
+	function invoke_iiiijj(index, a1, a2, a3, a4, a5) {
+		var sp = stackSave();
+		try {
+			return Module['dynCall_iiiijj'](index, a1, a2, a3, a4, a5);
+		} catch (e) {
+			stackRestore(sp);
+			if (e !== e + 0) throw e;
+			_setThrew(1, 0);
+		}
+	}
+
+	function invoke_ij(index, a1) {
+		var sp = stackSave();
+		try {
+			return Module['dynCall_ij'](index, a1);
+		} catch (e) {
+			stackRestore(sp);
+			if (e !== e + 0) throw e;
+			_setThrew(1, 0);
+		}
+	}
+
+	function invoke_iiiiiiiiiii(
+		index,
+		a1,
+		a2,
+		a3,
+		a4,
+		a5,
+		a6,
+		a7,
+		a8,
+		a9,
+		a10
+	) {
+		var sp = stackSave();
+		try {
+			return Module['dynCall_iiiiiiiiiii'](
+				index,
+				a1,
+				a2,
+				a3,
+				a4,
+				a5,
+				a6,
+				a7,
+				a8,
+				a9,
+				a10
+			);
+		} catch (e) {
+			stackRestore(sp);
+			if (e !== e + 0) throw e;
+			_setThrew(1, 0);
+		}
+	}
+
+	function invoke_viiiiiiii(index, a1, a2, a3, a4, a5, a6, a7, a8) {
+		var sp = stackSave();
+		try {
+			Module['dynCall_viiiiiiii'](index, a1, a2, a3, a4, a5, a6, a7, a8);
+		} catch (e) {
+			stackRestore(sp);
+			if (e !== e + 0) throw e;
+			_setThrew(1, 0);
+		}
+	}
+
+	function invoke_viiiiiiiiiii(
+		index,
+		a1,
+		a2,
+		a3,
+		a4,
+		a5,
+		a6,
+		a7,
+		a8,
+		a9,
+		a10,
+		a11
+	) {
+		var sp = stackSave();
+		try {
+			Module['dynCall_viiiiiiiiiii'](
+				index,
+				a1,
+				a2,
+				a3,
+				a4,
+				a5,
+				a6,
+				a7,
+				a8,
+				a9,
+				a10,
+				a11
+			);
 		} catch (e) {
 			stackRestore(sp);
 			if (e !== e + 0) throw e;
