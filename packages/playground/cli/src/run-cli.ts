@@ -134,7 +134,7 @@ export async function parseOptionsAndRunCLI() {
 				type: 'array',
 				nargs: 2,
 				array: true,
-				// coerce: parseMountDirArguments,
+				coerce: parseMountDirArguments,
 			})
 			.option('mount-dir-before-install', {
 				describe:
