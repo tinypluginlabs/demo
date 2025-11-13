@@ -34,13 +34,14 @@ jobs:
             - name: Post Playground Preview Button
               uses: WordPress/action-wp-playground-pr-preview@v2
               with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
                   mode: 'append-to-description'
                   plugin-path: .
 ```
 
 The `plugin-path: .` setting points to your plugin directory. For subdirectories like `plugins/my-plugin`, use `plugin-path: plugins/my-plugin`.
 
-See [adamziel/preview-in-playground-button-plugin-example](https://github.com/adamziel/preview-in-playground-button-plugin-example/pull/1) for a working example.
+See [adamziel/preview-in-playground-button-plugin-example](https://github.com/adamziel/preview-in-playground-button-plugin-example/pull/3) for a live example of this workflow in action.
 
 ## Basic setup for themes
 
@@ -62,6 +63,7 @@ jobs:
             - name: Post Playground Preview Button
               uses: WordPress/action-wp-playground-pr-preview@v2
               with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
                   theme-path: .
 ```
 
@@ -73,6 +75,7 @@ By default, the action updates the PR description (`mode: append-to-description`
 with:
     plugin-path: .
     mode: comment
+    github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 The action wraps the button in HTML markers and updates it on subsequent runs. By default, it restores the button if you remove it. To prevent restoration:
@@ -161,6 +164,7 @@ jobs:
         steps:
             - uses: WordPress/action-wp-playground-pr-preview@v2
               with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
                   blueprint: ${{ needs.create-blueprint.outputs.blueprint }}
 ```
 
@@ -218,6 +222,7 @@ jobs:
         steps:
             - uses: WordPress/action-wp-playground-pr-preview@v2
               with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
                   blueprint: ${{ needs.create-blueprint.outputs.blueprint }}
 ```
 
