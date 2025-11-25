@@ -1,3 +1,4 @@
+
 // @ts-ignore
 import url_beta from './wp-beta.zip?url';
 // @ts-ignore
@@ -19,66 +20,72 @@ import url_6_3 from './wp-6.3.zip?url';
  * This file must statically exists in the project because of the way
  * vite resolves imports.
  */
-export function getWordPressModuleDetails(wpVersion = '6.8'): {
-	size: number;
-	url: string;
-} {
+export function getWordPressModuleDetails(wpVersion: string = "6.8"): { size: number, url: string } {
 	switch (wpVersion) {
+		
 		case 'trunk':
-		case 'nightly':
 			return {
 				size: 0,
-				url: 'https://github.com/WordPress/WordPress/archive/refs/heads/master.zip',
+				url: "https://github.com/WordPress/WordPress/archive/refs/heads/master.zip",
 			};
-
+			
 		case 'beta':
 			/** @ts-ignore */
 			return {
-				size: 24776337,
+				size: 24778861,
 				url: url_beta,
 			};
-
+			
 		case '6.8':
 			/** @ts-ignore */
 			return {
 				size: 24743772,
 				url: url_6_8,
 			};
-
+			
 		case '6.7':
 			/** @ts-ignore */
 			return {
 				size: 24594721,
 				url: url_6_7,
 			};
-
+			
 		case '6.6':
 			/** @ts-ignore */
 			return {
 				size: 18386194,
 				url: url_6_6,
 			};
-
+			
 		case '6.5':
 			/** @ts-ignore */
 			return {
 				size: 18457511,
 				url: url_6_5,
 			};
-
+			
 		case '6.4':
 			/** @ts-ignore */
 			return {
 				size: 18265208,
 				url: url_6_4,
 			};
-
+			
 		case '6.3':
 			/** @ts-ignore */
 			return {
 				size: 3595053,
 				url: url_6_3,
 			};
+			
+		
+		case 'nightly':
+			return {
+				size: 0,
+				url: "https://github.com/WordPress/WordPress/archive/refs/heads/master.zip",
+			};
+		
+
 	}
 	throw new Error('Unsupported WordPress module: ' + wpVersion);
 }
