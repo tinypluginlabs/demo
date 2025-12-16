@@ -4,6 +4,23 @@ All notable changes to this project are documented in this file by a CI job
 that runs on every NPM release. The file follows the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 format.
 
+## [v3.0.24] (2025-12-16) 
+
+### Website
+
+- Target temporary Playground in Import ZIP, Import from GitHub. Don't overwrite a saved site. ([#2990](https://github.com/WordPress/wordpress-playground/pull/2990))
+
+### Internal
+
+- [CI] Enable trusted publisher-based publishing. ([#3048](https://github.com/WordPress/wordpress-playground/pull/3048))
+
+### Contributors
+
+The following contributors merged PRs in this release:
+
+@adamziel
+
+
 ## [v3.0.23] (2025-12-16) 
 
 ### Enhancements
