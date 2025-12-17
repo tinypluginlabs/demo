@@ -9,6 +9,27 @@ All notable changes to this project are documented in this file by a CI job
 that runs on every NPM release. The file follows the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 format.
 
+## [v3.0.29] (2025-12-17) 
+
+### Tools
+
+- Add WordPress Playground DevTools browser extension. ([#3056](https://github.com/WordPress/wordpress-playground/pull/3056))
+
+### Website
+
+- Use a kapa.ai widget for blueprint error troubleshooting. ([#2987](https://github.com/WordPress/wordpress-playground/pull/2987))
+
+### Internal
+
+- Add CI workflow to build and release the DevTools extension. ([#3059](https://github.com/WordPress/wordpress-playground/pull/3059))
+
+### Contributors
+
+The following contributors merged PRs in this release:
+
+@adamziel @akirk
+
+
 ## [v3.0.28] (2025-12-17) 
 
 
