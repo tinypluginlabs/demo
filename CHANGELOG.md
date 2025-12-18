@@ -4,6 +4,24 @@ All notable changes to this project are documented in this file by a CI job
 that runs on every NPM release. The file follows the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 format.
 
+## [v3.0.32] (2025-12-18) 
+
+### PHP WebAssembly
+
+- [PHP] Split php-wasm packages into per-PHP-version packages. ([#3062](https://github.com/WordPress/wordpress-playground/pull/3062))
+
+### Website
+
+- Await the iframe load event in `playground.goTo()`. ([#3066](https://github.com/WordPress/wordpress-playground/pull/3066))
+- Skip WordPress installation when WordPress files already exist. ([#3065](https://github.com/WordPress/wordpress-playground/pull/3065))
+
+### Contributors
+
+The following contributors merged PRs in this release:
+
+@adamziel
+
+
 ## [v3.0.31] (2025-12-17) 
 
 
