@@ -4,6 +4,19 @@ All notable changes to this project are documented in this file by a CI job
 that runs on every NPM release. The file follows the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 format.
 
+## [v3.0.33] (2025-12-22) 
+
+### Website
+
+- Add save status indicator to the toolbar. ([#3067](https://github.com/WordPress/wordpress-playground/pull/3067))
+
+### Contributors
+
+The following contributors merged PRs in this release:
+
+@adamziel
+
+
 ## [v3.0.32] (2025-12-18) 
 
 ### PHP WebAssembly
