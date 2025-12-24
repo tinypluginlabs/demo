@@ -4,6 +4,29 @@ All notable changes to this project are documented in this file by a CI job
 that runs on every NPM release. The file follows the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 format.
 
+## [v3.0.34] (2025-12-24) 
+
+### PHP WebAssembly
+
+- [PHP] Enable dynamic-import for published CJS packages. ([#3077](https://github.com/WordPress/wordpress-playground/pull/3077))
+- [PHP] Remove unnecessary createRequire() from @php-wasm/web build scripts. ([#3076](https://github.com/WordPress/wordpress-playground/pull/3076))
+
+### Website
+
+- Add quick navigation popover to address bar. ([#3070](https://github.com/WordPress/wordpress-playground/pull/3070))
+- Add standalone playground block demo page. ([#3071](https://github.com/WordPress/wordpress-playground/pull/3071))
+
+### Internal
+
+- [CI] Extract npm package integration tests to reusable scripts. ([#3078](https://github.com/WordPress/wordpress-playground/pull/3078))
+
+### Contributors
+
+The following contributors merged PRs in this release:
+
+@adamziel
+
+
 ## [v3.0.33] (2025-12-22) 
 
 ### Website
