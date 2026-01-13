@@ -18,7 +18,7 @@ import type {
 } from '@wp-playground/blueprints';
 import { runBlueprintV1Steps } from '@wp-playground/blueprints';
 import { RecommendedPHPVersion } from '@wp-playground/common';
-import fs, { mkdirSync } from 'fs';
+import fs, { existsSync, mkdirSync, readdirSync, rmdirSync } from 'fs';
 import type { Server } from 'http';
 import { MessageChannel as NodeMessageChannel, Worker } from 'worker_threads';
 // @ts-ignore
@@ -58,6 +58,7 @@ import {
 	createTempDirSymlink,
 	removeTempDirSymlink,
 } from '@php-wasm/cli-util';
+import { createHash } from 'crypto';
 
 // Inlined worker URLs for static analysis by downstream bundlers
 // These are replaced at build time by the Vite plugin in vite.config.ts
@@ -352,6 +353,12 @@ export async function parseOptionsAndRunCLI(argsToParse: string[]) {
 				string: true,
 				coerce: parseMountWithDelimiterArguments,
 			},
+			reset: {
+				describe:
+					'Deletes the stored site directory and starts a new site from scratch.',
+				type: 'boolean',
+				default: false,
+			},
 			'no-auto-mount': {
 				describe:
 					'Disable automatic project type detection. Use --mount to manually specify mounts instead.',
@@ -571,32 +578,9 @@ export async function parseOptionsAndRunCLI(argsToParse: string[]) {
 			process.exit(1);
 		}
 
-		// Track whether to open browser (only for 'start' command)
-		let shouldOpenBrowser = false;
-
-		// Transform 'start' command args to server-compatible args
-		if (command === 'start') {
-			shouldOpenBrowser = args['skip-browser'] !== true;
-
-			// Enable auto-mount unless explicitly disabled
-			if (!args['no-auto-mount']) {
-				args['auto-mount'] = args['autoMount'] =
-					(args['path'] as string) || process.cwd();
-			}
-
-			// Verbosity handling
-			if (args['quiet']) {
-				args['verbosity'] = 'quiet';
-			}
-
-			// Intl is always enabled for the start command
-			args['intl'] = true;
-		}
-
 		const cliArgs = {
 			...args,
-			// The 'start' command internally runs as 'server'
-			command: command === 'start' ? 'server' : command,
+			command,
 			mount: [
 				...((args['mount'] as Mount[]) || []),
 				...((args['mount-dir'] as Mount[]) || []),
@@ -611,11 +595,6 @@ export async function parseOptionsAndRunCLI(argsToParse: string[]) {
 		if (cliServer === undefined) {
 			// No server was started, so we are done with our work.
 			process.exit(0);
-		}
-
-		// Open browser for the 'start' command
-		if (shouldOpenBrowser) {
-			openInBrowser(cliServer.serverUrl);
 		}
 
 		const cleanUpCliAndExit = (() => {
@@ -640,6 +619,7 @@ export async function parseOptionsAndRunCLI(argsToParse: string[]) {
 		process.on('SIGINT', cleanUpCliAndExit);
 		process.on('SIGTERM', cleanUpCliAndExit);
 	} catch (e) {
+		console.error(e);
 		if (!(e instanceof Error)) {
 			throw e;
 		}
@@ -659,6 +639,16 @@ export async function parseOptionsAndRunCLI(argsToParse: string[]) {
 		}
 		process.exit(1);
 	}
+}
+
+function getMountForVfsPath(
+	mounts: Mount[],
+	vfsPath: string
+): Mount | undefined {
+	return mounts.find(
+		(mount) =>
+			mount.vfsPath.replace(/\/$/, '') === vfsPath.replace(/\/$/, '')
+	);
 }
 
 export interface RunCLIArgs {
@@ -712,6 +702,7 @@ export interface RunCLIArgs {
 	path?: string;
 	skipBrowser?: boolean;
 	noAutoMount?: boolean;
+	reset?: boolean;
 }
 
 type PlaygroundCliWorker =
@@ -737,6 +728,9 @@ export interface RunCLIServer extends AsyncDisposable {
 const bold = (text: string) =>
 	process.stdout.isTTY ? '\x1b[1m' + text + '\x1b[0m' : text;
 
+const red = (text: string) =>
+	process.stdout.isTTY ? '\x1b[31m' + text + '\x1b[0m' : text;
+
 const dim = (text: string) =>
 	process.stdout.isTTY ? `\x1b[2m${text}\x1b[0m` : text;
 
@@ -753,6 +747,9 @@ export async function runCLI(
 	args: RunCLIArgs & { command: 'build-snapshot' | 'run-blueprint' }
 ): Promise<void>;
 export async function runCLI(
+	args: RunCLIArgs & { command: 'start' }
+): Promise<RunCLIServer>;
+export async function runCLI(
 	args: RunCLIArgs & { command: 'server' }
 ): Promise<RunCLIServer>;
 export async function runCLI(args: RunCLIArgs): Promise<RunCLIServer | void>;
@@ -765,10 +762,10 @@ export async function runCLI(args: RunCLIArgs): Promise<RunCLIServer | void> {
 		RemoteAPI<PlaygroundCliWorker>
 	> = new Map();
 
-	/**
-	 * Expand auto-mounts to include the necessary mounts and steps
-	 * when running in auto-mount mode.
-	 */
+	if (args.command === 'start') {
+		args = expandStartCommandArgs(args);
+	}
+
 	if (args.autoMount !== undefined) {
 		if (args.autoMount === '') {
 			// No auto-mount path was provided, so use the current working directory.
@@ -832,7 +829,7 @@ export async function runCLI(args: RunCLIArgs): Promise<RunCLIServer | void> {
 
 	logger.log('Starting a PHP server...');
 
-	return startServer({
+	const server = await startServer({
 		port: selectedPort,
 		onBind: async (server: Server, port: number) => {
 			const host = '127.0.0.1';
@@ -1315,6 +1312,111 @@ export async function runCLI(args: RunCLIArgs): Promise<RunCLIServer | void> {
 			return await loadBalancer.handleRequest(request);
 		},
 	});
+
+	if (server && args.command === 'start' && !args.skipBrowser) {
+		openInBrowser(server.serverUrl);
+	}
+	return server;
+}
+
+/**
+ * Transforms CLI args for the `start` command into the `server` command arguments.
+ *
+ * (Yes, the `start` command is just a convenience wrapper to provide useful defaults
+ * for the `server` command.)
+ */
+function expandStartCommandArgs(
+	args: RunCLIArgs & { reset?: boolean }
+): RunCLIArgs {
+	let newArgs = { ...args, command: 'server' };
+
+	/**
+	 * Enable auto-mount unless explicitly disabled
+	 */
+	if (!args.noAutoMount) {
+		newArgs.autoMount = path.resolve(process.cwd(), newArgs['path'] ?? '');
+		newArgs = expandAutoMounts(newArgs as RunCLIArgs);
+		// Delete the autoMount argument to avoid double expansion later on.
+		delete newArgs.autoMount;
+	}
+
+	const existingSiteRootMount =
+		getMountForVfsPath(
+			newArgs['mount-before-install'] || [],
+			'/wordpress'
+		) || getMountForVfsPath(newArgs.mount || [], '/wordpress');
+
+	/**
+	 * Persist the site into a ~/.wordpress-playground/sites/<site-id> directory,
+	 * but only if we don't have an explicit mount for the /wordpress VFS path.
+	 *
+	 * Why the limitation?
+	 *
+	 * Because we can only do one of the two:
+	 *
+	 * 1. Mount host path /my/wordpress/site directory at /wordpress VFS path
+	 * 2. Mount host path ~/.wordpress-playground/sites/<site-id> directory at /wordpress VFS path
+	 *
+	 * When either the user or expandAutoMounts() already provided a mount for the /wordpress VFS path,
+	 * it means a WordPress installation is already present in that directory. In this case, that's our
+	 * persistent store.
+	 */
+	if (!existingSiteRootMount) {
+		/**
+		 * Persist the sites by default by mounting a real, stable directory
+		 * as the site root.
+		 */
+		const currentSitePath = newArgs['autoMount'] || process.cwd();
+		const currentSiteHash = createHash('sha256')
+			.update(currentSitePath as string)
+			.digest('hex');
+
+		const homeDir = os.homedir();
+		const hostPath = path.join(
+			homeDir,
+			'.wordpress-playground/sites',
+			currentSiteHash
+		);
+		console.log('Site files stored at:', hostPath);
+
+		if (existsSync(hostPath) && (args['reset'] as boolean)) {
+			console.log('Resetting site...');
+			rmdirSync(hostPath, { recursive: true });
+		}
+		mkdirSync(hostPath, { recursive: true });
+		newArgs['mount-before-install'] = [
+			...((newArgs['mount-before-install'] || []) as Mount[]),
+			{ vfsPath: '/wordpress', hostPath },
+		];
+
+		newArgs.wordpressInstallMode =
+			readdirSync(hostPath).length === 0
+				? // Only download WordPress on the first run when the site directory is still
+					// empty.
+					'download-and-install'
+				: // After that, reuse the WordPress installation from the initial run.
+					'install-from-existing-files-if-needed';
+	} else {
+		console.log('Site files stored at:', existingSiteRootMount?.hostPath);
+		if (args['reset']) {
+			console.log(``);
+			console.log(
+				red(
+					`This site is not managed by Playground CLI and cannot be reset.`
+				)
+			);
+			console.log(
+				`(It's not stored in the ~/.wordpress-playground/sites/<site-id> directory.)`
+			);
+			console.log(``);
+			console.log(
+				`You may still remove the site's directory manually if you wish.`
+			);
+			process.exit(1);
+		}
+	}
+
+	return newArgs as RunCLIArgs;
 }
 
 export type SpawnedWorker = {
