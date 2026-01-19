@@ -9,6 +9,33 @@ All notable changes to this project are documented in this file by a CI job
 that runs on every NPM release. The file follows the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 format.
 
+## [v3.0.43] (2026-01-19) 
+
+### Enhancements
+
+- Add CLAUDE.md for AI assistant guidance. ([#3136](https://github.com/WordPress/wordpress-playground/pull/3136))
+
+### PHP WebAssembly
+
+- Remove support for PHP 7.2 and 7.3. ([#3127](https://github.com/WordPress/wordpress-playground/pull/3127))
+- [PHP] Add mmap support to proxyFS. ([#3126](https://github.com/WordPress/wordpress-playground/pull/3126))
+- [PHP] Cleanup 7.2 and 7.3-specific build code. ([#3137](https://github.com/WordPress/wordpress-playground/pull/3137))
+
+### Website
+
+- Always offer to save the site when unrecognized ?site-slug= is used. ([#3135](https://github.com/WordPress/wordpress-playground/pull/3135))
+
+### Various
+
+- Updating @vitejs/plugin-react to version 5.1.2 in package.json. ([#3110](https://github.com/WordPress/wordpress-playground/pull/3110))
+
+### Contributors
+
+The following contributors merged PRs in this release:
+
+@adamziel @fellyph
+
+
 ## [v3.0.42] (2026-01-15) 
 
 ### Enhancements
