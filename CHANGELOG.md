@@ -4,6 +4,53 @@ All notable changes to this project are documented in this file by a CI job
 that runs on every NPM release. The file follows the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 format.
 
+## [v3.0.48] (2026-02-11) 
+
+### Enhancements
+
+- [CLI] Add --phpmyadmin flag for database management. ([#3224](https://github.com/WordPress/wordpress-playground/pull/3224))
+
+### PHP WebAssembly
+
+- [PHP-wasm] Convert paths to Posix paths during symlink mounting. ([#3253](https://github.com/WordPress/wordpress-playground/pull/3253))
+
+### Website
+
+- Add URL route to open Blueprint Gallery via ?overlay=blueprints. ([#3220](https://github.com/WordPress/wordpress-playground/pull/3220))
+- Remove breakpoint helpers, rewrite AI-generated comments. ([#3259](https://github.com/WordPress/wordpress-playground/pull/3259))
+
+### Bug Fixes
+
+- Avoid blueprints package dependency on @php-wasm/web. ([#3257](https://github.com/WordPress/wordpress-playground/pull/3257))
+
+### Various
+
+- Add PHPProcessManager test for request queuing and instance reuse. ([#3233](https://github.com/WordPress/wordpress-playground/pull/3233))
+- Add ashfame to workflow maintainers list. ([#3250](https://github.com/WordPress/wordpress-playground/pull/3250))
+- Add clarifying comment. ([#3251](https://github.com/WordPress/wordpress-playground/pull/3251))
+- Downgrade nvm version to 20.18.3. ([#3260](https://github.com/WordPress/wordpress-playground/pull/3260))
+- Revert "Update @types/node and node versions in package.json (#3247)". ([#3256](https://github.com/WordPress/wordpress-playground/pull/3256))
+- Switch to a robust check for node env detection. ([#3248](https://github.com/WordPress/wordpress-playground/pull/3248))
+- Update @types/node and node versions in package.json. ([#3247](https://github.com/WordPress/wordpress-playground/pull/3247))
+- Update NPM packages with vulnerabilities. ([#3241](https://github.com/WordPress/wordpress-playground/pull/3241))
+- [Docs] Adding playground for everyone guide. ([#3103](https://github.com/WordPress/wordpress-playground/pull/3103))
+- [docs] Updating host own playground page. ([#3242](https://github.com/WordPress/wordpress-playground/pull/3242))
+- [docs] Updating screenshots and content from web instance page. ([#3188](https://github.com/WordPress/wordpress-playground/pull/3188))
+- [i18n] Add Bengali translation for guides/index.md. ([#3230](https://github.com/WordPress/wordpress-playground/pull/3230))
+- [i18n] Add Bengali translation for guides/playground-for-everyone.md. ([#3249](https://github.com/WordPress/wordpress-playground/pull/3249))
+- [i18n] Add Bengali translation for guides/wordpress-native-ios-app.md. ([#3231](https://github.com/WordPress/wordpress-playground/pull/3231))
+- [i18n] Add Bengali translation for test.md. ([#3229](https://github.com/WordPress/wordpress-playground/pull/3229))
+- [i18n] Update translations.md for multiple languages. ([#3177](https://github.com/WordPress/wordpress-playground/pull/3177))
+- [i18n] ja translations developer architecture PHP browser-concepts an…. ([#3228](https://github.com/WordPress/wordpress-playground/pull/3228))
+- feat: [website] UI Architecture Improvement Plan #3100 - Code Splitting, Modal Registry, and Responsive Design. ([#3109](https://github.com/WordPress/wordpress-playground/pull/3109))
+
+### Contributors
+
+The following contributors merged PRs in this release:
+
+@adamziel @ashfame @bgrgicak @bph @brandonpayton @fellyph @JanJakes @mho22 @noruzzamans @Omcodes23 @shimotmk
+
+
 ## [v3.0.47] (2026-02-02) 
 
 ### Blueprints
