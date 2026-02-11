@@ -1,7 +1,7 @@
 import type { PayloadAction, Middleware } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { BlueprintStepExecutionError } from '@wp-playground/blueprints';
-import { isSmallerScreen } from '../../constants/breakpoints';
+import { BREAKPOINTS } from '../../constants/breakpoints';
 
 export type SiteError =
 	| 'directory-handle-not-found-in-indexeddb'
@@ -153,8 +153,6 @@ export interface UIState {
 
 const query = new URL(document.location.href).searchParams;
 const isEmbeddedInAnIframe = window.self !== window.top;
-// Centralized breakpoint check: includes both mobile and tablet sizes (< 875px)
-const isSmallScreen = isSmallerScreen();
 
 const shouldOpenSiteManagerByDefault = false;
 
@@ -186,7 +184,7 @@ const initialState: UIState = {
 		// Don't default to the site manager on small screens (mobile/tablet),
 		// as that would mean seeing something that's not Playground filling
 		// your entire screen – quite a confusing experience.
-		!isSmallScreen,
+		window.innerWidth >= BREAKPOINTS.tablet,
 	siteManagerSection: 'site-details',
 };
 
