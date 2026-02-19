@@ -10,6 +10,7 @@ import {
 } from '@php-wasm/universal';
 import {
 	PHPResponse,
+	StreamedPHPResponse,
 	HttpCookieStore,
 	exposeAPI,
 	exposeSyncAPI,
@@ -1463,9 +1464,9 @@ export async function runCLI(args: RunCLIArgs): Promise<RunCLIServer | void> {
 				throw new Error(phpLogs, { cause: error });
 			}
 		},
-		async handleRequest(request: PHPRequest) {
+		async handleRequest(request: PHPRequest): Promise<StreamedPHPResponse> {
 			if (!wordPressReady) {
-				return PHPResponse.forHttpCode(
+				return StreamedPHPResponse.forHttpCode(
 					502,
 					'WordPress is not ready yet'
 				);
@@ -1490,7 +1491,9 @@ export async function runCLI(args: RunCLIArgs): Promise<RunCLIServer | void> {
 						'playground_auto_login_already_happened=1; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Path=/',
 					];
 				}
-				return new PHPResponse(302, headers, new Uint8Array());
+				return StreamedPHPResponse.fromPHPResponse(
+					new PHPResponse(302, headers, new Uint8Array())
+				);
 			}
 			if (cookieStore) {
 				request = {
@@ -1509,16 +1512,15 @@ export async function runCLI(args: RunCLIArgs): Promise<RunCLIServer | void> {
 
 			// TODO: Explore switching to a worker thread method to adopt an entire HTTP connection
 			// It might be more efficient to let the worker respond directly
-			const response = await playgroundPool.request(request);
+			const response = await playgroundPool.requestStreamed(request);
 
 			if (cookieStore) {
-				cookieStore.rememberCookiesFromResponseHeaders(
-					response.headers
-				);
+				const headers = await response.headers;
+				cookieStore.rememberCookiesFromResponseHeaders(headers);
 				// While we have an internal cookie store, we filter out the
 				// Set-Cookie headers from responses so the browser does not
 				// attempt to manage cookies at the same time as the server.
-				delete response.headers['set-cookie'];
+				delete headers['set-cookie'];
 			}
 
 			return response;

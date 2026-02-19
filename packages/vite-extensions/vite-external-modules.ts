@@ -25,6 +25,8 @@ export const getExternalModules = () => {
 		'child_process',
 		'http',
 		'path',
+		'stream',
+		'stream/promises',
 		'tls',
 		'util',
 		'dns',

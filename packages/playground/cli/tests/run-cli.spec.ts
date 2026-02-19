@@ -1103,11 +1103,136 @@ describe('other run-cli behaviors', () => {
 			const throwAnError = (() => {
 				throw new Error('test error');
 			}) as any;
-			cliServer.playground.request = throwAnError;
+			cliServer.playground.requestStreamed = throwAnError;
 
 			const response = await fetch(new URL('/', cliServer.serverUrl));
 			expect(response.status).toBe(500);
 		});
+	});
+
+	describe('streaming responses', () => {
+		test('should handle streaming responses correctly', async () => {
+			await using cliServer = await runCLI({
+				command: 'server',
+				wordpressInstallMode: 'do-not-attempt-installing',
+				skipSqliteSetup: true,
+				blueprint: undefined,
+			});
+
+			// Custom headers are returned in HTTP response
+			await cliServer.playground.writeFile(
+				'/wordpress/custom-headers.php',
+				`<?php
+					header('X-Custom-Header: test-value');
+					header('X-Another: hello');
+					echo 'done';
+					`
+			);
+			const headersResponse = await fetch(
+				new URL('/custom-headers.php', cliServer.serverUrl)
+			);
+			expect(headersResponse.status).toBe(200);
+			expect(headersResponse.headers.get('x-custom-header')).toBe(
+				'test-value'
+			);
+			expect(headersResponse.headers.get('x-another')).toBe('hello');
+			expect(await headersResponse.text()).toBe('done');
+
+			// Status codes are propagated from PHP
+			await cliServer.playground.writeFile(
+				'/wordpress/not-found.php',
+				`<?php
+					http_response_code(404);
+					echo 'Not Found';
+					`
+			);
+			const notFoundResponse = await fetch(
+				new URL('/not-found.php', cliServer.serverUrl)
+			);
+			expect(notFoundResponse.status).toBe(404);
+
+			// Large streaming output is returned completely
+			await cliServer.playground.writeFile(
+				'/wordpress/large-output.php',
+				`<?php
+					for ($i = 0; $i < 100; $i++) {
+						echo "Line $i\\n";
+					}
+					`
+			);
+			const largeResponse = await fetch(
+				new URL('/large-output.php', cliServer.serverUrl)
+			);
+			expect(largeResponse.status).toBe(200);
+			const largeText = await largeResponse.text();
+			expect(largeText).toContain('Line 0');
+			expect(largeText).toContain('Line 99');
+			expect(largeText.trim().split('\n')).toHaveLength(100);
+
+			// PHP fatal error does not crash the server
+			await cliServer.playground.writeFile(
+				'/wordpress/fatal.php',
+				`<?php
+					undefined_function_that_does_not_exist();
+					`
+			);
+			const fatalResponse = await fetch(
+				new URL('/fatal.php', cliServer.serverUrl)
+			);
+			// In streaming mode, headers are sent before exit code
+			// is known, so the status may be 200. The key assertion
+			// is that the server does not crash.
+			expect(fatalResponse.status).toBeLessThan(600);
+		}, 60_000);
+
+		test('should handle client disconnect during streaming', async () => {
+			await using cliServer = await runCLI({
+				command: 'server',
+				wordpressInstallMode: 'do-not-attempt-installing',
+				skipSqliteSetup: true,
+				blueprint: undefined,
+			});
+
+			// PHP script that produces a large stream (enough to
+			// read a chunk, but finite so the worker is freed)
+			await cliServer.playground.writeFile(
+				'/wordpress/large-stream.php',
+				`<?php
+					for ($i = 0; $i < 1000; $i++) {
+						echo str_repeat("x", 1024) . "\\n";
+						flush();
+					}
+				`
+			);
+
+			const controller = new AbortController();
+			const response = await fetch(
+				new URL('/large-stream.php', cliServer.serverUrl),
+				{ signal: controller.signal }
+			);
+
+			// Read at least one chunk to confirm streaming started
+			const reader = response.body!.getReader();
+			const { done } = await reader.read();
+			expect(done).toBe(false);
+
+			// Abort mid-stream
+			reader.cancel();
+			controller.abort();
+
+			// Wait for the PHP script to finish and free the worker
+			await new Promise((r) => setTimeout(r, 2000));
+
+			// Server should still be responsive
+			await cliServer.playground.writeFile(
+				'/wordpress/health.php',
+				`<?php echo 'ok';`
+			);
+			const healthCheck = await fetch(
+				new URL('/health.php', cliServer.serverUrl)
+			);
+			expect(healthCheck.status).toBe(200);
+		}, 60_000);
 	});
 
 	describe('internal cookie store', () => {
