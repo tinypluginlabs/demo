@@ -48,7 +48,6 @@ import {
 	SupportedPHPVersions,
 	FileLockManagerInMemory,
 } from '@php-wasm/universal';
-import { cpus } from 'os';
 import type { MessagePort as NodeMessagePort } from 'worker_threads';
 import yargs, { type Argv, type Options as YargsOptions } from 'yargs';
 import { isValidWordPressSlug } from './is-valid-wordpress-slug';
@@ -94,9 +93,6 @@ export const LogVerbosity = {
 type LogVerbosity = (typeof LogVerbosity)[keyof typeof LogVerbosity]['name'];
 
 export type WorkerType = 'v1' | 'v2';
-
-// TODO: Consider creating more workers on demand if other workers blocked to avoid deadlock.
-const MINIMUM_WORKER_COUNT = 10;
 
 /**
  * Parse the CLI args and run the appropriate command.
@@ -992,10 +988,22 @@ export async function runCLI(args: RunCLIArgs): Promise<RunCLIServer | void> {
 			const serverUrl = `http://${host}:${port}`;
 			const siteUrl = args['site-url'] || serverUrl;
 
-			const targetWorkerCount = Math.max(
-				cpus().length - 1,
-				MINIMUM_WORKER_COUNT
-			);
+			/**
+			 * With HTTP 1.1, browsers typically support 6 parallel connections per domain.
+			 * > browsers open several connections to each domain,
+			 * > sending parallel requests. Default was once 2 to 3 connections,
+			 * > but this has now increased to a more common use of 6 parallel connections.
+			 * https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Connection_management_in_HTTP_1.x#domain_sharding
+			 *
+			 * While our HTTP server only supports HTTP 1.1 and while we are trying to limit the
+			 * memory requirements of multiple workers, let's hard-code the number of request-handling
+			 * workers to 6.
+			 *
+			 * Going higher than browsers' max concurrent requests seems pointless,
+			 * and going lower may increase the likelihood of deadlock due to workers
+			 * blocking and waiting for file locks.
+			 */
+			const targetWorkerCount = 6;
 
 			/*
 			 * Use a real temp dir as a target for the following Playground paths
