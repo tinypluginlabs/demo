@@ -84,17 +84,56 @@ const LibraryExample = {
 							LOCK_UN: 8, // Unlock
 						},
 						errnoCodes: ERRNO_CODES,
+						// Use get/set closures instead of exposing
+						// typed arrays directly. After memory.grow(),
+						// Emscripten's updateMemoryViews() reassigns
+						// the module-scoped HEAP* variables. Closures
+						// always reference the current value, so
+						// accesses are never stale. The get/set
+						// interface also prevents callers from
+						// capturing a typed array reference that
+						// could become stale.
 						memory: {
-							HEAP8,
-							HEAPU8,
-							HEAP16,
-							HEAPU16,
-							HEAP32,
-							HEAPU32,
-							HEAPF32,
-							HEAP64,
-							HEAPU64,
-							HEAPF64,
+							HEAP8: {
+								get(offset) { return HEAP8[offset]; },
+								set(offset, value) { HEAP8[offset] = value; },
+							},
+							HEAPU8: {
+								get(offset) { return HEAPU8[offset]; },
+								set(offset, value) { HEAPU8[offset] = value; },
+							},
+							HEAP16: {
+								get(offset) { return HEAP16[offset]; },
+								set(offset, value) { HEAP16[offset] = value; },
+							},
+							HEAPU16: {
+								get(offset) { return HEAPU16[offset]; },
+								set(offset, value) { HEAPU16[offset] = value; },
+							},
+							HEAP32: {
+								get(offset) { return HEAP32[offset]; },
+								set(offset, value) { HEAP32[offset] = value; },
+							},
+							HEAPU32: {
+								get(offset) { return HEAPU32[offset]; },
+								set(offset, value) { HEAPU32[offset] = value; },
+							},
+							HEAPF32: {
+								get(offset) { return HEAPF32[offset]; },
+								set(offset, value) { HEAPF32[offset] = value; },
+							},
+							HEAP64: {
+								get(offset) { return HEAP64[offset]; },
+								set(offset, value) { HEAP64[offset] = value; },
+							},
+							HEAPU64: {
+								get(offset) { return HEAPU64[offset]; },
+								set(offset, value) { HEAPU64[offset] = value; },
+							},
+							HEAPF64: {
+								get(offset) { return HEAPF64[offset]; },
+								set(offset, value) { HEAPF64[offset] = value; },
+							},
 						},
 						wasmImports,
 						wasmExports,
