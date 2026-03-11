@@ -87,7 +87,8 @@ export function startMcpBridge(
 					config,
 					method,
 					args || [],
-					siteSlug
+					siteSlug,
+					port
 				);
 				if (ws?.readyState === WebSocket.OPEN) {
 					ws.send(JSON.stringify({ id, type: 'response', value }));
@@ -151,10 +152,13 @@ async function handleCommand(
 	config: PlaygroundConfig,
 	method: string,
 	args: unknown[],
-	siteSlug: string
+	siteSlug: string,
+	port: number
 ): Promise<unknown> {
 	if (method === '__open_site') {
 		const url = new URL(window.location.href);
+		url.searchParams.set('mcp', 'yes');
+		url.searchParams.set('mcp-port', String(port));
 		url.searchParams.set('site-slug', siteSlug);
 		const newWindow = window.open(url.toString(), '_blank');
 		if (!newWindow) {
