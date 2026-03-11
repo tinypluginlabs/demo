@@ -400,7 +400,9 @@ export function getSiteToolDefinitions(
 			other operation.
 
 			If this returns no sites, the user may need to
-			open Playground at ${url} .
+			open Playground in their browser. Use
+			playground_get_website_url to get the exact URL
+			to send to the user.
 
 			Returns site names and storage type. "temporary"
 			sites are lost on page reload, "opfs" sites persist
@@ -462,6 +464,23 @@ export function getSiteToolDefinitions(
 			annotations: {
 				readOnlyHint: false,
 				destructiveHint: false,
+			},
+			params: [],
+		},
+		playground_get_website_url: {
+			title: 'Get Playground Website URL',
+			errorPrefix: 'Error getting website URL',
+			description: `Return the URL the user must open in their
+			browser to use WordPress Playground with this MCP
+			server. Use this tool whenever you need to send
+			the user to Playground or open it autonomously —
+			always obtain the URL from this tool rather than
+			constructing it manually.`,
+			annotations: {
+				readOnlyHint: true,
+				destructiveHint: false,
+				idempotentHint: true,
+				openWorldHint: false,
 			},
 			params: [],
 		},

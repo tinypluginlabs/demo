@@ -1,6 +1,5 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { createRequire } from 'module';
-import { playgroundUrl } from './tools/tool-definitions';
 
 const require = createRequire(import.meta.url);
 let packageVersion: string;
@@ -12,17 +11,16 @@ try {
 }
 
 export function createServer(port: number): McpServer {
-	const url = playgroundUrl(port);
 	return new McpServer({
 		name: 'wordpress-playground',
 		version: packageVersion,
 		description: `Use this server when you need a live WordPress environment without any local setup. \
 			WordPress Playground runs entirely in the user's browser tab via WebAssembly — no PHP, MySQL, \
 			or server required. You are automatically authenticated as an admin user.\n\n\
-			PREREQUISITE: The user must have WordPress Playground open in their browser at \
-			${url} . Ask the user to open this URL if it is not already open.\n\n\
-			Typical workflow: playground_list_sites → playground_save_site → filesystem/PHP operations \
-			→ playground_navigate to verify results.\n\n\
+			PREREQUISITE: Call playground_list_sites first. If no browser is connected, \
+			call playground_get_website_url to get the exact URL and ask the user to open it. \n\n\
+			Typical workflow: playground_list_sites → playground_save_site \
+			→ filesystem/PHP operations → playground_navigate to verify results.\n\n\
 			Capabilities: execute arbitrary PHP with full WordPress access, read/write files in the virtual filesystem \
 			(WordPress root: /wordpress/), make HTTP requests to the site, navigate the browser, \
 			and manage multiple Playground sites simultaneously.\n\n\

@@ -41,7 +41,7 @@ Add to `~/.gemini/settings.json` (or `.gemini/settings.json` in your project):
 
 ### 2. Open the Playground website
 
-Your AI assistant will ask you to open the Playground website and provide the exact URL.
+Your AI assistant will ask you to open the Playground website and provide the exact URL. You can also ask it: _"What's the Playground website URL?"_
 
 ## How it works
 
@@ -59,7 +59,7 @@ The MCP bridge runs locally and is only accessible from your machine — connect
 
 ## Available tools
 
-**Site management**: `playground_list_sites`, `playground_open_site`, `playground_rename_site`, `playground_save_site`
+**Site management**: `playground_get_website_url`, `playground_list_sites`, `playground_open_site`, `playground_rename_site`, `playground_save_site`
 
 **Code execution**: `playground_execute_php`, `playground_request`
 

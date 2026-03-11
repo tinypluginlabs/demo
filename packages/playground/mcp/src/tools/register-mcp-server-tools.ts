@@ -201,6 +201,25 @@ export function registerMcpServerTools(
 		}
 	);
 
+	const getWebsiteUrl = siteToolDefinitions['playground_get_website_url'];
+	server.registerTool(
+		'playground_get_website_url',
+		{
+			title: getWebsiteUrl.title,
+			description: getWebsiteUrl.description,
+			inputSchema: z.object({}),
+			annotations: getWebsiteUrl.annotations,
+		},
+		async () => ({
+			content: [
+				{
+					type: 'text' as const,
+					text: JSON.stringify({ url }),
+				},
+			],
+		})
+	);
+
 	const saveSite = siteToolDefinitions['playground_save_site'];
 	server.registerTool(
 		'playground_save_site',
