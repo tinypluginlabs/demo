@@ -18,7 +18,7 @@ Add to your Claude Code `.mcp.json` or Claude Desktop `claude_desktop_config.jso
 		"wordpress-playground": {
 			"type": "stdio",
 			"command": "npx",
-			"args": ["@wp-playground/mcp"]
+			"args": ["-y", "@wp-playground/mcp"]
 		}
 	}
 }
@@ -33,7 +33,7 @@ Add to `~/.gemini/settings.json` (or `.gemini/settings.json` in your project):
 	"mcpServers": {
 		"wordpress-playground": {
 			"command": "npx",
-			"args": ["@wp-playground/mcp"]
+			"args": ["-y", "@wp-playground/mcp"]
 		}
 	}
 }
@@ -41,7 +41,31 @@ Add to `~/.gemini/settings.json` (or `.gemini/settings.json` in your project):
 
 ### 2. Open the Playground website
 
-Navigate to https://playground.wordpress.net/?mcp=yes in your browser. The MCP bridge connects automatically.
+Your AI assistant will ask you to open the Playground website and provide the exact URL.
+
+## How it works
+
+```
+AI Client (stdio) → MCP Server (Node.js) → WebSocket (port 7999) → Browser (Playground website)
+```
+
+The MCP server communicates with AI clients via stdio and with the browser via WebSocket. A bridge client (`bridge-client.ts`) integrated into the Playground website via Redux middleware auto-connects to the WebSocket server and proxies commands to the PlaygroundClient API.
+
+## Security
+
+The MCP bridge runs locally and is only accessible from your machine — connections are origin-restricted and require a token generated at server startup, preventing other websites from hijacking it.
+
+**Note:** A compromised WordPress site could attempt prompt injection by embedding instructions in its content (e.g. in a page, post, or PHP output). Use a capable model — larger models are generally better at detecting these attempts.
+
+## Available tools
+
+**Site management**: `playground_list_sites`, `playground_open_site`, `playground_rename_site`, `playground_save_site`
+
+**Code execution**: `playground_execute_php`, `playground_request`
+
+**Navigation & info**: `playground_navigate`, `playground_get_current_url`, `playground_get_site_info`
+
+**Filesystem**: `playground_read_file`, `playground_write_file`, `playground_list_files`, `playground_mkdir`, `playground_delete_file`, `playground_delete_directory`, `playground_file_exists`
 
 ## Development
 
@@ -76,21 +100,3 @@ Replace `ABS_PATH_TO_PLAYGROUND` with the absolute path to your local checkout o
 ### 3. Open the Playground website
 
 Navigate to http://127.0.0.1:5400/website-server/?mcp=yes in your browser. The MCP bridge connects automatically.
-
-## How it works
-
-```
-AI Client (stdio) → MCP Server (Node.js) → WebSocket (port 7999) → Browser (Playground website)
-```
-
-The MCP server communicates with AI clients via stdio and with the browser via WebSocket. A bridge client (`bridge-client.ts`) integrated into the Playground website via Redux middleware auto-connects to the WebSocket server and proxies commands to the PlaygroundClient API.
-
-## Available tools
-
-**Site management**: `playground_list_sites`, `playground_open_site`, `playground_rename_site`, `playground_save_site`
-
-**Code execution**: `playground_execute_php`, `playground_request`
-
-**Navigation & info**: `playground_navigate`, `playground_get_current_url`, `playground_get_site_info`
-
-**Filesystem**: `playground_read_file`, `playground_write_file`, `playground_list_files`, `playground_mkdir`, `playground_delete_file`, `playground_delete_directory`, `playground_file_exists`
