@@ -7,6 +7,15 @@
 	"targets": {
 		"build": {
 			"executor": "nx:noop",
+			"dependsOn": ["build:README"]
+		},
+		"build:README": {
+			"executor": "nx:run-commands",
+			"options": {
+				"commands": [
+					"cp packages/playground/mcp/README.md dist/packages/playground/mcp"
+				]
+			},
 			"dependsOn": ["build:package-json"]
 		},
 		"build:package-json": {
