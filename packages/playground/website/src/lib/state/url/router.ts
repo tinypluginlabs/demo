@@ -49,6 +49,9 @@ export class PlaygroundRoute {
 				'login',
 				'url',
 				'page-title',
+				'mcp',
+				'mcp-port',
+				'can-save',
 			];
 			const preserveParams: Record<string, string | null> = {};
 			for (const param of preserveParamsKeys) {
