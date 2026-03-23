@@ -58,11 +58,11 @@ jobs:
               run: |
                   git config --global user.name "github-actions[bot]"
                   git config --global user.email "github-actions[bot]@users.noreply.github.com"
-                  git add dist/packages/playground/wasm-wordpress-net
+                  git add dist
                   if git diff --cached --quiet; then
                     echo "No changes to commit"
                   else
-                    git commit -m "Deploy website: Update dist/packages/playground/wasm-wordpress-net"
+                    git commit -m "Deploy website: Update dist directory"
                     git push origin ${{ vars.GIT_REF_TO_DEPLOY || 'trunk' }}
                   fi
 

@@ -2,9 +2,6 @@
 
 # compiled output
 .nx
-/dist
-# Allow committing the built website
-!/dist/packages/playground/wasm-wordpress-net
 tmp
 var
 /out-tsc
