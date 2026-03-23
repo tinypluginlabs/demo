@@ -3,8 +3,8 @@ name: Deploy Playground website
 on:
     workflow_dispatch:
     # Deploy the website every Tuesday at 11am UTC
-    schedule:
-        - cron: '0 11 * * 2'
+    # schedule:
+    #     - cron: '0 11 * * 2'
 
 concurrency:
     group: website-deployment
@@ -12,20 +12,20 @@ concurrency:
 jobs:
     build_and_deploy:
         # Only run this workflow from the trunk branch and when it's triggered by another workflow OR a Playground maintainer
-        if: >
-            github.ref == 'refs/heads/trunk' && (
-                github.event_name == 'workflow_run' ||
-                (github.event_name == 'workflow_dispatch' && github.actor == 'github-actions[bot]') ||
-                github.actor == 'adamziel' ||
-                github.actor == 'akirk' ||
-                github.actor == 'dmsnell' ||
-                github.actor == 'bgrgicak' ||
-                github.actor == 'brandonpayton' ||
-                github.actor == 'zaerl' ||
-                github.actor == 'janjakes' ||
-                github.actor == 'mho22' ||
-                github.actor == 'ashfame'
-            )
+        # if: >
+        #     github.ref == 'refs/heads/trunk' && (
+        #         github.event_name == 'workflow_run' ||
+        #         (github.event_name == 'workflow_dispatch' && github.actor == 'github-actions[bot]') ||
+        #         github.actor == 'adamziel' ||
+        #         github.actor == 'akirk' ||
+        #         github.actor == 'dmsnell' ||
+        #         github.actor == 'bgrgicak' ||
+        #         github.actor == 'brandonpayton' ||
+        #         github.actor == 'zaerl' ||
+        #         github.actor == 'janjakes' ||
+        #         github.actor == 'mho22' ||
+        #         github.actor == 'ashfame'
+        #     )
 
         # Specify runner + deployment step
         runs-on: ubuntu-latest
