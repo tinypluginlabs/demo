@@ -66,6 +66,31 @@ jobs:
                     git push origin ${{ vars.GIT_REF_TO_DEPLOY || 'trunk' }}
                   fi
 
+            # Deploy to Cloudways server via SSH
+            # Required secrets:
+            # - CLOUDWAYS_SSH_HOST: The Cloudways server hostname/IP
+            # - CLOUDWAYS_SSH_USER: SSH username for Cloudways server
+            # - CLOUDWAYS_SSH_PRIVATE_KEY: Private SSH key for authentication
+            # - CLOUDWAYS_SSH_HOST_KEY: Known hosts entry for server verification
+            # - CLOUDWAYS_DEPLOY_PATH: Target directory path on Cloudways server
+            - name: Deploy to Cloudways server
+              shell: bash
+              run: |
+                  # Setup SSH
+                  mkdir -p ~/.ssh
+                  chmod 700 ~/.ssh
+                  echo "${{ secrets.CLOUDWAYS_SSH_HOST_KEY }}" >> ~/.ssh/known_hosts
+                  echo "${{ secrets.CLOUDWAYS_SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+                  chmod 600 ~/.ssh/id_ed25519
+                  chmod 644 ~/.ssh/known_hosts
+
+                  # Deploy website files using rsync
+                  rsync -avz -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes" --delete \
+                    dist/packages/playground/wasm-wordpress-net/ \
+                    ${{ secrets.CLOUDWAYS_SSH_USER }}@${{ secrets.CLOUDWAYS_SSH_HOST }}:${{ secrets.CLOUDWAYS_DEPLOY_PATH }}
+
+                  echo "Deployment to Cloudways completed successfully"
+
             # - name: Deploy Playground website build
             #   shell: bash
             #   run: |
