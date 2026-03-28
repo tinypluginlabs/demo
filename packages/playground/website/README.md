@@ -5,11 +5,35 @@ are pre-emptively downloaded and cached in the browser to support the offline mo
 want to add a new, bulky page without increasing the required download size, add it in the
 `playground-website-extras` package instead.
 
-## Query Parameters
+## Feature Control
 
-The Playground website supports several query parameters to control feature availability:
+The Playground website supports disabling specific features in two ways:
 
-### Feature Control Parameters
+### 1. Build-time Environment Variables (Permanent)
+
+Set these environment variables at build time to **permanently** disable features. Users cannot re-enable them via query parameters.
+
+- `VITE_CAN_SAVE=no` - Completely disables saving functionality
+- `VITE_CAN_INSTALL=no` - Completely disables plugin/theme installation
+- `VITE_CAN_EDIT=no` - Completely disables file editing
+
+**Example:** Create a `.env` file:
+```bash
+VITE_CAN_SAVE=no
+VITE_CAN_INSTALL=no
+VITE_CAN_EDIT=no
+```
+
+Then build:
+```bash
+npm run build
+```
+
+The built application will have these features permanently disabled.
+
+### 2. Runtime Query Parameters (Temporary)
+
+Use query parameters to temporarily disable features for specific URLs. Users can re-enable by changing the URL.
 
 - `?can-save=no` - Disables the save playground feature. Hides the save status indicator and prevents users from saving the playground state.
 - `?can-install=no` - Disables plugin/theme installation features. Hides:
@@ -23,6 +47,8 @@ These parameters can be combined to restrict multiple features simultaneously. F
 ```
 ?can-save=no&can-install=no&can-edit=no
 ```
+
+**Note:** If a feature is disabled via environment variable, query parameters have no effect.
 
 ## Development
 

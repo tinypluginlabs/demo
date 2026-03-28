@@ -92,22 +92,46 @@ export class PlaygroundRoute {
 }
 
 /**
- * Checks if the URL has a query parameter that disables saving.
+ * Checks if saving is disabled.
+ * Features can be disabled either at build time (via VITE_CAN_SAVE env var)
+ * or at runtime (via ?can-save=no query parameter).
  *
- * @returns {boolean} True if saving is disabled by the query parameter, false otherwise.
+ * @returns {boolean} True if saving is disabled, false otherwise.
  */
-export function isSaveDisabledByQueryParam(): boolean {
+export function isSaveDisabled(): boolean {
+	// Check build-time environment variable first
+	if (import.meta.env.VITE_CAN_SAVE === 'no') {
+		return true;
+	}
+	// Fall back to query parameter check
 	return (
 		new URL(document.location.href).searchParams.get('can-save') === 'no'
 	);
 }
 
 /**
- * Checks if the URL has a query parameter that disables plugin/theme installation.
+ * Checks if the URL has a query parameter that disables saving.
  *
- * @returns {boolean} True if installation is disabled by the query parameter, false otherwise.
+ * @deprecated Use isSaveDisabled() instead. This function is kept for backward compatibility.
+ * @returns {boolean} True if saving is disabled by the query parameter, false otherwise.
  */
-export function isInstallDisabledByQueryParam(): boolean {
+export function isSaveDisabledByQueryParam(): boolean {
+	return isSaveDisabled();
+}
+
+/**
+ * Checks if plugin/theme installation is disabled.
+ * Features can be disabled either at build time (via VITE_CAN_INSTALL env var)
+ * or at runtime (via ?can-install=no query parameter).
+ *
+ * @returns {boolean} True if installation is disabled, false otherwise.
+ */
+export function isInstallDisabled(): boolean {
+	// Check build-time environment variable first
+	if (import.meta.env.VITE_CAN_INSTALL === 'no') {
+		return true;
+	}
+	// Fall back to query parameter check
 	return (
 		new URL(document.location.href).searchParams.get('can-install') ===
 		'no'
@@ -115,14 +139,41 @@ export function isInstallDisabledByQueryParam(): boolean {
 }
 
 /**
- * Checks if the URL has a query parameter that disables file editing.
+ * Checks if the URL has a query parameter that disables plugin/theme installation.
  *
- * @returns {boolean} True if editing is disabled by the query parameter, false otherwise.
+ * @deprecated Use isInstallDisabled() instead. This function is kept for backward compatibility.
+ * @returns {boolean} True if installation is disabled by the query parameter, false otherwise.
  */
-export function isEditDisabledByQueryParam(): boolean {
+export function isInstallDisabledByQueryParam(): boolean {
+	return isInstallDisabled();
+}
+
+/**
+ * Checks if file editing is disabled.
+ * Features can be disabled either at build time (via VITE_CAN_EDIT env var)
+ * or at runtime (via ?can-edit=no query parameter).
+ *
+ * @returns {boolean} True if editing is disabled, false otherwise.
+ */
+export function isEditDisabled(): boolean {
+	// Check build-time environment variable first
+	if (import.meta.env.VITE_CAN_EDIT === 'no') {
+		return true;
+	}
+	// Fall back to query parameter check
 	return (
 		new URL(document.location.href).searchParams.get('can-edit') === 'no'
 	);
+}
+
+/**
+ * Checks if the URL has a query parameter that disables file editing.
+ *
+ * @deprecated Use isEditDisabled() instead. This function is kept for backward compatibility.
+ * @returns {boolean} True if editing is disabled by the query parameter, false otherwise.
+ */
+export function isEditDisabledByQueryParam(): boolean {
+	return isEditDisabled();
 }
 
 /**
