@@ -66,29 +66,29 @@ jobs:
                     git push origin ${{ vars.GIT_REF_TO_DEPLOY || 'trunk' }}
                   fi
 
-            - name: Deploy Playground website build
-              shell: bash
-              run: |
-                  mkdir -p ~/.ssh
-                  echo "${{ secrets.DEPLOY_WEBSITE_TARGET_HOST_KEY }}" >> ~/.ssh/known_hosts
-                  echo "${{ secrets.DEPLOY_WEBSITE_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-                  chmod 0600 ~/.ssh/*
+            # - name: Deploy Playground website build
+            #   shell: bash
+            #   run: |
+            #       mkdir -p ~/.ssh
+            #       echo "${{ secrets.DEPLOY_WEBSITE_TARGET_HOST_KEY }}" >> ~/.ssh/known_hosts
+            #       echo "${{ secrets.DEPLOY_WEBSITE_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+            #       chmod 0600 ~/.ssh/*
 
-                  # Website files
-                  rsync -avz -e "ssh -i ~/.ssh/id_ed25519" --delete \
-                    dist/packages/playground/wasm-wordpress-net/ \
-                    ${{ secrets.DEPLOY_WEBSITE_TARGET_USER }}@${{ secrets.DEPLOY_WEBSITE_TARGET_HOST }}:'~/updated-playground-files'
+            #       # Website files
+            #       rsync -avz -e "ssh -i ~/.ssh/id_ed25519" --delete \
+            #         dist/packages/playground/wasm-wordpress-net/ \
+            #         ${{ secrets.DEPLOY_WEBSITE_TARGET_USER }}@${{ secrets.DEPLOY_WEBSITE_TARGET_HOST }}:'~/updated-playground-files'
 
-                  # Include MIME types for use with PHP-served files
-                  cp packages/php-wasm/universal/src/lib/mime-types.json \
-                    packages/playground/website-deployment/
+            #       # Include MIME types for use with PHP-served files
+            #       cp packages/php-wasm/universal/src/lib/mime-types.json \
+            #         packages/playground/website-deployment/
 
-                  # Host-specific deployment scripts and server config
-                  rsync -avz -e "ssh -i ~/.ssh/id_ed25519" --delete \
-                    packages/playground/website-deployment/ \
-                    ${{ secrets.DEPLOY_WEBSITE_TARGET_USER }}@${{ secrets.DEPLOY_WEBSITE_TARGET_HOST }}:'~/website-deployment'
+            #       # Host-specific deployment scripts and server config
+            #       rsync -avz -e "ssh -i ~/.ssh/id_ed25519" --delete \
+            #         packages/playground/website-deployment/ \
+            #         ${{ secrets.DEPLOY_WEBSITE_TARGET_USER }}@${{ secrets.DEPLOY_WEBSITE_TARGET_HOST }}:'~/website-deployment'
 
-                  # Apply update
-                  ssh -i ~/.ssh/id_ed25519 \
-                    ${{ secrets.DEPLOY_WEBSITE_TARGET_USER }}@${{ secrets.DEPLOY_WEBSITE_TARGET_HOST }} \
-                    -tt -C '~/website-deployment/apply-update.sh'
+            #       # Apply update
+            #       ssh -i ~/.ssh/id_ed25519 \
+            #         ${{ secrets.DEPLOY_WEBSITE_TARGET_USER }}@${{ secrets.DEPLOY_WEBSITE_TARGET_HOST }} \
+            #         -tt -C '~/website-deployment/apply-update.sh'
