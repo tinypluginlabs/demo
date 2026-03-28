@@ -103,6 +103,29 @@ export function isSaveDisabledByQueryParam(): boolean {
 }
 
 /**
+ * Checks if the URL has a query parameter that disables plugin/theme installation.
+ *
+ * @returns {boolean} True if installation is disabled by the query parameter, false otherwise.
+ */
+export function isInstallDisabledByQueryParam(): boolean {
+	return (
+		new URL(document.location.href).searchParams.get('can-install') ===
+		'no'
+	);
+}
+
+/**
+ * Checks if the URL has a query parameter that disables file editing.
+ *
+ * @returns {boolean} True if editing is disabled by the query parameter, false otherwise.
+ */
+export function isEditDisabledByQueryParam(): boolean {
+	return (
+		new URL(document.location.href).searchParams.get('can-edit') === 'no'
+	);
+}
+
+/**
  * Checks if the MCP server bridge is enabled via the `?mcp=yes` query parameter.
  */
 export function isMcpServerEnabled(): boolean {

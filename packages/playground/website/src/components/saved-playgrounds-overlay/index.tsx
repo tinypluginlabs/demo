@@ -36,7 +36,11 @@ import {
 } from '../../lib/state/redux/slice-ui';
 import { WordPressIcon } from '@wp-playground/components';
 import useFetch from '../../lib/hooks/use-fetch';
-import { PlaygroundRoute, redirectTo } from '../../lib/state/url/router';
+import {
+	PlaygroundRoute,
+	redirectTo,
+	isInstallDisabledByQueryParam,
+} from '../../lib/state/url/router';
 import {
 	Overlay,
 	OverlayHeader,
@@ -311,27 +315,35 @@ export function SavedPlaygroundsOverlay({
 			},
 			disabled: offline,
 		},
-		{
-			id: 'github',
-			title: 'From GitHub',
-			iconComponent: GitHubIcon,
-			onClick: () => {
-				if (!isTemporarySite) {
-					switchToTemporarySite();
-				}
-				modalDispatch(setActiveModal(modalSlugs.GITHUB_IMPORT));
-			},
-			disabled: offline,
-		},
-		{
-			id: 'blueprint-url',
-			title: 'Blueprint URL',
-			icon: link,
-			onClick: () => {
-				modalDispatch(setActiveModal(modalSlugs.BLUEPRINT_URL));
-			},
-			disabled: offline,
-		},
+		...(!isInstallDisabledByQueryParam()
+			? [
+					{
+						id: 'github',
+						title: 'From GitHub',
+						iconComponent: GitHubIcon,
+						onClick: () => {
+							if (!isTemporarySite) {
+								switchToTemporarySite();
+							}
+							modalDispatch(
+								setActiveModal(modalSlugs.GITHUB_IMPORT)
+							);
+						},
+						disabled: offline,
+					},
+					{
+						id: 'blueprint-url',
+						title: 'Blueprint URL',
+						icon: link,
+						onClick: () => {
+							modalDispatch(
+								setActiveModal(modalSlugs.BLUEPRINT_URL)
+							);
+						},
+						disabled: offline,
+					},
+				]
+			: []),
 		{
 			id: 'zip',
 			title: 'Import .zip',
@@ -550,70 +562,72 @@ export function SavedPlaygroundsOverlay({
 					</div>
 				</OverlaySection>
 
-				<OverlaySection title="Start from a Blueprint">
-					{blueprintsLoading ? (
-						<div className={css.loadingContainer}>
-							<Spinner />
-						</div>
-					) : blueprintsError ? (
-						<p className={css.emptyMessage}>
-							Unable to load blueprints. Check your connection.
-						</p>
-					) : (
-						<div className={css.blueprintsRow}>
-							{previewBlueprints.map((blueprint) => (
-								<button
-									key={blueprint.path}
-									className={css.blueprintPreviewCard}
-									onClick={() =>
-										previewBlueprint(blueprint.path)
-									}
-								>
-									<div
-										className={
-											css.blueprintPreviewThumbnail
+				{!isInstallDisabledByQueryParam() && (
+					<OverlaySection title="Start from a Blueprint">
+						{blueprintsLoading ? (
+							<div className={css.loadingContainer}>
+								<Spinner />
+							</div>
+						) : blueprintsError ? (
+							<p className={css.emptyMessage}>
+								Unable to load blueprints. Check your connection.
+							</p>
+						) : (
+							<div className={css.blueprintsRow}>
+								{previewBlueprints.map((blueprint) => (
+									<button
+										key={blueprint.path}
+										className={css.blueprintPreviewCard}
+										onClick={() =>
+											previewBlueprint(blueprint.path)
 										}
 									>
-										{blueprint.screenshot_url ? (
-											<img
-												src={blueprint.screenshot_url}
-												alt=""
-												loading="lazy"
-											/>
-										) : (
-											<div
-												className={
-													css.blueprintPlaceholder
-												}
-											>
-												<WordPressIcon />
-											</div>
+										<div
+											className={
+												css.blueprintPreviewThumbnail
+											}
+										>
+											{blueprint.screenshot_url ? (
+												<img
+													src={blueprint.screenshot_url}
+													alt=""
+													loading="lazy"
+												/>
+											) : (
+												<div
+													className={
+														css.blueprintPlaceholder
+													}
+												>
+													<WordPressIcon />
+												</div>
+											)}
+										</div>
+										<span className={css.blueprintPreviewTitle}>
+											{blueprint.title}
+										</span>
+									</button>
+								))}
+								<button
+									className={css.blueprintPreviewCard}
+									onClick={() => setViewMode('blueprints')}
+								>
+									<div
+										className={classNames(
+											css.blueprintPreviewThumbnail,
+											css.viewAllThumbnail
 										)}
+									>
+										<GridIcon size={50} />
 									</div>
 									<span className={css.blueprintPreviewTitle}>
-										{blueprint.title}
-									</span>
-								</button>
-							))}
-							<button
-								className={css.blueprintPreviewCard}
-								onClick={() => setViewMode('blueprints')}
-							>
-								<div
-									className={classNames(
-										css.blueprintPreviewThumbnail,
-										css.viewAllThumbnail
-									)}
-								>
-									<GridIcon size={50} />
-								</div>
-								<span className={css.blueprintPreviewTitle}>
-									View all {allBlueprints.length} blueprints
+										View all {allBlueprints.length} blueprints
 								</span>
 							</button>
 						</div>
 					)}
 				</OverlaySection>
+				)}
 
 				<OverlaySection title="Your Playgrounds">
 					<div className={css.sitesList}>
