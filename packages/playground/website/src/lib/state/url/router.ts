@@ -177,6 +177,34 @@ export function isEditDisabledByQueryParam(): boolean {
 }
 
 /**
+ * Checks if database editing is disabled.
+ * Features can be disabled either at build time (via VITE_CAN_EDIT_DATABASE env var)
+ * or at runtime (via ?can-edit-database=no query parameter).
+ *
+ * @returns {boolean} True if database editing is disabled, false otherwise.
+ */
+export function isDatabaseDisabled(): boolean {
+	// Check build-time environment variable first
+	if (import.meta.env.VITE_CAN_EDIT_DATABASE === 'no') {
+		return true;
+	}
+	// Fall back to query parameter check
+	return (
+		new URL(document.location.href).searchParams.get('can-edit-database') === 'no'
+	);
+}
+
+/**
+ * Checks if the URL has a query parameter that disables database editing.
+ *
+ * @deprecated Use isDatabaseDisabled() instead. This function is kept for backward compatibility.
+ * @returns {boolean} True if database editing is disabled by the query parameter, false otherwise.
+ */
+export function isDatabaseDisabledByQueryParam(): boolean {
+	return isDatabaseDisabled();
+}
+
+/**
  * Checks if the MCP server bridge is enabled via the `?mcp=yes` query parameter.
  */
 export function isMcpServerEnabled(): boolean {

@@ -16,12 +16,14 @@ Set these environment variables at build time to **permanently** disable feature
 - `VITE_CAN_SAVE=no` - Completely disables saving functionality
 - `VITE_CAN_INSTALL=no` - Completely disables plugin/theme installation
 - `VITE_CAN_EDIT=no` - Completely disables file editing
+- `VITE_CAN_EDIT_DATABASE=no` - Completely disables database editing
 
 **Example:** Create a `.env` file:
 ```bash
 VITE_CAN_SAVE=no
 VITE_CAN_INSTALL=no
 VITE_CAN_EDIT=no
+VITE_CAN_EDIT_DATABASE=no
 ```
 
 Then build:
@@ -42,10 +44,11 @@ Use query parameters to temporarily disable features for specific URLs. Users ca
   - Blueprint URL option
   - Blueprints panel in the Site Manager
 - `?can-edit=no` - Disables file editing features. Hides the "File browser" tab in the Site Manager, preventing users from editing plugin/theme files.
+- `?can-edit-database=no` - Disables database editing features. Hides the "Database" tab in the Site Manager, preventing users from accessing the database editor.
 
 These parameters can be combined to restrict multiple features simultaneously. For example:
 ```
-?can-save=no&can-install=no&can-edit=no
+?can-save=no&can-install=no&can-edit=no&can-edit-database=no
 ```
 
 **Note:** If a feature is disabled via environment variable, query parameters have no effect.
