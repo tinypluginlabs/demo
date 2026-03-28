@@ -5,6 +5,25 @@ are pre-emptively downloaded and cached in the browser to support the offline mo
 want to add a new, bulky page without increasing the required download size, add it in the
 `playground-website-extras` package instead.
 
+## Query Parameters
+
+The Playground website supports several query parameters to control feature availability:
+
+### Feature Control Parameters
+
+- `?can-save=no` - Disables the save playground feature. Hides the save status indicator and prevents users from saving the playground state.
+- `?can-install=no` - Disables plugin/theme installation features. Hides:
+  - The "Start from a Blueprint" section in the Saved Playgrounds overlay
+  - GitHub import option ("From GitHub")
+  - Blueprint URL option
+  - Blueprints panel in the Site Manager
+- `?can-edit=no` - Disables file editing features. Hides the "File browser" tab in the Site Manager, preventing users from editing plugin/theme files.
+
+These parameters can be combined to restrict multiple features simultaneously. For example:
+```
+?can-save=no&can-install=no&can-edit=no
+```
+
 ## Development
 
 ### Tests
