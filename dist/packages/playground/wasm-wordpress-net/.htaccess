@@ -2,11 +2,44 @@ AddType application/wasm .wasm
 Options +Multiviews
 AddEncoding x-gzip .gz
 
+# Serve index.html for blueprint preset routes
+RewriteEngine On
+RewriteRule ^tinyrelated$ /index.html [QSA,L]
+RewriteRule ^tinyratings$ /index.html [QSA,L]
+
+# Prevent direct downloads from /blueprints directory
+# Only allow access from same domain via JavaScript fetch() API
+# Uses both Referer and Sec-Fetch headers for defense in depth
+
+# Block if no referer OR referer is not from demo.tinypluginlabs.com
+RewriteCond %{REQUEST_URI} ^/blueprints/ [NC]
+RewriteCond %{HTTP_REFERER} ^$ [OR]
+RewriteCond %{HTTP_REFERER} !^https?://(www\.)?demo\.tinypluginlabs\.com/ [NC]
+RewriteRule ^ - [F,L]
+
+# Block direct browser navigation (user typed URL or clicked link)
+RewriteCond %{REQUEST_URI} ^/blueprints/ [NC]
+RewriteCond %{HTTP:Sec-Fetch-Mode} =navigate [NC]
+RewriteRule ^ - [F,L]
+
+# Block if both Sec-Fetch headers are missing (curl, wget, old browsers)
+RewriteCond %{REQUEST_URI} ^/blueprints/ [NC]
+RewriteCond %{HTTP:Sec-Fetch-Mode} ^$
+RewriteCond %{HTTP:Sec-Fetch-Dest} ^$
+RewriteRule ^ - [F,L]
+
+# Only allow fetch() API calls (Sec-Fetch-Dest: empty)
+# Block all other Sec-Fetch-Dest values (script, style, document, etc.)
+RewriteCond %{REQUEST_URI} ^/blueprints/ [NC]
+RewriteCond %{HTTP:Sec-Fetch-Dest} !^$
+RewriteCond %{HTTP:Sec-Fetch-Dest} !^empty$ [NC]
+RewriteRule ^ - [F,L]
+
 <FilesMatch "index\.html">
 Header unset ETag
 Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
 </FilesMatch>
-<FilesMatch "index\.js|blueprint-schema\.json|logger.php|wp-cli.phar|wordpress-importer.zip">
+<FilesMatch "index\.js|blueprint-schema\.json|logger.php|wp-cli.phar|wordpress-importer.zip|blueprints/.*\.zip">
 Header set Access-Control-Allow-Origin "*"
 Header unset ETag
 Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
