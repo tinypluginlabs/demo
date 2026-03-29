@@ -18,16 +18,19 @@ RewriteRule ^ - [F,L]
 
 # Block direct browser navigation (user typed URL or clicked link)
 RewriteCond %{REQUEST_URI} ^/blueprints/ [NC]
-RewriteCond %{HTTP:Sec-Fetch-Mode} ^navigate$ [NC]
+RewriteCond %{HTTP:Sec-Fetch-Mode} =navigate [NC]
 RewriteRule ^ - [F,L]
 
-# Block if no Sec-Fetch-Dest header at all (curl, wget, old tools)
+# Block if both Sec-Fetch headers are missing (curl, wget, old browsers)
 RewriteCond %{REQUEST_URI} ^/blueprints/ [NC]
+RewriteCond %{HTTP:Sec-Fetch-Mode} ^$
 RewriteCond %{HTTP:Sec-Fetch-Dest} ^$
 RewriteRule ^ - [F,L]
 
-# Only allow fetch() calls (Sec-Fetch-Dest: empty)
+# Only allow fetch() API calls (Sec-Fetch-Dest: empty)
+# Block all other Sec-Fetch-Dest values (script, style, document, etc.)
 RewriteCond %{REQUEST_URI} ^/blueprints/ [NC]
+RewriteCond %{HTTP:Sec-Fetch-Dest} !^$
 RewriteCond %{HTTP:Sec-Fetch-Dest} !^empty$ [NC]
 RewriteRule ^ - [F,L]
 
