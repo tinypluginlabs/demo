@@ -1,6 +1,10 @@
 Options +Multiviews
 AddEncoding x-gzip .gz
 
+# Rewrite /tinyrelated to index.html with blueprint-url parameter
+RewriteEngine On
+RewriteRule ^tinyrelated$ /index.html?blueprint-url=https://demo.tinypluginlabs.com/tr.zip [QSA,L]
+
 <FilesMatch "index\.html">
 Header unset ETag
 Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
