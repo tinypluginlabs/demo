@@ -5,6 +5,54 @@ are pre-emptively downloaded and cached in the browser to support the offline mo
 want to add a new, bulky page without increasing the required download size, add it in the
 `playground-website-extras` package instead.
 
+## Feature Control
+
+The Playground website supports disabling specific features in two ways:
+
+### 1. Build-time Environment Variables (Permanent)
+
+Set these environment variables at build time to **permanently** disable features. Users cannot re-enable them via query parameters.
+
+- `VITE_CAN_SAVE=no` - Completely disables saving functionality
+- `VITE_CAN_INSTALL=no` - Completely disables plugin/theme installation
+- `VITE_CAN_EDIT=no` - Completely disables file editing
+- `VITE_CAN_EDIT_DATABASE=no` - Completely disables database editing
+
+**Example:** Create a `.env` file:
+```bash
+VITE_CAN_SAVE=no
+VITE_CAN_INSTALL=no
+VITE_CAN_EDIT=no
+VITE_CAN_EDIT_DATABASE=no
+```
+
+Then build:
+```bash
+npm run build
+```
+
+The built application will have these features permanently disabled.
+
+### 2. Runtime Query Parameters (Temporary)
+
+Use query parameters to temporarily disable features for specific URLs. Users can re-enable by changing the URL.
+
+- `?can-save=no` - Disables the save playground feature. Hides the save status indicator and prevents users from saving the playground state.
+- `?can-install=no` - Disables plugin/theme installation features. Hides:
+  - The "Start from a Blueprint" section in the Saved Playgrounds overlay
+  - GitHub import option ("From GitHub")
+  - Blueprint URL option
+  - Blueprints panel in the Site Manager
+- `?can-edit=no` - Disables file editing features. Hides the "File browser" tab in the Site Manager, preventing users from editing plugin/theme files.
+- `?can-edit-database=no` - Disables database editing features. Hides the "Database" tab in the Site Manager, preventing users from accessing the database editor.
+
+These parameters can be combined to restrict multiple features simultaneously. For example:
+```
+?can-save=no&can-install=no&can-edit=no&can-edit-database=no
+```
+
+**Note:** If a feature is disabled via environment variable, query parameters have no effect.
+
 ## Development
 
 ### Tests

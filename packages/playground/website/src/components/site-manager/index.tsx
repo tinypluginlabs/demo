@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import { forwardRef, useState } from 'react';
 import { BlueprintsPanel } from './blueprints-panel';
 import { ResizableBox } from '@wordpress/components';
+import { isInstallDisabledByQueryParam } from '../../lib/state/url/router';
 
 const SITE_INFO_MIN_WIDTH = 400;
 const SITE_INFO_DEFAULT_WIDTH = 555;
@@ -62,12 +63,12 @@ export const SiteManager = forwardRef<
 	let activePanel;
 	switch (activeSiteManagerSection) {
 		case 'blueprints':
-			activePanel = (
+			activePanel = !isInstallDisabledByQueryParam() ? (
 				<BlueprintsPanel
 					className={css.blueprintsPanel}
 					mobileUi={fullScreenSections}
 				/>
-			);
+			) : null;
 			break;
 		default:
 		case 'site-details':

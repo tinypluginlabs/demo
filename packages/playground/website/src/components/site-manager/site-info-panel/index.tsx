@@ -32,6 +32,7 @@ import { GithubExportMenuItem } from '../../toolbar-buttons/github-export-menu-i
 import { SiteDatabasePanel } from '../site-database-panel';
 import { ActiveSiteSettingsForm } from '../site-settings-form/active-site-settings-form';
 import { TemporarySiteNotice } from '../temporary-site-notice';
+import { isEditDisabledByQueryParam, isDatabaseDisabledByQueryParam } from '../../../lib/state/url/router';
 import css from './style.module.css';
 
 const SiteFileBrowser = lazy(() =>
@@ -382,18 +383,26 @@ export function SiteInfoPanel({
 								name: 'settings',
 								title: 'Settings',
 							},
-							{
-								name: 'files',
-								title: 'File browser',
-							},
+							...(!isEditDisabledByQueryParam()
+								? [
+										{
+											name: 'files',
+											title: 'File browser',
+										},
+									]
+								: []),
 							{
 								name: 'blueprint',
 								title: 'Blueprint',
 							},
-							{
-								name: 'database',
-								title: 'Database',
-							},
+							...(!isDatabaseDisabledByQueryParam()
+								? [
+										{
+											name: 'database',
+											title: 'Database',
+										},
+									]
+								: []),
 							{
 								name: 'logs',
 								title: 'Logs',
