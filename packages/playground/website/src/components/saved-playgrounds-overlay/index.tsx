@@ -6,14 +6,9 @@ import {
 	MenuGroup,
 	MenuItem,
 } from '@wordpress/components';
-import { moreVertical, upload, link } from '@wordpress/icons';
-import { Icon } from '@wordpress/icons';
-import { GitHubIcon } from '../../github/github';
+import { moreVertical } from '@wordpress/icons';
 import { useDispatch } from 'react-redux';
-import { useState, useEffect, useRef } from 'react';
-import { usePlaygroundClient } from '../../lib/use-playground-client';
-import { importWordPressFiles } from '@wp-playground/client';
-import { logger } from '@php-wasm/logger';
+import { useState } from 'react';
 import {
 	setActiveSite,
 	useActiveSite,
@@ -77,7 +72,6 @@ export function SavedPlaygroundsOverlay({
 	onClose,
 	initialViewMode = 'main',
 }: SavedPlaygroundsOverlayProps) {
-	const offline = useAppSelector((state) => state.ui.offline);
 	const storedSites = useAppSelector(selectSortedSites).filter(
 		(site) => site.metadata.storage !== 'none'
 	);
@@ -85,93 +79,10 @@ export function SavedPlaygroundsOverlay({
 	const activeSite = useActiveSite();
 	const dispatch = useAppDispatch();
 	const modalDispatch: PlaygroundDispatch = useDispatch();
-	const playground = usePlaygroundClient();
-	const zipFileInputRef = useRef<HTMLInputElement>(null);
 
 	const [viewMode, setViewMode] = useState<OverlayViewMode>(initialViewMode);
 	const [searchQuery, setSearchQuery] = useState('');
 	const [selectedTag, setSelectedTag] = useState<string | null>(null);
-	const [pendingZipFile, setPendingZipFile] = useState<File | null>(null);
-
-	const isTemporarySite = activeSite?.metadata.storage === 'none';
-
-	useEffect(() => {
-		if (!pendingZipFile || !isTemporarySite || !playground) {
-			return;
-		}
-
-		const doImport = async () => {
-			try {
-				await importWordPressFiles(playground, {
-					wordPressFilesZip: pendingZipFile,
-				});
-				setTimeout(async () => {
-					await playground.goTo('/');
-				}, 200);
-				alert(
-					'File imported! This Playground instance has been updated and will refresh shortly.'
-				);
-				onClose();
-			} catch (error) {
-				logger.error(error);
-				alert(
-					'Unable to import file. Is it a valid WordPress Playground export?'
-				);
-			} finally {
-				setPendingZipFile(null);
-				if (zipFileInputRef.current) {
-					zipFileInputRef.current.value = '';
-				}
-			}
-		};
-		doImport();
-	}, [pendingZipFile, isTemporarySite, playground, onClose]);
-
-	function switchToTemporarySite() {
-		if (temporarySite) {
-			dispatch(setActiveSite(temporarySite.slug));
-		} else {
-			redirectTo(PlaygroundRoute.newTemporarySite());
-		}
-	}
-
-	const handleImportZip = async (e: React.ChangeEvent<HTMLInputElement>) => {
-		const file = e.target.files?.[0];
-		if (!file) return;
-
-		if (!isTemporarySite) {
-			setPendingZipFile(file);
-			switchToTemporarySite();
-			return;
-		}
-
-		if (!playground) {
-			alert(
-				'No active Playground to import into. Please create one first.'
-			);
-			return;
-		}
-
-		try {
-			await importWordPressFiles(playground, { wordPressFilesZip: file });
-			setTimeout(async () => {
-				await playground.goTo('/');
-			}, 200);
-			alert(
-				'File imported! This Playground instance has been updated and will refresh shortly.'
-			);
-			onClose();
-		} catch (error) {
-			logger.error(error);
-			alert(
-				'Unable to import file. Is it a valid WordPress Playground export?'
-			);
-		}
-
-		if (zipFileInputRef.current) {
-			zipFileInputRef.current.value = '';
-		}
-	};
 
 	const {
 		data: blueprintsData,
@@ -306,44 +217,6 @@ export function SavedPlaygroundsOverlay({
 			iconComponent: <WordPressIcon />,
 			onClick: () => {
 				window.location.href = '/tinyevent';
-			},
-			disabled: false,
-		},
-		...(!isInstallDisabledByQueryParam()
-			? [
-					{
-						id: 'github',
-						title: 'From GitHub',
-						iconComponent: GitHubIcon,
-						onClick: () => {
-							if (!isTemporarySite) {
-								switchToTemporarySite();
-							}
-							modalDispatch(
-								setActiveModal(modalSlugs.GITHUB_IMPORT)
-							);
-						},
-						disabled: offline,
-					},
-					{
-						id: 'blueprint-url',
-						title: 'Blueprint URL',
-						icon: link,
-						onClick: () => {
-							modalDispatch(
-								setActiveModal(modalSlugs.BLUEPRINT_URL)
-							);
-						},
-						disabled: offline,
-					},
-				]
-			: []),
-		{
-			id: 'zip',
-			title: 'Import .zip',
-			icon: upload,
-			onClick: () => {
-				zipFileInputRef.current?.click();
 			},
 			disabled: false,
 		},
@@ -523,13 +396,6 @@ export function SavedPlaygroundsOverlay({
 
 	return (
 		<Overlay onClose={onClose}>
-			<input
-				type="file"
-				ref={zipFileInputRef}
-				onChange={handleImportZip}
-				accept=".zip,application/zip"
-				style={{ display: 'none' }}
-			/>
 			<OverlayHeader onClose={onClose} />
 			<OverlayBody>
 				<OverlaySection title="Start a new Playground">
@@ -542,11 +408,7 @@ export function SavedPlaygroundsOverlay({
 								disabled={option.disabled}
 							>
 								<span className={css.creationIcon}>
-									{'iconComponent' in option ? (
-										option.iconComponent
-									) : (
-										<Icon icon={option.icon} size={24} />
-									)}
+									{option.iconComponent}
 								</span>
 								<span className={css.creationTitle}>
 									{option.title}
@@ -564,7 +426,8 @@ export function SavedPlaygroundsOverlay({
 							</div>
 						) : blueprintsError ? (
 							<p className={css.emptyMessage}>
-								Unable to load blueprints. Check your connection.
+								Unable to load blueprints. Check your
+								connection.
 							</p>
 						) : (
 							<div className={css.blueprintsRow}>
@@ -583,7 +446,9 @@ export function SavedPlaygroundsOverlay({
 										>
 											{blueprint.screenshot_url ? (
 												<img
-													src={blueprint.screenshot_url}
+													src={
+														blueprint.screenshot_url
+													}
 													alt=""
 													loading="lazy"
 												/>
@@ -597,7 +462,11 @@ export function SavedPlaygroundsOverlay({
 												</div>
 											)}
 										</div>
-										<span className={css.blueprintPreviewTitle}>
+										<span
+											className={
+												css.blueprintPreviewTitle
+											}
+										>
 											{blueprint.title}
 										</span>
 									</button>
@@ -615,12 +484,13 @@ export function SavedPlaygroundsOverlay({
 										<GridIcon size={50} />
 									</div>
 									<span className={css.blueprintPreviewTitle}>
-										View all {allBlueprints.length} blueprints
-								</span>
-							</button>
-						</div>
-					)}
-				</OverlaySection>
+										View all {allBlueprints.length}{' '}
+										blueprints
+									</span>
+								</button>
+							</div>
+						)}
+					</OverlaySection>
 				)}
 
 				<OverlaySection title="Your Playgrounds">
