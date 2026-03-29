@@ -205,6 +205,54 @@ export function isDatabaseDisabledByQueryParam(): boolean {
 }
 
 /**
+ * Checks if the download-as-zip feature is disabled.
+ * Features can be disabled either at build time (via VITE_CAN_DOWNLOAD_ZIP env var)
+ * or at runtime (via ?can-download-zip=no query parameter).
+ *
+ * @returns {boolean} True if download-as-zip is disabled, false otherwise.
+ */
+export function isDownloadZipDisabled(): boolean {
+	if (import.meta.env.VITE_CAN_DOWNLOAD_ZIP === 'no') {
+		return true;
+	}
+	return (
+		new URL(document.location.href).searchParams.get('can-download-zip') === 'no'
+	);
+}
+
+/**
+ * Checks if the export-to-GitHub feature is disabled.
+ * Features can be disabled either at build time (via VITE_CAN_EXPORT_GITHUB env var)
+ * or at runtime (via ?can-export-github=no query parameter).
+ *
+ * @returns {boolean} True if export-to-GitHub is disabled, false otherwise.
+ */
+export function isExportGithubDisabled(): boolean {
+	if (import.meta.env.VITE_CAN_EXPORT_GITHUB === 'no') {
+		return true;
+	}
+	return (
+		new URL(document.location.href).searchParams.get('can-export-github') === 'no'
+	);
+}
+
+/**
+ * Checks if the Blueprint tab is disabled.
+ * Features can be disabled either at build time (via VITE_CAN_BLUEPRINT env var)
+ * or at runtime (via ?can-blueprint=no query parameter).
+ *
+ * @returns {boolean} True if the Blueprint tab is disabled, false otherwise.
+ */
+export function isBlueprintDisabled(): boolean {
+	if (import.meta.env.VITE_CAN_BLUEPRINT === 'no') {
+		return true;
+	}
+	return (
+		new URL(document.location.href).searchParams.get('can-blueprint') === 'no'
+	);
+}
+
+/**
  * Checks if the MCP server bridge is enabled via the `?mcp=yes` query parameter.
  */
 export function isMcpServerEnabled(): boolean {

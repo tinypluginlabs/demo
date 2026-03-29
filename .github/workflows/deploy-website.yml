@@ -48,6 +48,9 @@ jobs:
                   VITE_CAN_INSTALL: no
                   VITE_CAN_EDIT: no
                   VITE_CAN_EDIT_DATABASE: no
+                  VITE_CAN_DOWNLOAD_ZIP: no
+                  VITE_CAN_EXPORT_GITHUB: no
+                  VITE_CAN_BLUEPRINT: no
             - run: tar -czf wasm-wordpress-net.tar.gz dist/packages/playground/wasm-wordpress-net
             # Store dist/packages/artifacts/wasm-wordpress-net as a build artifact
             - uses: actions/upload-artifact@v4
