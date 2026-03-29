@@ -67,6 +67,26 @@ export async function resolveBlueprintFromURL(
 ): Promise<ResolvedBlueprint> {
 	const query = url.searchParams;
 	const fragment = decodeURI(url.hash || '#').substring(1);
+	const pathname = url.pathname.replace(/^\//, '').replace(/\/$/, '');
+
+	/**
+	 * Check if this is a blueprint preset route (e.g., /tinyrelated, /tinyratings)
+	 */
+	const presetMap: Record<string, string> = {
+		'tinyrelated': '/blueprints/tinyrelated.zip',
+		'tinyratings': '/blueprints/tinyratings.zip',
+	};
+	
+	if (pathname && presetMap[pathname]) {
+		const blueprintUrl = presetMap[pathname];
+		return {
+			blueprint: await resolveRemoteBlueprint(blueprintUrl),
+			source: {
+				type: 'remote-url',
+				url: blueprintUrl,
+			},
+		};
+	}
 
 	/**
 	 * If the URL has no parameters or fragment, redirect to /tinyrelated preset.

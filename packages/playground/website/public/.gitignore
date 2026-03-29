@@ -1,0 +1,2 @@
+# Blueprint files are deployed by CI, not committed to repo
+blueprints/
