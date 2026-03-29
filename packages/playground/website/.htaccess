@@ -6,6 +6,14 @@ RewriteEngine On
 RewriteRule ^tinyrelated$ /index.html [QSA,L]
 RewriteRule ^tinyratings$ /index.html [QSA,L]
 
+# Prevent direct downloads from /blueprints directory
+# Only allow access from same domain (demo.tinypluginlabs.com)
+# Block if no referer OR referer is not from demo.tinypluginlabs.com
+RewriteCond %{REQUEST_URI} ^/blueprints/ [NC]
+RewriteCond %{HTTP_REFERER} ^$ [OR]
+RewriteCond %{HTTP_REFERER} !^https?://(www\.)?demo\.tinypluginlabs\.com/ [NC]
+RewriteRule ^ - [F,L]
+
 <FilesMatch "index\.html">
 Header unset ETag
 Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
