@@ -1,9 +1,10 @@
 Options +Multiviews
 AddEncoding x-gzip .gz
 
-# Rewrite /tinyrelated to index.html with blueprint-url parameter
+# Rewrite blueprint preset routes to index.html with local blueprint-url parameter
 RewriteEngine On
-RewriteRule ^tinyrelated$ /index.html?blueprint-url=https://demo.tinypluginlabs.com/tr.zip [QSA,L]
+RewriteRule ^tinyrelated$ /index.html?blueprint-url=/blueprints/tinyrelated.zip [QSA,L]
+RewriteRule ^tinyratings$ /index.html?blueprint-url=/blueprints/tinyratings.zip [QSA,L]
 
 <FilesMatch "index\.html">
 Header unset ETag
