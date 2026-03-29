@@ -67,23 +67,40 @@ export async function resolveBlueprintFromURL(
 ): Promise<ResolvedBlueprint> {
 	const query = url.searchParams;
 	const fragment = decodeURI(url.hash || '#').substring(1);
+	const pathname = url.pathname.replace(/^\//, '').replace(/\/$/, '');
 
 	/**
-	 * If the URL has no parameters or fragment, and a default blueprint is provided,
-	 * use the default blueprint.
+	 * Check if this is a blueprint preset route (e.g., /tinyrelated, /tinyratings)
+	 */
+	const presetMap: Record<string, string> = {
+		'tinyrelated': '/blueprints/tinyrelated.zip',
+		'tinyratings': '/blueprints/tinyratings.zip',
+	};
+	
+	if (pathname && presetMap[pathname]) {
+		const blueprintUrl = presetMap[pathname];
+		return {
+			blueprint: await resolveRemoteBlueprint(blueprintUrl),
+			source: {
+				type: 'remote-url',
+				url: blueprintUrl,
+			},
+		};
+	}
+
+	/**
+	 * If the URL has no parameters or fragment, redirect to /tinyrelated preset.
 	 */
 	if (
 		window.self === window.top &&
 		!query.size &&
-		!fragment.length &&
-		defaultBlueprint
+		!fragment.length
 	) {
+		window.location.href = '/tinyrelated';
+		// Return a dummy blueprint to prevent errors while redirecting
 		return {
-			blueprint: await resolveRemoteBlueprint(defaultBlueprint),
-			source: {
-				type: 'remote-url',
-				url: defaultBlueprint,
-			},
+			blueprint: { steps: [] },
+			source: { type: 'none' },
 		};
 	} else if (query.has('blueprint-url')) {
 		if (isMcpServerEnabled()) {
@@ -99,6 +116,19 @@ export async function resolveBlueprintFromURL(
 		 * ?blueprint-url=https://example.com/blueprint.json
 		 */
 		const blueprintUrl = normalizeBlueprintUrl(query.get('blueprint-url')!);
+		
+		// If the blueprint URL is remote (starts with http/https), redirect to /tinyrelated
+		if (/^https?:\/\//i.test(blueprintUrl)) {
+			if (window.self === window.top) {
+				window.location.href = '/tinyrelated';
+				// Return a dummy blueprint to prevent errors while redirecting
+				return {
+					blueprint: { steps: [] },
+					source: { type: 'none' },
+				};
+			}
+		}
+		
 		return {
 			blueprint: await resolveRemoteBlueprint(blueprintUrl),
 			source: {
