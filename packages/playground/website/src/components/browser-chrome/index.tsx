@@ -17,10 +17,7 @@ import Button from '../button';
 import { ActiveSiteSettingsForm } from '../site-manager/site-settings-form';
 import { setSiteManagerOpen } from '../../lib/state/redux/slice-ui';
 import { SiteManagerIcon } from '@wp-playground/components';
-import {
-	SavedPlaygroundsOverlay,
-	type OverlayViewMode,
-} from '../saved-playgrounds-overlay';
+import { SavedPlaygroundsOverlay } from '../saved-playgrounds-overlay';
 import { SaveStatusIndicator } from './save-status-indicator';
 import { isSaveDisabledByQueryParam } from '../../lib/state/url/router';
 
@@ -57,15 +54,10 @@ export default function BrowserChrome({
 	const [isSettingsModalOpen, setIsSettingsModalOpen] = React.useState(false);
 	const [isPlaygroundsOverlayOpen, setIsPlaygroundsOverlayOpen] =
 		React.useState(shouldOpenOverlay);
-	const [overlayInitialViewMode, setOverlayInitialViewMode] =
-		React.useState<OverlayViewMode>(
-			overlayParam === 'blueprints' ? 'blueprints' : 'main'
-		);
 	const onSettingsToggle = () => setIsSettingsModalOpen(!isSettingsModalOpen);
 	const closeSettingsModal = () => setIsSettingsModalOpen(false);
 	const closePlaygroundsOverlay = () => {
 		setIsPlaygroundsOverlayOpen(false);
-		setOverlayInitialViewMode('main'); // Reset for next manual open
 
 		// Remove overlay parameter from URL so reload doesn't reopen overlay
 		const url = new URL(window.location.href);
@@ -204,10 +196,7 @@ export default function BrowserChrome({
 				<div className={css.content}>{children}</div>
 			</div>
 			{isPlaygroundsOverlayOpen && (
-				<SavedPlaygroundsOverlay
-					onClose={closePlaygroundsOverlay}
-					initialViewMode={overlayInitialViewMode}
-				/>
+				<SavedPlaygroundsOverlay onClose={closePlaygroundsOverlay} />
 			)}
 		</div>
 	);
