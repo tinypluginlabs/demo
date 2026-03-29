@@ -92,8 +92,9 @@ jobs:
                   # -r: recursive, -t: preserve times, -v: verbose, -z: compress
                   # -L: follow symlinks and copy actual files (prevents error 23 with broken symlinks)
                   # --no-perms --no-owner --no-group: don't preserve ownership/permissions (may not be allowed on server)
+                  # --omit-dir-times: skip setting timestamps on directories (managed hosting often restricts this)
                   # --delete: remove files on destination that don't exist in source
-                  rsync -rtvzL --no-perms --no-owner --no-group -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes" --delete \
+                  rsync -rtvzL --no-perms --no-owner --no-group --omit-dir-times -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes" --delete \
                     dist/packages/playground/wasm-wordpress-net/ \
                     ${{ secrets.CLOUDWAYS_SSH_USER }}@${{ secrets.CLOUDWAYS_SSH_HOST }}:${{ secrets.CLOUDWAYS_DEPLOY_PATH }}
 
