@@ -7,11 +7,28 @@ RewriteRule ^tinyrelated$ /index.html [QSA,L]
 RewriteRule ^tinyratings$ /index.html [QSA,L]
 
 # Prevent direct downloads from /blueprints directory
-# Only allow access from same domain (demo.tinypluginlabs.com)
+# Only allow access from same domain via JavaScript fetch() API
+# Uses both Referer and Sec-Fetch headers for defense in depth
+
 # Block if no referer OR referer is not from demo.tinypluginlabs.com
 RewriteCond %{REQUEST_URI} ^/blueprints/ [NC]
 RewriteCond %{HTTP_REFERER} ^$ [OR]
 RewriteCond %{HTTP_REFERER} !^https?://(www\.)?demo\.tinypluginlabs\.com/ [NC]
+RewriteRule ^ - [F,L]
+
+# Block direct browser navigation (user typed URL or clicked link)
+RewriteCond %{REQUEST_URI} ^/blueprints/ [NC]
+RewriteCond %{HTTP:Sec-Fetch-Mode} ^navigate$ [NC]
+RewriteRule ^ - [F,L]
+
+# Block if no Sec-Fetch-Dest header at all (curl, wget, old tools)
+RewriteCond %{REQUEST_URI} ^/blueprints/ [NC]
+RewriteCond %{HTTP:Sec-Fetch-Dest} ^$
+RewriteRule ^ - [F,L]
+
+# Only allow fetch() calls (Sec-Fetch-Dest: empty)
+RewriteCond %{REQUEST_URI} ^/blueprints/ [NC]
+RewriteCond %{HTTP:Sec-Fetch-Dest} !^empty$ [NC]
 RewriteRule ^ - [F,L]
 
 <FilesMatch "index\.html">
