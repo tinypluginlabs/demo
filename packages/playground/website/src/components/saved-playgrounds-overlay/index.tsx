@@ -65,14 +65,6 @@ interface SavedPlaygroundsOverlayProps {
 	initialViewMode?: OverlayViewMode;
 }
 
-function PullRequestIcon() {
-	return (
-		<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-			<path d="M1.5 3.25a2.25 2.25 0 1 1 3 2.122v5.256a2.251 2.251 0 1 1-1.5 0V5.372A2.25 2.25 0 0 1 1.5 3.25Zm5.677-.177L9.573.677A.25.25 0 0 1 10 .854V2.5h1A2.5 2.5 0 0 1 13.5 5v5.628a2.251 2.251 0 1 1-1.5 0V5a1 1 0 0 0-1-1h-1v1.646a.25.25 0 0 1-.427.177L7.177 3.427a.25.25 0 0 1 0-.354ZM3.75 2.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm0 9.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm8.25.75a.75.75 0 1 0 1.5 0 .75.75 0 0 0-1.5 0Z" />
-		</svg>
-	);
-}
-
 function GridIcon({ size = 20 }: { size?: number }) {
 	return (
 		<svg width={size} height={size} viewBox="0 0 16 16" fill="currentColor">
@@ -291,29 +283,31 @@ export function SavedPlaygroundsOverlay({
 
 	const creationOptions = [
 		{
-			id: 'vanilla',
-			title: 'Vanilla WordPress',
+			id: 'tinyrelated',
+			title: 'tinyRelated',
 			iconComponent: <WordPressIcon />,
-			onClick: createVanillaSite,
+			onClick: () => {
+				window.location.href = '/tinyrelated';
+			},
 			disabled: false,
 		},
 		{
-			id: 'wp-pr',
-			title: 'WordPress PR',
-			iconComponent: <PullRequestIcon />,
+			id: 'tinyrating',
+			title: 'tinyRating',
+			iconComponent: <WordPressIcon />,
 			onClick: () => {
-				modalDispatch(setActiveModal(modalSlugs.PREVIEW_PR_WP));
+				window.location.href = '/tinyrating';
 			},
-			disabled: offline,
+			disabled: false,
 		},
 		{
-			id: 'gutenberg-pr',
-			title: 'Gutenberg PR',
-			iconComponent: <PullRequestIcon />,
+			id: 'tinyevent',
+			title: 'tinyEvent',
+			iconComponent: <WordPressIcon />,
 			onClick: () => {
-				modalDispatch(setActiveModal(modalSlugs.PREVIEW_PR_GUTENBERG));
+				window.location.href = '/tinyevent';
 			},
-			disabled: offline,
+			disabled: false,
 		},
 		...(!isInstallDisabledByQueryParam()
 			? [
