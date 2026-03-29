@@ -3,7 +3,7 @@ AddEncoding x-gzip .gz
 
 # Rewrite /tinyrelated to index.html with blueprint-url parameter via CORS proxy
 RewriteEngine On
-RewriteRule ^tinyrelated$ /index.html?blueprint-url=https://api.codetabs.com/v1/proxy/?quest=https://github.com/tinypluginlabs/tmp/releases/download/playground-preview-pr-89/blueprint.json [QSA,L]
+RewriteRule ^tinyrelated$ /index.html?blueprint-url=https://api.codetabs.com/v1/proxy/?quest=https://demo.tinypluginlabs.com/tr.zip [QSA,L]
 
 <FilesMatch "index\.html">
 Header unset ETag
