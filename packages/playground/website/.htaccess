@@ -3,8 +3,8 @@ AddEncoding x-gzip .gz
 
 # Serve index.html for blueprint preset routes
 RewriteEngine On
-RewriteRule ^tinyrelated$ /index.html [L]
-RewriteRule ^tinyratings$ /index.html [L]
+RewriteRule ^tinyrelated$ /index.html [QSA,L]
+RewriteRule ^tinyratings$ /index.html [QSA,L]
 
 <FilesMatch "index\.html">
 Header unset ETag
