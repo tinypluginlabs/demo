@@ -5,25 +5,23 @@
  * to /blueprints/blueprints.json for configuring the "Start a new Playground"
  * overlay buttons.
  *
- * Example JSON structure:
- * {
- *   "buttons": [
- *     {
- *       "id": "tinyrelated",
- *       "title": "tinyRelated",
- *       "path": "/tinyrelated",
- *       "icon": "WordPressIcon",
- *       "disabled": false
- *     },
- *     {
- *       "id": "tinyrating",
- *       "title": "tinyRating",
- *       "path": "/tinyrating",
- *       "icon": "https://example.com/icon.svg",
- *       "disabled": false
- *     }
- *   ]
- * }
+ * Example JSON structure (array of button objects):
+ * [
+ *   {
+ *     "id": "tinyrelated",
+ *     "title": "tinyRelated",
+ *     "path": "/tinyrelated",
+ *     "icon": "WordPressIcon",
+ *     "disabled": false
+ *   },
+ *   {
+ *     "id": "tinyrating",
+ *     "title": "tinyRating",
+ *     "path": "/tinyrating",
+ *     "icon": "https://example.com/icon.svg",
+ *     "disabled": false
+ *   }
+ * ]
  */
 
 /**
@@ -62,11 +60,7 @@ export interface BlueprintButton {
 }
 
 /**
- * Root configuration object for blueprints.json
+ * Root configuration type for blueprints.json
+ * The JSON file should be a direct array of BlueprintButton objects
  */
-export interface BlueprintsConfig {
-	/**
-	 * Array of button configurations
-	 */
-	buttons: BlueprintButton[];
-}
+export type BlueprintsConfig = BlueprintButton[];

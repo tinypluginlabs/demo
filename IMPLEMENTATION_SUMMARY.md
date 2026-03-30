@@ -19,9 +19,7 @@ export interface BlueprintButton {
   disabled?: boolean;      // Optional: button disabled state
 }
 
-export interface BlueprintsConfig {
-  buttons: BlueprintButton[];
-}
+export type BlueprintsConfig = BlueprintButton[];
 ```
 
 ### 2. Component Updates
@@ -56,14 +54,14 @@ function resolveIcon(iconSpec?: string): React.ReactNode {
   return <WordPressIcon />;
 }
 
-// Fetch from JSON
+// Fetch from JSON (direct array)
 const { data: blueprintsConfig } = useFetch<BlueprintsConfig>(
   '/blueprints/blueprints.json'
 );
 
 // Fallback to defaults
 const defaultCreationOptions: BlueprintButton[] = [...];
-const buttonsConfig = blueprintsConfig?.buttons || defaultCreationOptions;
+const buttonsConfig = blueprintsConfig || defaultCreationOptions;
 
 // Transform to button props with dynamic icon resolution
 const creationOptions = buttonsConfig.map((button) => ({
@@ -87,17 +85,16 @@ Comprehensive documentation explaining:
 
 ## JSON File Structure
 
-The CI process should deploy a `blueprints.json` file to `/blueprints/blueprints.json` with the following structure:
+The CI process should deploy a `blueprints.json` file to `/blueprints/blueprints.json` as a direct array:
 
 ```json
-{
-  "buttons": [
-    {
-      "id": "tinyrelated",
-      "title": "tinyRelated",
-      "path": "/tinyrelated",
-      "disabled": false
-    },
+[
+  {
+    "id": "tinyrelated",
+    "title": "tinyRelated",
+    "path": "/tinyrelated",
+    "disabled": false
+  },
     {
       "id": "tinyrating",
       "title": "tinyRating",
@@ -110,8 +107,7 @@ The CI process should deploy a `blueprints.json` file to `/blueprints/blueprints
       "path": "/tinyevent",
       "disabled": false
     }
-  ]
-}
+]
 ```
 
 ## Behavior

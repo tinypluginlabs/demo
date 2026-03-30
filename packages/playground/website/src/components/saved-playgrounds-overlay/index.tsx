@@ -148,7 +148,7 @@ export function SavedPlaygroundsOverlay({
 	];
 
 	// Use fetched config if available, otherwise use defaults
-	const buttonsConfig = blueprintsConfig?.buttons || defaultCreationOptions;
+	const buttonsConfig = blueprintsConfig || defaultCreationOptions;
 
 	// Transform button configs into creation options with onClick handlers
 	const creationOptions = buttonsConfig.map((button) => ({

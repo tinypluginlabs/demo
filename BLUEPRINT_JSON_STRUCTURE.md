@@ -5,30 +5,29 @@ This document provides the structure definition for `/blueprints/blueprints.json
 
 ## JSON Structure
 
+The JSON file is a direct array of button configuration objects:
+
 ```json
-{
-  "buttons": [
-    {
-      "id": "string",
-      "title": "string",
-      "path": "string",
-      "icon": "string",
-      "disabled": false
-    }
-  ]
-}
+[
+  {
+    "id": "string",
+    "title": "string",
+    "path": "string",
+    "icon": "string",
+    "disabled": false
+  }
+]
 ```
 
 ## Field Definitions
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `buttons` | Array | Yes | Array of button configuration objects |
-| `buttons[].id` | String | Yes | Unique identifier for the button (used as React key) |
-| `buttons[].title` | String | Yes | Display text shown under the button icon |
-| `buttons[].path` | String | Yes | Navigation path (e.g., "/tinyrelated") |
-| `buttons[].icon` | String | No | Icon to display (React component name or SVG URL, default: "WordPressIcon") |
-| `buttons[].disabled` | Boolean | No | Whether the button is disabled (default: false) |
+| `[].id` | String | Yes | Unique identifier for the button (used as React key) |
+| `[].title` | String | Yes | Display text shown under the button icon |
+| `[].path` | String | Yes | Navigation path (e.g., "/tinyrelated") |
+| `[].icon` | String | No | Icon to display (React component name or SVG URL, default: "WordPressIcon") |
+| `[].disabled` | Boolean | No | Whether the button is disabled (default: false) |
 
 ## Icon Configuration
 
@@ -51,30 +50,28 @@ If the `icon` field is omitted or an invalid component name is provided, the but
 ## Example Configuration
 
 ```json
-{
-  "buttons": [
-    {
-      "id": "tinyrelated",
-      "title": "tinyRelated",
-      "path": "/tinyrelated",
-      "icon": "WordPressIcon",
-      "disabled": false
-    },
-    {
-      "id": "tinyrating",
-      "title": "tinyRating",
-      "path": "/tinyrating",
-      "icon": "https://example.com/rating-icon.svg",
-      "disabled": false
-    },
-    {
-      "id": "tinyevent",
-      "title": "tinyEvent",
-      "path": "/tinyevent",
-      "disabled": false
-    }
-  ]
-}
+[
+  {
+    "id": "tinyrelated",
+    "title": "tinyRelated",
+    "path": "/tinyrelated",
+    "icon": "WordPressIcon",
+    "disabled": false
+  },
+  {
+    "id": "tinyrating",
+    "title": "tinyRating",
+    "path": "/tinyrating",
+    "icon": "https://example.com/rating-icon.svg",
+    "disabled": false
+  },
+  {
+    "id": "tinyevent",
+    "title": "tinyEvent",
+    "path": "/tinyevent",
+    "disabled": false
+  }
+]
 ```
 
 ## File Location
