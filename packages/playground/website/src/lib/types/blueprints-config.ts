@@ -12,12 +12,14 @@
  *       "id": "tinyrelated",
  *       "title": "tinyRelated",
  *       "path": "/tinyrelated",
+ *       "icon": "WordPressIcon",
  *       "disabled": false
  *     },
  *     {
  *       "id": "tinyrating",
  *       "title": "tinyRating",
  *       "path": "/tinyrating",
+ *       "icon": "https://example.com/icon.svg",
  *       "disabled": false
  *     }
  *   ]
@@ -42,6 +44,15 @@ export interface BlueprintButton {
 	 * Navigation path (e.g., "/tinyrelated")
 	 */
 	path: string;
+
+	/**
+	 * Icon to display on the button
+	 * Can be:
+	 * - A React component name from @wp-playground/components (e.g., "WordPressIcon", "ClockIcon")
+	 * - A URL to an SVG file (e.g., "https://example.com/icon.svg")
+	 * - If omitted, defaults to "WordPressIcon"
+	 */
+	icon?: string;
 
 	/**
 	 * Whether the button should be disabled

@@ -12,6 +12,7 @@ This document provides the structure definition for `/blueprints/blueprints.json
       "id": "string",
       "title": "string",
       "path": "string",
+      "icon": "string",
       "disabled": false
     }
   ]
@@ -26,7 +27,26 @@ This document provides the structure definition for `/blueprints/blueprints.json
 | `buttons[].id` | String | Yes | Unique identifier for the button (used as React key) |
 | `buttons[].title` | String | Yes | Display text shown under the button icon |
 | `buttons[].path` | String | Yes | Navigation path (e.g., "/tinyrelated") |
+| `buttons[].icon` | String | No | Icon to display (React component name or SVG URL, default: "WordPressIcon") |
 | `buttons[].disabled` | Boolean | No | Whether the button is disabled (default: false) |
+
+## Icon Configuration
+
+The `icon` field supports two formats:
+
+### 1. React Component Name
+Specify the name of an icon component exported from `@wp-playground/components`:
+- `"WordPressIcon"` - WordPress logo (default)
+- `"ClockIcon"` - Clock icon
+- `"playgroundLogo"` - Playground logo
+- `"temporaryStorage"` - Temporary storage icon
+
+### 2. SVG URL
+Provide a direct URL to an SVG file:
+- `"https://example.com/custom-icon.svg"`
+- `"https://cdn.example.com/icons/my-icon.svg"`
+
+If the `icon` field is omitted or an invalid component name is provided, the button will default to using `WordPressIcon`.
 
 ## Example Configuration
 
@@ -37,12 +57,14 @@ This document provides the structure definition for `/blueprints/blueprints.json
       "id": "tinyrelated",
       "title": "tinyRelated",
       "path": "/tinyrelated",
+      "icon": "WordPressIcon",
       "disabled": false
     },
     {
       "id": "tinyrating",
       "title": "tinyRating",
       "path": "/tinyrating",
+      "icon": "https://example.com/rating-icon.svg",
       "disabled": false
     },
     {
@@ -129,11 +151,19 @@ When a button is clicked:
 2. The path is resolved through the blueprint preset system
 3. The corresponding blueprint ZIP file is loaded (e.g., `/blueprints/tinyrelated.zip`)
 
+## Icon Resolution
+
+Icons are resolved in the following order:
+1. If `icon` is omitted, use `WordPressIcon` (default)
+2. If `icon` starts with `http://` or `https://`, load as external SVG image
+3. If `icon` matches a component name in `@wp-playground/components`, use that component
+4. If none of the above, fall back to `WordPressIcon`
+
 ## Limitations
 
-- All buttons currently use the WordPress icon (not configurable via JSON)
 - The `disabled` field only affects button interaction, not visibility
 - Button order in the JSON determines display order in the overlay
+- External SVG icons must be accessible from the client (CORS considerations apply)
 
 ## Related Documentation
 

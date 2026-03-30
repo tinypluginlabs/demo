@@ -15,6 +15,7 @@ export interface BlueprintButton {
   id: string;              // Unique identifier
   title: string;           // Display title
   path: string;            // Navigation path
+  icon?: string;           // Optional: React component name or SVG URL
   disabled?: boolean;      // Optional: button disabled state
 }
 
@@ -30,23 +31,45 @@ Updated the `SavedPlaygroundsOverlay` component to:
 - Use the `useFetch` hook to load `/blueprints/blueprints.json`
 - Fall back to hardcoded defaults if the JSON file cannot be fetched
 - Transform the JSON data into button configurations with onClick handlers
+- Resolve icons dynamically from React component names or SVG URLs
 
 Key changes:
 ```typescript
+// Helper function to resolve icon from string (component name or URL)
+function resolveIcon(iconSpec?: string): React.ReactNode {
+  if (!iconSpec) {
+    return <WordPressIcon />;
+  }
+  
+  // Check if it's a URL (SVG from external source)
+  if (iconSpec.startsWith('http://') || iconSpec.startsWith('https://')) {
+    return <img src={iconSpec} alt="" style={{ width: '100%', height: '100%' }} />;
+  }
+  
+  // Try to resolve as a React component from @wp-playground/components
+  const IconComponent = (PlaygroundIcons as any)[iconSpec];
+  if (IconComponent && typeof IconComponent === 'function') {
+    return <IconComponent />;
+  }
+  
+  // Fallback to WordPressIcon if component not found
+  return <WordPressIcon />;
+}
+
 // Fetch from JSON
 const { data: blueprintsConfig } = useFetch<BlueprintsConfig>(
   '/blueprints/blueprints.json'
 );
 
 // Fallback to defaults
-const defaultCreationOptions = [...];
+const defaultCreationOptions: BlueprintButton[] = [...];
 const buttonsConfig = blueprintsConfig?.buttons || defaultCreationOptions;
 
-// Transform to button props
+// Transform to button props with dynamic icon resolution
 const creationOptions = buttonsConfig.map((button) => ({
   id: button.id,
   title: button.title,
-  iconComponent: <WordPressIcon />,
+  iconComponent: resolveIcon(button.icon),
   onClick: () => { window.location.href = button.path; },
   disabled: button.disabled ?? false,
 }));
@@ -96,7 +119,12 @@ The CI process should deploy a `blueprints.json` file to `/blueprints/blueprints
 ### Normal Operation
 1. When the overlay loads, it fetches `/blueprints/blueprints.json`
 2. If successful, buttons are created from the JSON data
-3. Each button navigates to the specified `path` when clicked
+3. Icons are resolved dynamically:
+   - If `icon` is omitted, uses `WordPressIcon` (default)
+   - If `icon` starts with `http://` or `https://`, loads as external SVG image
+   - If `icon` matches a component name in `@wp-playground/components`, uses that component
+   - If none of the above, falls back to `WordPressIcon`
+4. Each button navigates to the specified `path` when clicked
 
 ### Fallback Mechanism
 If the JSON file cannot be fetched (404, network error, etc.):
@@ -107,6 +135,11 @@ If the JSON file cannot be fetched (404, network error, etc.):
 - The component doesn't show a loading spinner
 - Buttons appear immediately using defaults or fetched data
 - This provides a seamless user experience
+
+### Icon Support
+Buttons can display custom icons in two ways:
+1. **React Component Names**: Use exported icon components from `@wp-playground/components` (e.g., "WordPressIcon", "ClockIcon", "playgroundLogo")
+2. **SVG URLs**: Provide a direct URL to an SVG file (e.g., "https://example.com/icon.svg")
 
 ## Testing
 
@@ -138,12 +171,28 @@ npm run dev
 
 4. **Validation**: Consider adding JSON schema validation in your CI process to ensure the file structure is correct before deployment
 
+5. **Icon Support**: Icons can be specified as React component names (from `@wp-playground/components`) or as URLs to SVG files. External SVG icons must be accessible from the client (CORS considerations apply).
+
 ## Icon Customization
 
-Currently, all buttons use the `WordPressIcon` component. If you need to support different icons in the future, you would need to:
-1. Add an `icon` field to the `BlueprintButton` interface
-2. Create a mapping of icon names to icon components
-3. Update the button rendering logic to use the specified icon
+Icons are now fully customizable via the `icon` field in the JSON configuration:
+
+### Available React Component Icons
+From `@wp-playground/components`:
+- `WordPressIcon` - WordPress logo (default)
+- `ClockIcon` - Clock icon
+- `playgroundLogo` - Playground logo
+- `temporaryStorage` - Temporary storage icon
+
+### Using External SVG Icons
+Provide a direct URL to an SVG file:
+```json
+{
+  "icon": "https://example.com/custom-icon.svg"
+}
+```
+
+Note: External SVG icons must be accessible from the client browser. Ensure proper CORS headers are set if the SVG is hosted on a different domain.
 
 ## Security Considerations
 
