@@ -1,3 +1,4 @@
+import React from 'react';
 import css from './style.module.css';
 import classNames from 'classnames';
 import { DropdownMenu, MenuGroup, MenuItem } from '@wordpress/components';
@@ -24,6 +25,7 @@ import {
 	setSiteSlugToRename,
 } from '../../lib/state/redux/slice-ui';
 import { WordPressIcon } from '@wp-playground/components';
+import * as PlaygroundIcons from '@wp-playground/components';
 import { PlaygroundRoute, redirectTo } from '../../lib/state/url/router';
 import {
 	Overlay,
@@ -31,6 +33,8 @@ import {
 	OverlayBody,
 	OverlaySection,
 } from '../overlay';
+import { useFetch } from '../../lib/hooks/use-fetch';
+import type { BlueprintsConfig, BlueprintButton } from '../../lib/types/blueprints-config';
 
 interface SavedPlaygroundsOverlayProps {
 	onClose: () => void;
@@ -89,35 +93,73 @@ export function SavedPlaygroundsOverlay({
 		onClose();
 	}
 
-	const creationOptions = [
+	// Helper function to resolve icon from string (component name or URL)
+	function resolveIcon(iconSpec?: string): React.ReactNode {
+		if (!iconSpec) {
+			return <WordPressIcon />;
+		}
+
+		// Check if it's a URL (SVG from external source)
+		if (iconSpec.startsWith('http://') || iconSpec.startsWith('https://')) {
+			return (
+				<img
+					src={iconSpec}
+					alt=""
+					style={{ width: '100%', height: '100%' }}
+				/>
+			);
+		}
+
+		// Try to resolve as a React component from @wp-playground/components
+		const IconComponent = (PlaygroundIcons as any)[iconSpec];
+		if (IconComponent && typeof IconComponent === 'function') {
+			return <IconComponent />;
+		}
+
+		// Fallback to WordPressIcon if component not found
+		return <WordPressIcon />;
+	}
+
+	// Fetch blueprints configuration from /blueprints/blueprints.json
+	const { data: blueprintsConfig } = useFetch<BlueprintsConfig>(
+		'/blueprints/blueprints.json'
+	);
+
+	// Fallback to hardcoded buttons if JSON fetch fails or is loading
+	const defaultCreationOptions: BlueprintButton[] = [
 		{
 			id: 'tinyrelated',
 			title: 'tinyRelated',
-			iconComponent: <WordPressIcon />,
-			onClick: () => {
-				window.location.href = '/tinyrelated';
-			},
+			path: '/tinyrelated',
 			disabled: false,
 		},
 		{
 			id: 'tinyrating',
 			title: 'tinyRating',
-			iconComponent: <WordPressIcon />,
-			onClick: () => {
-				window.location.href = '/tinyrating';
-			},
+			path: '/tinyrating',
 			disabled: false,
 		},
 		{
 			id: 'tinyevent',
 			title: 'tinyEvent',
-			iconComponent: <WordPressIcon />,
-			onClick: () => {
-				window.location.href = '/tinyevent';
-			},
+			path: '/tinyevent',
 			disabled: false,
 		},
 	];
+
+	// Use fetched config if available, otherwise use defaults
+	const buttonsConfig = blueprintsConfig || defaultCreationOptions;
+
+	// Transform button configs into creation options with onClick handlers
+	const creationOptions = buttonsConfig.map((button) => ({
+		id: button.id,
+		title: button.title,
+		iconComponent: resolveIcon(button.icon),
+		onClick: () => {
+			window.location.href = button.path;
+		},
+		disabled: button.disabled ?? false,
+	}));
 
 	return (
 		<Overlay onClose={onClose}>

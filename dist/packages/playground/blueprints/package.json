@@ -46,7 +46,7 @@
     "minimisted": "2.0.1",
     "octokit": "3.1.2",
     "pako": "1.0.10",
-    "pify": "2.3.0",
+    "pify": "4.0.1",
     "readable-stream": "3.6.2",
     "sha.js": "2.4.12",
     "simple-get": "4.0.1",
